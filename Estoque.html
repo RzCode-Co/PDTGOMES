@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Estoque</title>
+    <!-- Espaço pro gordão fazer a estilização -->
+</head>
+<body>
+    <div id="cabecalho">
+        <div id="usuario-info">
+            <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
+            <p><?php echo $nomeUsuario; ?></p>
+            <p><?php echo $cargoUsuario; ?></p>
+        </div>
+        <!-- Ícone de notificações -->
+        <div id="icone-notificacoes">
+            <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
+        </div>
+    </div>
+    <!-- Seu menu lateral -->
+    <div id="menu-lateral">
+        <ul>
+            <li><a href="C:\Users\antho\Desktop\PDT\inicio.html">Inicio</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Venda.html">Venda</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Financeiro.html">Financeiro</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Debitos.html">Debitos</a></li>
+            <li><a href="#">Notificações</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\estoque.html">Estoque</a></li>
+        </ul>
+    </div>
+
+    <div id="conteudo">
+        <h1>Gerenciar Estoque</h1>
+        
+        <!-- Formulário para Adicionar Itens ao Estoque -->
+        <h2>Adicionar Item ao Estoque</h2>
+        <form action="processar_adicionar_item.php" method="post">
+            <label>Nome do Item: <input type="text" name="nome"></label><br>
+            <label>Quantidade: <input type="number" name="quantidade"></label><br>
+            <label>Valor: <input type="float" name="valor"></label><br>
+            <label>Local: <input type="text" name="local"></label><br>
+            <input type="submit" value="Adicionar">
+        </form>
+        
+        <!-- Formulário para Remover Itens do Estoque -->
+        <h2>Remover Item do Estoque</h2>
+        <form action="processar_remover_item.php" method="post">
+            <label>Nome do Item: <input type="text" name="nome"></label><br>
+            <label>Quantidade: <input type="number" name="quantidade"></label><br>
+            <input type="submit" value="Remover">
+        </form>
+
+        <!-- Formulário para Remover Itens do Estoque -->
+        <h2>Remover Item do Estoque</h2>
+        <form action="consultar_estoque.php" method="get">
+            <label>Pesquisar por nome: <input type="text" name="nome_pesquisa"></label>
+            <input type="submit" value="Pesquisar">
+        </form>
+
+        <!-- Não sei como fazer pra mostrar o estoque aqui :( soy burrito caioba me ajudito-->
+
+        <?php
+        // Exibir mensagens de sucesso ou erro
+        if (isset($_GET['msg'])) {
+            echo '<p class="mensagem">' . $_GET['msg'] . '</p>';
+        }
+        ?>
+
+    </div>
+</body>
+</html>

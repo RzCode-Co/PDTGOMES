@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tela Inicial</title>
+    <!-- Espaço pro gordão fazer a estilização -->
+</head>
+<body>
+    <div id="cabecalho">
+        <div id="usuario-info">
+            <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
+            <p><?php echo $nomeUsuario; ?></p>
+            <p><?php echo $cargoUsuario; ?></p>
+        </div>
+        <!-- Ícone de notificações -->
+        <div id="icone-notificacoes">
+            <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
+        </div>
+    </div>
+    <!-- Seu menu lateral -->
+    <div id="menu-lateral">
+        <ul>
+            <li><a href="C:\Users\antho\Desktop\PDT\inicio.html">Inicio</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Venda.html">Venda</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Financeiro.html">Financeiro</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Debitos.html">Debitos</a></li>
+            <li><a href="#">Notificações</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\estoque.html">Estoque</a></li>
+        </ul>
+    </div>
+    <div id="caixa-pesquisa">
+        <input type="text" id="termo-pesquisa" placeholder="Digite sua pesquisa...">
+        <select id="filtro-pesquisa">
+            <option value="referencia">Referência</option>
+            <option value="aplicacao">Aplicação</option>
+            <option value="marca">Marca</option>
+            <option value="ano">Ano</option>
+        </select>
+        <button id="btn-pesquisar">Pesquisar</button>
+    </div>
+</body>
+</html>
