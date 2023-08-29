@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Financeiro</title>
+    <!-- Espaço pro gordão fazer a estilização -->
+</head>
+<body>
+    <div id="cabecalho">
+        <div id="usuario-info">
+            <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
+            <p><?php echo $nomeUsuario; ?></p>
+            <p><?php echo $cargoUsuario; ?></p>
+        </div>
+        <!-- Ícone de notificações -->
+        <div id="icone-notificacoes">
+            <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
+        </div>
+    </div>
+    <!-- Seu menu lateral -->
+    <div id="menu-lateral">
+        <ul>
+            <li><a href="C:\Users\antho\Desktop\PDT\inicio.html">Inicio</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Venda.html">Venda</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Financeiro.html">Financeiro</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\Debitos.html">Debitos</a></li>
+            <li><a href="#">Notificações</a></li>
+            <li><a href="C:\Users\antho\Desktop\PDT\estoque.html">Estoque</a></li>
+        </ul>
+    </div>
+
+    <div id="historico-de-vendas">
+        <h1>Historico de vendas</h1>
+        <table>
+            <tr>
+                <th>Funcionário</th>
+                <th>Comprador</th>
+                <th>Peça</th>
+                <th>Forma de Pagamento</th>
+                <th>Valor</th>
+            </tr>
+            <?php
+            foreach ($historico as $venda) {
+                echo "<tr>";
+                echo "<td>" . $venda["funcionario_vendedor"] . "</td>";
+                echo "<td>" . $venda["nome_comprador"] . "</td>";
+                echo "<td>" . $venda["nome_peca"] . "</td>";
+                echo "<td>" . $venda["forma_pagamento"] . "</td>";
+                echo "<td>" . $venda["valor_venda"] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </table>
+
+    </div>
+
+</body>
+</html>
