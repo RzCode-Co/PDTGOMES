@@ -1,20 +1,11 @@
 <?php
-// Conexão com o banco de dados (substitua pelas suas configurações)
-$servername = "seu_servidor";
-$username = "seu_usuario";
-$password = "sua_senha";
-$dbname = "seu_banco_de_dados";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
-}
+require_once "config.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POST["quantidade"])) {
     $nome = $_POST["nome"];
     $quantidade = $_POST["quantidade"];
-    $valor = $_POST["valor"];
+    $valor_varejo = $_POST["valor_varejo"];
+    $valor_atacado = $_POST["valor_atacado"];
     $local = $_POST["local"];
 
     // Verifica se o item já existe no estoque
@@ -31,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
         }
     } else {
         // Insere um novo registro no estoque
-        $inserir_sql = "INSERT INTO estoque (nome, quantidade, valor, local) VALUES ('$nome', $quantidade, $valor, $local)";
+        $inserir_sql = "INSERT INTO estoque (nome, quantidade, valor, local) VALUES ('$nome', $quantidade, $valor_varejo, $valor_varejo, $local)";
         if ($conn->query($inserir_sql) === TRUE) {
             header("Location: gerenciar_estoque.php?msg=Item adicionado ao estoque com sucesso!");
         } else {
