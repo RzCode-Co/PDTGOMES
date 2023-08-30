@@ -6,10 +6,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome_comprador = $_POST["nome_comprador"];
     $cpf_cnpj = $_POST["cpf_cnpj"];
     $forma_pagamento = $_POST["forma_pagamento"];
-    $valor_venda = $_POST["valor_venda"];
+    $valor_varejo = $_POST["valor_varejo"];
+    $valor_atacado = $_POST["valor_atacado"];
     $funcionario_vendedor = $_POST["funcionario_vendedor"];
+    $garantia_produto = $_POST["garantia_produto"];
 
-    $sql = "INSERT INTO vendas (nome_comprador, cpf_cnpj, forma_pagamento, valor_venda, funcionario_vendedor) VALUES ('$nome_comprador', '$cpf_cnpj', '$forma_pagamento', $valor_venda, '$funcionario_vendedor')";
+    $sql = "INSERT INTO vendas (nome_comprador, cpf_cnpj, forma_pagamento, valor_varejo, valor_atacado, funcionario_vendedor) VALUES ('$nome_comprador', '$cpf_cnpj', '$forma_pagamento', $valor_varejo, $valor_atacado, '$funcionario_vendedor')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Venda registrada com sucesso!";
