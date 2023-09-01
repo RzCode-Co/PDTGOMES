@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
     $valor_atacado = $_POST["valor_atacado"];
     $local = $_POST["local"];
 
-    // Verifica se o item já existe no estoque
+    // Verifica se o item jÃ¡ existe no estoque
     $verifica_sql = "SELECT * FROM estoque WHERE nome = '$nome'";
     $verifica_result = $conn->query($verifica_sql);
 
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
         }
     } else {
         // Insere um novo registro no estoque
-        $inserir_sql = "INSERT INTO estoque (nome, quantidade, valor, local) VALUES ('$nome', $quantidade, $valor_varejo, $valor_varejo, $local)";
+        $inserir_sql = "INSERT INTO estoque (nome, quantidade, valor_varejo, valor_atacado, localizacao) VALUES ('$nome', '$quantidade', '$valor_varejo', '$valor_atacado', '$local')";
         if ($conn->query($inserir_sql) === TRUE) {
             header("Location: gerenciar_estoque.php?msg=Item adicionado ao estoque com sucesso!");
         } else {
