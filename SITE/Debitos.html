@@ -1,29 +1,8 @@
-<?php
-require_once "config.php"; // Arquivo de configuração do banco de dados
-
-// Consulta SQL para buscar todas as vendas na tabela "vendas"
-$sql = "SELECT * FROM vendas";
-
-$result = $conn->query($sql);
-
-// Array para armazenar o histórico de vendas
-$historico = array();
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $historico[] = $row;
-    }
-}
-
-$conn->close();
-?>
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <title>Financeiro</title>
+        <title>Venda</title>
     </head>
     <style>
         body {
@@ -95,37 +74,23 @@ $conn->close();
             <ul>
                 <li><a href="inicio.html">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
-                <li><a href="Financeiro.html">Financeiro</a></li>
+                <li><a href="Financeiro.php">Financeiro</a></li>
                 <li><a href="Debitos.html">Debitos</a></li>
                 <li><a href="#">Notificações</a></li>
                 <li><a href="estoque.html">Estoque</a></li>
             </ul>
         </div>
 
-        <div id="historico-de-vendas">
-            <h1>Historico de vendas</h1>
+        <div id="conteudo">
+            <h1>Visão Geral de Débitos</h1>
             <table>
                 <tr>
-                    <th>Funcionário</th>
-                    <th>Comprador</th>
-                    <th>Peça</th>
-                    <th>Forma de Pagamento</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
                     <th>Valor</th>
-                    <th>Quantidade</th>
                 </tr>
-                <?php
-                foreach ($historico as $venda) {
-                    echo "<tr>";
-                    echo "<td>" . $venda["funcionario_vendedor"] . "</td>";
-                    echo "<td>" . $venda["nome_comprador"] . "</td>";
-                    echo "<td>" . $venda["nome_peca"] . "</td>";
-                    echo "<td>" . $venda["forma_pagamento"] . "</td>";
-                    echo "<td>" . $venda["valor_venda"] . "</td>";
-                    echo "<td>" . $venda["quantidade"] . "</td>";
-                    echo "</tr>";
-                }
-                ?>
-            </table>
-        </div>
+
+                <!-- Socorro caio eu não faço ideia do que fazer dps daqui om-->
+
     </body>
 </html>
