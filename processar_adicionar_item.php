@@ -9,12 +9,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
     $local = $_POST["local"];
 
     // Verifica se o item jÃ¡ existe no estoque
-    $verifica_sql = "SELECT * FROM estoque WHERE nome = '$nome'";
+    $verifica_sql = "SELECT * FROM estoque WHERE nome = '$nome' AND valor_varejo = '$valor_varejo' AND valor_atacado = '$valor_atacado'";
     $verifica_result = $conn->query($verifica_sql);
 
     if ($verifica_result->num_rows > 0) {
         // Atualiza a quantidade existente
-        $update_sql = "UPDATE estoque SET quantidade = quantidade + $quantidade WHERE nome = '$nome'";
+        $update_sql = "UPDATE estoque SET quantidade = quantidade + $quantidade WHERE nome = '$nome' AND valor_varejo = '$valor_varejo' AND valor_atacado = '$valor_atacado'";
         if ($conn->query($update_sql) === TRUE) {
             header("Location: gerenciar_estoque.php?msg=Quantidade adicionada ao estoque com sucesso!");
         } else {

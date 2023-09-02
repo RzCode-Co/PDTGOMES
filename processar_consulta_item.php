@@ -1,8 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php
+require_once "config.php"; // arquivo de config do bd
+
+$nome_produto = $_POST["nome"];
+
+$sql = "SELECT * FROM estoque WHERE nome = '$nome_produto'";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Criação do conteúdo HTML
+    $html = '<html>
     <head>
-        <meta charset="UTF-8">
-        <title>Tela Inicial</title>
+        <title>Resultado da Busca</title>
     </head>
     <style>
         body {
@@ -58,37 +67,49 @@
         }
     </style>
     <body>
-        <div id="cabecalho">
-            <div id="usuario-info">
-                <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
-                <p><?php echo $nomeUsuario; ?></p>
-                <p><?php echo $cargoUsuario; ?></p>
-            </div>
-            <!-- Ícone de notificações -->
-            <div id="icone-notificacoes">
-                <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
-            </div>
+    <div id="cabecalho">
+        <div id="usuario-info">
+            <img src="" alt="Foto do Usuário">
+            <p></p>
+            <p></p>
         </div>
-        <!-- Seu menu lateral -->
-        <div id="menu-lateral">
-            <ul>
-                <li><a href="inicio.html">Inicio</a></li>
-                <li><a href="Venda.html">Venda</a></li>
-                <li><a href="Financeiro.php">Financeiro</a></li>
-                <li><a href="Debitos.html">Debitos</a></li>
-                <li><a href="#">Notificações</a></li>
-                <li><a href="estoque.html">Estoque</a></li>
-            </ul>
+        <!-- Ícone de notificações -->
+        <div id="icone-notificacoes">
+            <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
         </div>
-        <div id="caixa-pesquisa">
-            <input type="text" id="termo-pesquisa" placeholder="Digite sua pesquisa...">
-            <select id="filtro-pesquisa">
-                <option value="referencia">Referência</option>
-                <option value="aplicacao">Aplicação</option>
-                <option value="marca">Marca</option>
-                <option value="ano">Ano</option>
-            </select>
-            <button id="btn-pesquisar">Pesquisar</button>
-        </div>
-    </body>
-</html>
+    </div>
+    <!-- Seu menu lateral -->
+    <div id="menu-lateral">
+        <ul>
+            <li><a href="inicio.html">Inicio</a></li>
+            <li><a href="Venda.html">Venda</a></li>
+            <li><a href="Financeiro.html">Financeiro</a></li>
+            <li><a href="Debitos.html">Debitos</a></li>
+            <li><a href="#">Notificações</a></li>
+            <li><a href="estoque.html">Estoque</a></li>
+        </ul>
+    </div>';
+
+    $html .= '<h1>Resultados da Busca</h1>';
+    $html .= '<ul>';
+    while ($row = $result->fetch_assoc()) {
+        $html .= '<li>Nome do Produto: ' . $row["nome"] . '</li>';
+        $html .= '<li>Quantidade em Estoque: ' . $row["quantidade"] . '</li>';
+        $html .= '<li>Valor de Varejo: ' . $row["valor_varejo"] . '</li>';
+        $html .= '<li>Valor de Atacado: ' . $row["valor_atacado"] . '</li>';
+        $html .= '<li>Localização: ' . $row["localizacao"] . '</li>';
+        // Adicione mais campos conforme necessário
+    }
+    $html .= '</ul>';
+    $html .= '</body>
+    </html>';
+
+    // Fecha a conexão com o banco de dados
+    $conn->close();
+
+    // Imprime o HTML gerado
+    echo $html;
+} else {
+    echo "Produto não encontrado.";
+}
+?>
