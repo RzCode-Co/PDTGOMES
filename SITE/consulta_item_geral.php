@@ -1,8 +1,29 @@
+<?php
+require_once "config.php"; // Inclua seu arquivo de configuração do banco de dados aqui
+
+// Consulta SQL para selecionar todos os produtos da tabela "estoque"
+$sql = "SELECT * FROM estoque";
+
+$result = $conn->query($sql);
+
+// Inicialize um array para armazenar os resultados da consulta
+$consulta = [];
+
+if ($result->num_rows > 0) {
+    // Armazene os resultados da consulta no array $consulta
+    while ($row = $result->fetch_assoc()) {
+        $consulta[] = $row;
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <title>Estoque</title>
+        <title>Financeiro</title>
     </head>
     <style>
         body {
@@ -74,56 +95,40 @@
             <ul>
                 <li><a href="inicio.html">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
-                <li><a href="Financeiro.php">Financeiro</a></li>
+                <li><a href="Financeiro.html">Financeiro</a></li>
                 <li><a href="Debitos.html">Debitos</a></li>
                 <li><a href="#">Notificações</a></li>
                 <li><a href="estoque.html">Estoque</a></li>
             </ul>
         </div>
-
-        <div id="conteudo">
-            <h1>Gerenciar Estoque</h1>
-            
-            <!-- Formulário para Adicionar Itens ao Estoque -->
-            <h2>Adicionar Item ao Estoque</h2>
-            <form action="processar_adicionar_item.php" method="post">
-                <label>Nome do Item: <input type="text" name="nome"></label><br>
-                <label>Referência: <input type="text" name="referencia"></label><br>
-                <label>Marca: <input type="text" name="marca"></label><br>
-                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano"></label><br>
-                <label>Quantidade: <input type="number" name="quantidade"></label><br>
-                <label>Valor varejo: <input type="float" name="valor_varejo"></label><br>
-                <label>Valor atacado: <input type="float" name="valor_atacado"></label><br>
-                <label>Local: <input type="text" name="local"></label><br>
-                <input type="submit" value="Adicionar">
-            </form>
-            
-            <!-- Formulário para Remover Itens do Estoque -->
-            <h2>Remover Item do Estoque</h2>
-            <form action="processar_remover_item.php" method="post">
-                <label>Nome do Item: <input type="text" name="nome"></label><br>
-                <label>Referência: <input type="text" name="referencia"></label><br>
-                <label>Marca: <input type="text" name="marca"></label><br>
-                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano"></label><br>
-                <label>Quantidade: <input type="number" name="quantidade"></label><br>
-                <input type="submit" value="Remover">
-            </form>
-
-            <h2>Pesquisa de Estoque</h2>
-            <form action="consulta_item.php" method="post">
-                <label>Nome do Item: <input type="text" name="nome"></label><br>
-                <label>Referência: <input type="text" name="referencia"></label><br>
-                <label>Marca: <input type="text" name="marca"></label><br>
-                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano"></label><br>
-                <input type="submit" value="Pesquisar">
-            </form>
-            <h2>Consulta Geral de Estoque</h2>
-            <form action="consulta_item_geral.php" method="post">
-                <input type="submit" value="Consultar tudo">
-            </form>
+        <div id="resultado_busca">
+        <h1>Consulta de Item</h1>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço de Varejo</th>
+                <th>Preço de Atacado</th>
+                <th>Ano</th>
+                <th>Marca</th>
+                <th>Referência</th>
+                <th>Aplicação</th>
+            </tr>
+            <?php
+            foreach ($consulta as $pesquisa) {
+                echo "<tr>";
+                echo "<td>" . $pesquisa["nome"] . "</td>";
+                echo "<td>" . $pesquisa["quantidade"] . "</td>";
+                echo "<td>" . $pesquisa["valor_varejo"] . "</td>";
+                echo "<td>" . $pesquisa["valor_atacado"] . "</td>";
+                echo "<td>" . $pesquisa["ano"] . "</td>";
+                echo "<td>" . $pesquisa["marca"] . "</td>";
+                echo "<td>" . $pesquisa["referencia"] . "</td>";
+                echo "<td>" . $pesquisa["aplicacao"] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </table>
         </div>
     </body>
 </html>

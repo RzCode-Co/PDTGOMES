@@ -26,6 +26,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     $forma_pagamento = $_POST["forma_pagamento"];
+    if ($forma_pagamento !== "Parcelado") {
+        $numero_parcelas = null;
+    }else{
+        $numero_parcelas = $_POST["numero_parcelas"];
+    }
     $valor_venda = $_POST["valor_venda"];
     $funcionario_vendedor = $_POST["funcionario_vendedor"];
     $garantia_produto = $_POST["garantia_produto"];
@@ -44,12 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar se a quantidade é suficiente
         if ($quantidade > 0 && $quantidade <= $estoque_disponivel) {
             // Consulta SQL para inserir a venda na tabela "vendas"
-            $sql = "INSERT INTO vendas (nome_comprador, nome_peca, marca, ano, referencia, aplicacao, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, valor_venda, funcionario_vendedor, garantia_produto) VALUES ('$nome_comprador', '$nome_peca', '$marca', '$ano', '$referencia', '$aplicacao', '$quantidade', '$cpf_cnpj', '$CPF', '$CNPJ', '$forma_pagamento', '$valor_venda', '$funcionario_vendedor', '$garantia_produto')";
+            $sql = "INSERT INTO vendas (nome_comprador, nome_peca, marca, ano, referencia, aplicacao, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, numero_parcelas, valor_venda, funcionario_vendedor, garantia_produto) VALUES ('$nome_comprador', '$nome_peca', '$marca', '$ano', '$referencia', '$aplicacao', '$quantidade', '$cpf_cnpj', '$CPF', '$CNPJ', '$forma_pagamento', $numero_parcelas' '$valor_venda', '$funcionario_vendedor', '$garantia_produto')";
             
             // Executar a consulta de inserção
             if ($conn->query($sql) === TRUE) {
                 // Consulta SQL para atualizar a quantidade no estoque
-                $update_sql = "UPDATE estoque SET quantidade = quantidade - '$quantidade' WHERE nome = '$nome_peca' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
+                $update_sql = "UPDATE estoque SET quantidade = quantidade - '$quantidade' WHERE nome = '$nome_peca' AND marca = '$marca' AND ano = '$ano' AND referencia = '$referencia' AND aplicacao = '$aplicacao'";
                 
                 // Executar a consulta de atualização
                 if ($conn->query($update_sql) === TRUE) {
