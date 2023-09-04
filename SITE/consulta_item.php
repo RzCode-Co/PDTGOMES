@@ -1,21 +1,23 @@
 <?php
-require_once "config.php"; // Arquivo de configuração do banco de dados
+require_once "config.php"; // arquivo de config do bd
 
-// Consulta SQL para buscar todas as vendas na tabela "vendas"
-$sql = "SELECT * FROM vendas";
+$nome_produto = $_POST["nome"];
+$referencia = $_POST["referencia"];
+$marca = $_POST["marca"];
+$aplicacao = $_POST["aplicacao"];
+$ano = $_POST["ano"];
+
+$sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
 
 $result = $conn->query($sql);
 
-// Array para armazenar o histórico de vendas
-$historico = array();
-
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $historico[] = $row;
+        $consulta[] = $row;
     }
+} else {
+    echo "Produto não encontrado.";
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -100,31 +102,34 @@ $conn->close();
                 <li><a href="estoque.html">Estoque</a></li>
             </ul>
         </div>
-
-        <div id="historico-de-vendas">
-            <h1>Historico de vendas</h1>
-            <table>
-                <tr>
-                    <th>Funcionário</th>
-                    <th>Comprador</th>
-                    <th>Peça</th>
-                    <th>Forma de Pagamento</th>
-                    <th>Valor</th>
-                    <th>Quantidade</th>
-                </tr>
-                <?php
-                foreach ($historico as $venda) {
-                    echo "<tr>";
-                    echo "<td>" . $venda["funcionario_vendedor"] . "</td>";
-                    echo "<td>" . $venda["nome_comprador"] . "</td>";
-                    echo "<td>" . $venda["nome_peca"] . "</td>";
-                    echo "<td>" . $venda["forma_pagamento"] . "</td>";
-                    echo "<td>" . $venda["valor_venda"] . "</td>";
-                    echo "<td>" . $venda["quantidade"] . "</td>";
-                    echo "</tr>";
-                }
-                ?>
-            </table>
+        <div id="resultado_busca">
+        <h1>Consulta de Item</h1>
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Quantidade</th>
+                <th>Preço de Varejo</th>
+                <th>Preço de Atacado</th>
+                <th>Ano</th>
+                <th>Marca</th>
+                <th>Referência</th>
+                <th>Aplicação</th>
+            </tr>
+            <?php
+            foreach ($consulta as $pesquisa) {
+                echo "<tr>";
+                echo "<td>" . $pesquisa["nome"] . "</td>";
+                echo "<td>" . $pesquisa["quantidade"] . "</td>";
+                echo "<td>" . $pesquisa["valor_varejo"] . "</td>";
+                echo "<td>" . $pesquisa["valor_atacado"] . "</td>";
+                echo "<td>" . $pesquisa["ano"] . "</td>";
+                echo "<td>" . $pesquisa["marca"] . "</td>";
+                echo "<td>" . $pesquisa["referencia"] . "</td>";
+                echo "<td>" . $pesquisa["aplicacao"] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </table>
         </div>
     </body>
 </html>

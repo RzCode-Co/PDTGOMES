@@ -2,7 +2,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <title>Venda</title>
+        <title>Cadastro</title>
     </head>
     <style>
         body {
@@ -98,84 +98,25 @@
                 <li><a href="estoque.html">Estoque</a></li>
             </ul>
         </div>
+        <form action="processar_cadastro.php" method="post">
+            <label>Nome do Comprador: <input type="text" name="nome_comprador"></label>
+            <label>CPF/CNPJ:                     
+                <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
+                    <option value="">Selecione...</option>
+                    <option value="CPF">CPF</option>
+                    <option value="CNPJ">CNPJ</option>
+                </select>
+            </label>
 
-        <div id="conteudo">
-            <h1>Registrar Venda</h1>
-            <form action="processar_venda.php" method="post">
+            <div id="CPF" style="display: none;">
+                <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+            </div>
 
-                <label>Nome do Comprador: <input type="text" name="nome_comprador"></label>
+            <div id="CNPJ" style="display: none;">
+                <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+            </div>
 
-                <br>
-
-                <label>Nome da peça: <input type="text" name="nome_peca"></label>
-
-                <br>
-                
-                <label>Marca: <input type="text" name="marca"></label>
-
-                <br>
-
-                <label>Ano: <input type="text" name="ano"></label>
-
-                <br>
-
-                <label>Referência: <input type="text" name="referencia"></label>
-
-                <br>
-
-                <label>Aplicação: <input type="text" name="aplicacao"></label>
-
-                <br>
-
-                <label>Quantidade vendida: <input type="number" name="quantidade"></label>
-
-                <br>
-
-                <label>CPF/CNPJ:                     
-                    <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
-                        <option value="">Selecione...</option>
-                        <option value="CPF">CPF</option>
-                        <option value="CNPJ">CNPJ</option>
-                    </select>
-                </label>
-
-                <div id="CPF" style="display: none;">
-                    <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
-                </div>
-        
-                <div id="CNPJ" style="display: none;">
-                    <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
-                </div>
-
-                <br>
-
-                <label>Forma de Pagamento: 
-                    <select name="forma_pagamento" id="forma_pagamento">
-                        <option value="Crédito">Crédito</option>
-                        <option value="Débito">Débito</option>
-                        <option value="Pix">Pix</option>
-                        <option value="Dinheiro">Dinheiro</option>
-                    </select>
-                </label>
-
-                <br>
-
-                <label>Valor da Venda: <input type="number" step="0.01" name="valor_venda"></label>
-
-                <br>
-
-                <label>Funcionário Vendedor: <input type="text" name="funcionario_vendedor"></label>
-
-                <br>
-
-                <label>Garantia do produto: <input type="number" name="garantia_produto" placeholder="EM DIAS"></label>
-
-                <br>
-
-                <input type="submit" value="Registrar Venda">
-
-            </form>
-        </div>
-
+            <button id="btn-cadastro">Cadastrar</button>
+        </form>
     </body>
 </html>

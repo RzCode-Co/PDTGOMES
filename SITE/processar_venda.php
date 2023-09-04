@@ -5,6 +5,10 @@ require_once "config.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome_comprador = $_POST["nome_comprador"];
     $nome_peca = $_POST["nome_peca"];
+    $marca = $_POST["marca"];
+    $ano = $_POST["ano"];
+    $referencia = $_POST["referencia"];
+    $aplicacao = $_POST["aplicacao"];
     $quantidade = $_POST["quantidade"];
     $cpf_cnpj = $_POST["cpf_cnpj"];
     
@@ -27,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $garantia_produto = $_POST["garantia_produto"];
 
     // Consulta SQL para verificar se o produto existe com base no nome e valor de venda
-    $verificar_produto_sql = "SELECT nome, valor_varejo, valor_atacado, quantidade FROM estoque WHERE nome = '$nome_peca' AND ('$valor_venda' = valor_varejo OR '$valor_venda' = valor_atacado)";
+    $verificar_produto_sql = "SELECT nome, marca, ano, referencia, aplicacao, quantidade FROM estoque WHERE nome = '$nome_peca' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
     
     $result = $conn->query($verificar_produto_sql);
 
@@ -40,12 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar se a quantidade é suficiente
         if ($quantidade > 0 && $quantidade <= $estoque_disponivel) {
             // Consulta SQL para inserir a venda na tabela "vendas"
-            $sql = "INSERT INTO vendas (nome_comprador, nome_peca, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, valor_venda, funcionario_vendedor, garantia_produto) VALUES ('$nome_comprador', '$nome_peca', '$quantidade', '$cpf_cnpj', '$CPF', '$CNPJ', '$forma_pagamento', '$valor_venda', '$funcionario_vendedor', '$garantia_produto')";
+            $sql = "INSERT INTO vendas (nome_comprador, nome_peca, marca, ano, referencia, aplicacao, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, valor_venda, funcionario_vendedor, garantia_produto) VALUES ('$nome_comprador', '$nome_peca', '$marca', '$ano', '$referencia', '$aplicacao', '$quantidade', '$cpf_cnpj', '$CPF', '$CNPJ', '$forma_pagamento', '$valor_venda', '$funcionario_vendedor', '$garantia_produto')";
             
             // Executar a consulta de inserção
             if ($conn->query($sql) === TRUE) {
                 // Consulta SQL para atualizar a quantidade no estoque
-                $update_sql = "UPDATE estoque SET quantidade = quantidade - '$quantidade' WHERE nome = '$nome_peca' AND ('$valor_venda' = valor_varejo OR '$valor_venda' = valor_atacado)";
+                $update_sql = "UPDATE estoque SET quantidade = quantidade - '$quantidade' WHERE nome = '$nome_peca' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
                 
                 // Executar a consulta de atualização
                 if ($conn->query($update_sql) === TRUE) {

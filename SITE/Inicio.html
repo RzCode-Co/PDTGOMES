@@ -81,14 +81,14 @@
             </ul>
         </div>
         <div id="caixa-pesquisa">
-            <input type="text" id="termo-pesquisa" placeholder="Digite sua pesquisa...">
-            <select id="filtro-pesquisa">
-                <option value="referencia">Referência</option>
-                <option value="aplicacao">Aplicação</option>
-                <option value="marca">Marca</option>
-                <option value="ano">Ano</option>
-            </select>
-            <button id="btn-pesquisar">Pesquisar</button>
+            <form action="processar_busca_item.php" method="post">
+                <label>Nome do Item: <input type="text" name="nome"></label><br>
+                <label>Referência: <input type="text" name="referencia"></label><br>
+                <label>Marca: <input type="text" name="marca"></label><br>
+                <label>Aplicação: <input type="text" name="aplicação"></label><br>
+                <label>Ano: <input type="number" name="ano"></label><br>
+                <button id="btn-pesquisar">Pesquisar</button>
+            </form>
         </div>
     </body>
 </html>

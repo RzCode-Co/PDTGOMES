@@ -88,6 +88,10 @@
             <h2>Adicionar Item ao Estoque</h2>
             <form action="processar_adicionar_item.php" method="post">
                 <label>Nome do Item: <input type="text" name="nome"></label><br>
+                <label>Referência: <input type="text" name="referencia"></label><br>
+                <label>Marca: <input type="text" name="marca"></label><br>
+                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
+                <label>Ano: <input type="number" name="ano"></label><br>
                 <label>Quantidade: <input type="number" name="quantidade"></label><br>
                 <label>Valor varejo: <input type="float" name="valor_varejo"></label><br>
                 <label>Valor atacado: <input type="float" name="valor_atacado"></label><br>
@@ -99,18 +103,23 @@
             <h2>Remover Item do Estoque</h2>
             <form action="processar_remover_item.php" method="post">
                 <label>Nome do Item: <input type="text" name="nome"></label><br>
+                <label>Referência: <input type="text" name="referencia"></label><br>
+                <label>Marca: <input type="text" name="marca"></label><br>
+                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
+                <label>Ano: <input type="number" name="ano"></label><br>
                 <label>Quantidade: <input type="number" name="quantidade"></label><br>
-                <label>Valor varejo: <input type="float" name="valor_varejo"></label><br>
-                <label>Valor atacado: <input type="float" name="valor_atacado"></label><br>
                 <input type="submit" value="Remover">
             </form>
 
             <h2>Pesquisa de Estoque</h2>
-            <form action="processar_consulta_item.php" method="post">
+            <form action="consulta_item.php" method="post">
                 <label>Nome do Item: <input type="text" name="nome"></label><br>
+                <label>Referência: <input type="text" name="referencia"></label><br>
+                <label>Marca: <input type="text" name="marca"></label><br>
+                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
+                <label>Ano: <input type="number" name="ano"></label><br>
                 <input type="submit" value="Pesquisar">
             </form>
-
         </div>
     </body>
 </html>
