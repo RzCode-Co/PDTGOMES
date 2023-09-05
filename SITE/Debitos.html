@@ -2,7 +2,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <title>Venda</title>
+        <title>Debitos</title>
     </head>
     <style>
         body {
@@ -81,17 +81,33 @@
                 <li><a href="Criação OS.html">Criação/Consulta de OS</a></li>
             </ul>
         </div>
+        <form enctype="multipart/form-data" action="processar_debito.php" method="post">
 
-        <div id="conteudo">
-            <h1>Visão Geral de Débitos</h1>
-            <table>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                </tr>
+            <label>Data: <input type="date" name="data_debito"></label>
 
-                <!-- Socorro caio eu não faço ideia do que fazer dps daqui om-->
+            <br>
 
+            <label>Nome: <input type="text" name="nome"></label>
+
+            <br>    
+
+            <label>Valor: <input type="number" name="valor_debito"></label>
+
+            <br>
+
+            <label>Tipo: <input type="text" name="tipo"></label>
+
+            <br>
+            
+            <label>Descrição: <input type="text" name="descricao"></label>
+
+            <br>
+
+            <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
+
+            <br>
+
+            <input type="submit" value="Registrar Custo">
+        </form>
     </body>
 </html>

@@ -1,204 +1,206 @@
-    <!DOCTYPE html>
-    <html lang="pt-br">
-        <head>
-            <meta charset="UTF-8">
-            <title>Venda</title>
-        </head>
-        <style>
-            body {
-                background-color: gray; /* Define o fundo cinza */
-                color: yellow; /* Define a cor do texto como amarelo */
-            }
-            
-            #conteudo {
-                margin: 20px; /* Adiciona margem para separar o conteúdo do cabeçalho e do menu lateral */
-            }
-            
-            /* Estilização básica para o cabeçalho */
-            #cabecalho {
-                background-color: black; /* Cor de fundo do cabeçalho (pode ajustar conforme desejado) */
-                color: white; /* Cor do texto no cabeçalho (pode ajustar conforme desejado) */
-                padding: 10px; /* Espaçamento interno no cabeçalho */
-                display: flex; /* Para alinhar os elementos do cabeçalho na horizontal */
-                justify-content: space-between; /* Distribui os elementos horizontalmente */
-            }
-            
-            #usuario-info {
-                display: flex; /* Alinha os elementos do usuário na horizontal */
-                align-items: center; /* Centraliza verticalmente os elementos do usuário */
-            }
-            
-            #icone-notificacoes {
-                /* Adicione estilos para o ícone de notificações, como tamanho, margem, etc. */
-            }
-            
-            /* Estilização para o menu lateral */
-            #menu-lateral {
-                background-color: black; /* Cor de fundo do menu (pode ajustar conforme desejado) */
-            }
-            
-            #menu-lateral ul {
-                list-style-type: none; /* Remove marcadores de lista */
-                padding: 0; /* Remove o preenchimento padrão da lista */
-            }
-            
-            #menu-lateral ul li {
-                margin: 0; /* Remove a margem padrão dos itens da lista */
-            }
-            
-            #menu-lateral ul li a {
-                display: block; /* Transforma os links em blocos para preencher o espaço disponível */
-                padding: 10px 20px; /* Espaçamento interno nos links */
-                color: white; /* Cor do texto dos links */
-                text-decoration: none; /* Remove sublinhado dos links */
-            }
-            
-            #menu-lateral ul li a:hover {
-                background-color: gray; /* Cor de fundo quando o mouse passa por cima */
-            }
-        </style>
-        <script>
-            function mostrarCampo() {
-                var selecao = document.getElementById("cpf_cnpj");
-                var CPF = document.getElementById("CPF");
-                var CNPJ = document.getElementById("CNPJ");
-
-                if (selecao.value === "CPF") {
-                    CPF.style.display = "block";
-                    CNPJ.style.display = "none";
-                } else if (selecao.value === "CNPJ") {
-                    CPF.style.display = "none";
-                    CNPJ.style.display = "block";
-                } else {
-                    CPF.style.display = "none";
-                    CNPJ.style.display = "none";
-                }
-            }
-            function mostrarParcelas() {
-                var formaPagamento = document.getElementById("forma_pagamento");
-                var parcelasDiv = document.getElementById("parcelas");
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <title>Venda</title>
+    </head>
+    <style>
+        body {
+            background-color: gray; /* Define o fundo cinza */
+            color: yellow; /* Define a cor do texto como amarelo */
+        }
         
-                if (formaPagamento.value === "Parcelado") {
-                    parcelasDiv.style.display = "block";
-                } else {
-                    parcelasDiv.style.display = "none";
-                }
+        #conteudo {
+            margin: 20px; /* Adiciona margem para separar o conteúdo do cabeçalho e do menu lateral */
+        }
+        
+        /* Estilização básica para o cabeçalho */
+        #cabecalho {
+            background-color: black; /* Cor de fundo do cabeçalho (pode ajustar conforme desejado) */
+            color: white; /* Cor do texto no cabeçalho (pode ajustar conforme desejado) */
+            padding: 10px; /* Espaçamento interno no cabeçalho */
+            display: flex; /* Para alinhar os elementos do cabeçalho na horizontal */
+            justify-content: space-between; /* Distribui os elementos horizontalmente */
+        }
+        
+        #usuario-info {
+            display: flex; /* Alinha os elementos do usuário na horizontal */
+            align-items: center; /* Centraliza verticalmente os elementos do usuário */
+        }
+        
+        #icone-notificacoes {
+            /* Adicione estilos para o ícone de notificações, como tamanho, margem, etc. */
+        }
+        
+        /* Estilização para o menu lateral */
+        #menu-lateral {
+            background-color: black; /* Cor de fundo do menu (pode ajustar conforme desejado) */
+        }
+        
+        #menu-lateral ul {
+            list-style-type: none; /* Remove marcadores de lista */
+            padding: 0; /* Remove o preenchimento padrão da lista */
+        }
+        
+        #menu-lateral ul li {
+            margin: 0; /* Remove a margem padrão dos itens da lista */
+        }
+        
+        #menu-lateral ul li a {
+            display: block; /* Transforma os links em blocos para preencher o espaço disponível */
+            padding: 10px 20px; /* Espaçamento interno nos links */
+            color: white; /* Cor do texto dos links */
+            text-decoration: none; /* Remove sublinhado dos links */
+        }
+        
+        #menu-lateral ul li a:hover {
+            background-color: gray; /* Cor de fundo quando o mouse passa por cima */
+        }
+    </style>
+    <script>
+        function mostrarCampo() {
+            var selecao = document.getElementById("cpf_cnpj");
+            var CPF = document.getElementById("CPF");
+            var CNPJ = document.getElementById("CNPJ");
+
+            if (selecao.value === "CPF") {
+                CPF.style.display = "block";
+                CNPJ.style.display = "none";
+            } else if (selecao.value === "CNPJ") {
+                CPF.style.display = "none";
+                CNPJ.style.display = "block";
+            } else {
+                CPF.style.display = "none";
+                CNPJ.style.display = "none";
             }
-        </script>
-        <body>
-            <div id="cabecalho">
-                <div id="usuario-info">
-                    <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
-                    <p><?php echo $nomeUsuario; ?></p>
-                    <p><?php echo $cargoUsuario; ?></p>
-                </div>
-                <!-- Ícone de notificações -->
-                <div id="icone-notificacoes">
-                    <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
-                </div>
+        }
+        function mostrarParcelas() {
+            var formaPagamento = document.getElementById("forma_pagamento");
+            var parcelasDiv = document.getElementById("parcelas");
+    
+            if (formaPagamento.value === "Parcelado") {
+                parcelasDiv.style.display = "block";
+            } else {
+                parcelasDiv.style.display = "none";
+            }
+        }
+    </script>
+    <body>
+        <div id="cabecalho">
+            <div id="usuario-info">
+                <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
+                <p><?php echo $nomeUsuario; ?></p>
+                <p><?php echo $cargoUsuario; ?></p>
             </div>
-            <!-- Seu menu lateral -->
-            <div id="menu-lateral">
-                <ul>
-                    <li><a href="inicio.html">Inicio</a></li>
-                    <li><a href="Venda.html">Venda</a></li>
-                    <li><a href="Financeiro.php">Financeiro</a></li>
-                    <li><a href="Debitos.html">Debitos</a></li>
-                    <li><a href="#">Notificações</a></li>
-                    <li><a href="estoque.html">Estoque</a></li>
-                    <li><a href="Criação OS.html">Criação/Consulta de OS</a></li>
-                </ul>
+            <!-- Ícone de notificações -->
+            <div id="icone-notificacoes">
+                <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
             </div>
+        </div>
+        <!-- Seu menu lateral -->
+        <div id="menu-lateral">
+            <ul>
+                <li><a href="inicio.html">Inicio</a></li>
+                <li><a href="Venda.html">Venda</a></li>
+                <li><a href="Financeiro.php">Financeiro</a></li>
+                <li><a href="Debitos.html">Debitos</a></li>
+                <li><a href="#">Notificações</a></li>
+                <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="Criação OS.html">Criação/Consulta de OS</a></li>
+            </ul>
+        </div>
 
-            <div id="conteudo">
-                <h1>Registrar Venda</h1>
-                <form action="processar_venda.php" method="post">
+        <div id="conteudo">
+            <h1>Registrar Venda</h1>
+            <form action="processar_venda.php" method="post">
 
-                    <label>Nome do Comprador: <input type="text" name="nome_comprador"></label>
+                <label>Nome do Comprador: <input type="text" name="nome_comprador"></label>
 
-                    <br>
+                <br>
 
-                    <label>Nome da peça: <input type="text" name="nome_peca"></label>
+                <label>Nome da peça: <input type="text" name="nome_peca"></label>
 
-                    <br>
-                    
-                    <label>Marca: <input type="text" name="marca"></label>
+                <br>
+                
+                <label>Marca: <input type="text" name="marca"></label>
 
-                    <br>
+                <br>
 
-                    <label>Ano: <input type="text" name="ano"></label>
+                <label>Ano: <input type="text" name="ano"></label>
 
-                    <br>
+                <br>
 
-                    <label>Referência: <input type="text" name="referencia"></label>
+                <label>Referência: <input type="text" name="referencia"></label>
 
-                    <br>
+                <br>
 
-                    <label>Aplicação: <input type="text" name="aplicacao"></label>
+                <label>Aplicação: <input type="text" name="aplicacao"></label>
 
-                    <br>
+                <br>
 
-                    <label>Quantidade vendida: <input type="number" name="quantidade"></label>
+                <label>Quantidade vendida: <input type="number" name="quantidade"></label>
 
-                    <br>
+                <br>
 
-                    <label>CPF/CNPJ:                     
-                        <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
-                            <option value="">Selecione...</option>
-                            <option value="CPF">CPF</option>
-                            <option value="CNPJ">CNPJ</option>
+                <label>CPF/CNPJ:                     
+                    <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
+                        <option value="">Selecione...</option>
+                        <option value="CPF">CPF</option>
+                        <option value="CNPJ">CNPJ</option>
+                    </select>
+                </label>
+
+                <div id="CPF" style="display: none;">
+                    <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+                </div>
+        
+                <div id="CNPJ" style="display: none;">
+                    <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+                </div>
+                
+                <br>
+
+                <label>Forma de Pagamento: 
+                    <select name="forma_pagamento" id="forma_pagamento" onchange="mostrarParcelas()">
+                        <option value="Crédito">Crédito</option>
+                        <option value="Débito">Débito</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="Parcelado">Parcelado</option>
+                    </select>
+                </label>
+
+                <div id="parcelas" style="display: none;">
+                    <label for="numero_parcelas">Número de Parcelas: 
+                        <select name="numero_parcelas" id="numero_parcelas">
+                            <option value="1">1x</option>
+                            <option value="2">2x</option>
+                            <option value="3">3x</option>
+                            <option value="4">4x</option>
+                            <option value="5">5x</option>
+                            <option value="6">6x</option>
+                            <!-- Adicione mais opções conforme necessário -->
                         </select>
                     </label>
+                </div>
 
-                    <div id="CPF" style="display: none;">
-                        <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
-                    </div>
-            
-                    <div id="CNPJ" style="display: none;">
-                        <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
-                    </div>
+                <br>
 
-                    <br>
+                <label>Valor da Venda: <input type="number" step="0.01" name="valor_venda"></label>
 
-                    <label>Forma de Pagamento: 
-                        <select name="forma_pagamento" id="forma_pagamento" onchange="mostrarParcelas()">
-                            <option value="Crédito">Crédito</option>
-                            <option value="Débito">Débito</option>
-                            <option value="Pix">Pix</option>
-                            <option value="Dinheiro">Dinheiro</option>
-                            <option value="Parcelado">Parcelado</option>
-                        </select>
-                    </label>
+                <br>
 
-                    <div id="parcelas" style="display: none;">
-                        <label for="numero_parcelas">Número de Parcelas: 
-                            <select name="numero_parcelas" id="numero_parcelas">
-                                <option value="1">1x</option>
-                                <option value="2">2x</option>
-                                <option value="3">3x</option>
-                                <!-- Adicione mais opções conforme necessário -->
-                            </select>
-                        </label>
-                    </div>
+                <label>Funcionário Vendedor: <input type="text" name="funcionario_vendedor"></label>
 
-                    <br>
+                <br>
 
-                    <label>Valor da Venda: <input type="number" step="0.01" name="valor_venda"></label>
+                <label>Garantia do produto: <input type="number" name="garantia_produto" placeholder="EM DIAS"></label>
 
-                    <br>
+                <br>
 
-                    <label>Funcionário Vendedor: <input type="text" name="funcionario_vendedor"></label>
+                <input type="submit" value="Registrar Venda">
+            </form>
+        </div>
 
-                    <br>
-
-                    <label>Garantia do produto: <input type="number" name="garantia_produto" placeholder="EM DIAS"></label>
-
-                    <br>
-
-                    <input type="submit" value="Registrar Venda">
-
-                </form>
-            </div>
-
-        </body>
-    </html>
+    </body>
+</html>

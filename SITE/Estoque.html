@@ -78,7 +78,6 @@
                 <li><a href="Debitos.html">Debitos</a></li>
                 <li><a href="#">Notificações</a></li>
                 <li><a href="estoque.html">Estoque</a></li>
-                <li><a href="Criação OS.html">Criação/Consulta de OS</a></li>
             </ul>
         </div>
 
@@ -92,10 +91,11 @@
                 <label>Referência: <input type="text" name="referencia"></label><br>
                 <label>Marca: <input type="text" name="marca"></label><br>
                 <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano" step="1"></label><br>
-                <label>Quantidade: <input type="number" name="quantidade" step="1"></label><br>
-                <label>Valor varejo: <input type="float" name="valor_varejo" step="any"></label><br>
-                <label>Valor atacado: <input type="float" name="valor_atacado" step="any"></label><br>
+                <label>Ano: <input type="number" name="ano"></label><br>
+                <label>Quantidade: <input type="number" name="quantidade"></label><br>
+                <label>Valor de Custo: <input type="float" name="valor_custo"></label><br>
+                <label>Valor de Varejo: <input type="float" name="valor_varejo"></label><br>
+                <label>Valor de Atacado: <input type="float" name="valor_atacado"></label><br>
                 <label>Local: <input type="text" name="local"></label><br>
                 <input type="submit" value="Adicionar">
             </form>
@@ -107,8 +107,8 @@
                 <label>Referência: <input type="text" name="referencia"></label><br>
                 <label>Marca: <input type="text" name="marca"></label><br>
                 <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano" step="1"></label><br>
-                <label>Quantidade: <input type="number" name="quantidade" step="1"></label><br>
+                <label>Ano: <input type="number" name="ano"></label><br>
+                <label>Quantidade: <input type="number" name="quantidade"></label><br>
                 <input type="submit" value="Remover">
             </form>
 
@@ -118,7 +118,7 @@
                 <label>Referência: <input type="text" name="referencia"></label><br>
                 <label>Marca: <input type="text" name="marca"></label><br>
                 <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano" step="1"></label><br>
+                <label>Ano: <input type="number" name="ano"></label><br>
                 <input type="submit" value="Pesquisar">
             </form>
             <h2>Consulta Geral de Estoque</h2>

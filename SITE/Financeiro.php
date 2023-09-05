@@ -94,7 +94,7 @@ $conn->close();
             <ul>
                 <li><a href="inicio.html">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
-                <li><a href="Financeiro.html">Financeiro</a></li>
+                <li><a href="Financeiro.php">Financeiro</a></li>
                 <li><a href="Debitos.html">Debitos</a></li>
                 <li><a href="#">Notificações</a></li>
                 <li><a href="estoque.html">Estoque</a></li>
@@ -123,6 +123,27 @@ $conn->close();
                     echo "<td>" . $venda["valor_venda"] . "</td>";
                     echo "<td>" . $venda["quantidade"] . "</td>";
                     echo "</tr>";
+                }
+                ?>
+            </table>
+        </div>
+        <div id="contas-a-receber">
+            <h1>Contas a Receber</h1>
+            <table>
+                <tr>
+                    <th>Comprador</th>
+                    <th>Número de Parcelas</th>
+                    <th>Data de Venda</th>
+                </tr>
+                <?php
+                foreach ($historico as $conta) {
+                    if ($conta["numero_parcelas"] > 0) { // Verifica se o numero_parcelas é maior que 0
+                        echo "<tr>";
+                        echo "<td>" . $conta["nome_comprador"] . "</td>";
+                        echo "<td>" . $conta["numero_parcelas"] . "x</td>"; // Exibe o número de parcelas com um "x" após o número
+                        echo "<td>" . $conta["data_venda"] . "</td>";
+                        echo "</tr>";
+                    }
                 }
                 ?>
             </table>
