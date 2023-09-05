@@ -100,6 +100,7 @@ if ($result->num_rows > 0) {
                 <li><a href="Debitos.html">Debitos</a></li>
                 <li><a href="#">Notificações</a></li>
                 <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="Criação OS.html">Criação/Consulta de OS</a></li>
             </ul>
         </div>
         <div id="resultado_busca">
