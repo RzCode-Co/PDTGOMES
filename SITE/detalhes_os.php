@@ -47,6 +47,14 @@ function getOSDetailsFromDatabase($id) {
 <body>
     <h2>Detalhes da Ordem de Serviço</h2>
 
+    echo "<h3>Atualizar Status</h3>";
+    echo "<form method='post' action='atualizar_status.php'>";
+    echo "<input type='hidden' name='os_id' value='{$os_details['id']'>";
+    echo "<label><input type='radio' name='novo_status' value='Em Andamento'> Em Andamento</label>";
+    echo "<label><input type='radio' name='novo_status' value='Finalizada'> Finalizada</label>";
+    echo "<label><input type='radio' name='novo_status' value='Cancelada'> Cancelada</label>";
+    echo "<input type='submit' value='Atualizar'>";
+
     <?php
     if ($os_details) {
         echo "<table>";
