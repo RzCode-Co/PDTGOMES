@@ -146,7 +146,15 @@
         <div id="consultar-ordens" style="display: none;">
             <!-- Conteúdo para consultar ordens de serviço existentes -->
             <h2>Consultar Ordens de Serviço</h2>
-            <!-- Inclua aqui a tabela e a lógica para consultar as ordens -->
+            <tr>
+                <td><?php echo $order['id']; ?></td>
+                <td><?php echo $order['cliente']; ?></td>
+                <td><?php echo $order['data_abertura']; ?></td>
+                <td><?php echo $order['status']; ?></td>
+                <td>
+                    <a href="detalhes_os.php?id=<?php echo $order['id']; ?>">Detalhes</a>
+                </td>
+            </tr>
         </div>
     
         <script>
