@@ -45,35 +45,50 @@ $conn->close();
     <h2>Detalhes da Ordem de Serviço</h2>
 
     <?php
-    if (!empty($os_details)) {
-        foreach ($os_details as $os) {
-            echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-            echo "<table>";
-            echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
-            echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
-            echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
-            echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
-            echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
-            echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
-            echo "</table>";
-
-            // Exiba a lista de produtos vendidos
-            echo "<h3>Produtos Vendidos</h3>";
-            echo "<table>";
-            echo "<tr><th>Código do Produto</th><th>Produto</th><th>Referência</th><th>Tipo</th><th>Quantidade</th><th>Preço</th></tr>";
-
-            foreach ($os_details as $produto) {
-                echo "<tr>";
-                echo "<td>{$produto['codigo_produto']}</td>";
-                echo "<td>{$produto['produto']}</td>";
-                echo "<td>{$produto['referencia']}</td>";
-                echo "<td>{$produto['tipo']}</td>";
-                echo "<td>{$produto['quantidade']}</td>";
-                echo "<td>{$produto['preco_total_produto']}</td>";
-                echo "</tr>";
-            }
-
-            echo "</table>";
+        if (!empty($os_details)) {
+            foreach ($os_details as $os) {
+                echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                echo "<table>";
+                echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
+                echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
+                echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
+                echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
+                echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
+                echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
+                echo "<tr><th>Ações</th><td>";
+        
+                // Botão para Em Andamento
+                echo "<div style='display: inline-block;'>";
+                echo "<form method='POST' action='atualizar_status.php'>";
+                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                echo "<input type='hidden' name='novo_status' value='Em Andamento'>";
+                echo "<input type='submit' value='Em Andamento'>";
+                echo "</form>";
+                echo "</div>";
+        
+                // Botão para Concluída
+                echo "<div style='display: inline-block;'>";
+                echo "<form method='POST' action='atualizar_status.php'>";
+                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                echo "<input type='hidden' name='novo_status' value='Concluída'>";
+                echo "<input type='submit' value='Concluída'>";
+                echo "</form>";
+                echo "</div>";
+        
+                // Botão para Cancelada
+                echo "<div style='display: inline-block;'>";
+                echo "<form method='POST' action='atualizar_status.php'>";
+                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                echo "<input type='hidden' name='novo_status' value='Cancelada'>";
+                echo "<input type='submit' value='Cancelada'>";
+                echo "</form>";
+                echo "</div>";
+        
+                echo "</td></tr>";
+                echo "</table>";
+        
+                // Quebra de linha para exibir em colunas separadas
+                echo "<br>";
 
             // Exiba a lista de serviços prestados
             echo "<h3>Serviços Prestados</h3>";
@@ -99,6 +114,6 @@ $conn->close();
     }
     ?>
 
-    <p><a href="Criação OS.html">Voltar para a Lista de Ordens de Serviço</a></p>
+    <p><a href="Criação OS.php">Voltar para a Lista de Ordens de Serviço</a></p>
 </body>
 </html>
