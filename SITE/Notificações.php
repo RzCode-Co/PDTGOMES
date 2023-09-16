@@ -82,22 +82,44 @@
             </ul>
         </div>
 <?php
-// Consulta do banco de dados para recuperar as notificações do usuário "ADM" não lidas
-$notificacoes = getNotificacoesNaoLidasParaADM($id_usuario_adm);
+require_once "config.php"; 
+
+$sql = "SELECT * FROM notificacoes ORDER BY data DESC";
+$result = $conn->query($sql);
+
+// Inicialize um array para armazenar as notificações
+$notificacoes = array();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        // Armazene cada notificação no array
+        $notificacoes[] = $row;
+    }
+}
 ?>
 
-<h2>Notificações</h2>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Notificações</title>
+</head>
+<body>
+    <h2>Notificações</h2>
 
-    <ul>
-        <?php foreach ($notificacoes as $notificacao): ?>
-            <li>
-                <strong><?php echo $notificacao['data']; ?></strong><br>
-                <?php echo $notificacao['mensagem']; ?><br>
-                <!-- Adicionar links ou botões para ações relacionadas à notificação, se a gente achar necessário (eu acho que é)-->
-            </li>
-        <?php endforeach; ?>
-    </ul>
+    <?php
+    if (!empty($notificacoes)) {
+        // Exiba as notificações
+        echo "<ul>";
+        foreach ($notificacoes as $notificacao) {
+            echo "<li>{$notificacao['mensagem']} ({$notificacao['data']})</li>";
+        }
+        echo "</ul>";
+    } else {
+        echo "<p>Nenhuma notificação encontrada.</p>";
+    }
+    ?>
 
-    <form method="post" action="marcar_notificacoes_lidas.php">
-        <input type="submit" value="Marcar Todas Como Lidas">
-    </form>
+</body>
+</html>
+

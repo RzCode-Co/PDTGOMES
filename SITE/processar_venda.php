@@ -65,6 +65,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             alert("Venda registrada com sucesso! Quantidade no estoque atualizada.");
                             window.location.href = "Venda.html";
                           </script>';
+                          
+                          $dataVenda = date("Y-m-d");
+                          
+                          // Insira a notificação no banco de dados de notificações
+                          $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('$funcionario_vendedor realizou uma venda de um(a) $nome_peca no valor de $valor_venda em $dataVenda', NOW())";
+                          
+                          if ($conn->query($sql) === TRUE) {
+                              echo "Notificação de venda criada com sucesso.";
+                          } else {
+                              echo "Erro ao criar notificação de venda: " . $conn->error;
+                          }
+                          
+
                 } else {
                     echo '<script>
                             alert("Erro ao atualizar a quantidade no estoque: ' . $conn->error . '");
@@ -89,6 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Produto não encontrado ou valor de venda não atende aos critérios.";
     }
 }
+
 
 $conn->close();
 ?>
