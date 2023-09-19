@@ -15,8 +15,6 @@ if ($result->num_rows > 0) {
         $consulta[] = $row;
     }
 }
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -128,7 +126,18 @@ $conn->close();
                 echo "<td>" . $pesquisa["aplicacao"] . "</td>";
                 echo "</tr>";
             }
+            // Verifique a quantidade de estoque e crie notificação se necessário
+            foreach ($consulta as $item) {
+            $quantidadeEstoque = $item["quantidade"];
+            $nomeItem = $item["nome"];
+
+            if ($quantidadeEstoque < 4) {
+                $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('O item $nomeItem tem menos de 4 unidades no estoque.', NOW())";
+                $conn->query($sql);
+            }
+            }
             ?>
+
         </table>
         </div>
     </body>

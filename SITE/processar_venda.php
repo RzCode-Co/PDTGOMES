@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             window.location.href = "Venda.html";
                           </script>';
                           
-                          $dataVenda = date("Y-m-d");
+                          $dataVenda = date("d-m-Y");
                           
                           // Insira a notificação no banco de dados de notificações
                           $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('$funcionario_vendedor realizou uma venda de um(a) $nome_peca no valor de $valor_venda em $dataVenda', NOW())";

@@ -23,6 +23,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
         if ($conn->query($update_sql) === TRUE) {
             echo '<script>alert("Quantidade adicionada ao estoque com sucesso!");</script>';
             echo '<script>window.location.href = "Estoque.html";</script>';
+            $dataVenda = date("d-m-Y");
+                          
+                          // Insira a notificação no banco de dados de notificações
+                          $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('$nome foi atualizada a quantidade do seu estoque', NOW())";
+                          
+                          if ($conn->query($sql) === TRUE) {
+                              echo "Notificação de atualização criada com sucesso.";
+                          } else {
+                              echo "Erro ao criar notificação de atualização: " . $conn->error;
+                          }
         } else {
             echo '<script>alert("Erro ao atualizar a quantidade: ' . $conn->error . '");</script>';
             echo '<script>window.location.href = "Estoque.html";</script>';
@@ -33,6 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
         if ($conn->query($inserir_sql) === TRUE) {
             echo '<script>alert("Item adicionado ao estoque com sucesso!");</script>';
             echo '<script>window.location.href = "Estoque.html";</script>';
+            $dataVenda = date("d-m-Y");
+                          
+                          // Insira a notificação no banco de dados de notificações
+                          $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('$nome foi adicionado ao estoque em $quantidade quantidades', NOW())";
+                          
+                          if ($conn->query($sql) === TRUE) {
+                              echo "Notificação de inserção criada com sucesso.";
+                          } else {
+                              echo "Erro ao criar notificação de inserção: " . $conn->error;
+                          }
         } else {
             echo '<script>alert("Erro ao adicionar o item: ' . $conn->error . '");</script>';
             echo '<script>window.location.href = "Estoque.html";</script>';
