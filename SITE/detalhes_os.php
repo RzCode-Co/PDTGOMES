@@ -75,15 +75,6 @@ $conn->close();
                 echo "</form>";
                 echo "</div>";
         
-                // Botão para Cancelada
-                echo "<div style='display: inline-block;'>";
-                echo "<form method='POST' action='atualizar_status.php'>";
-                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
-                echo "<input type='hidden' name='novo_status' value='Cancelada'>";
-                echo "<input type='submit' value='Cancelada'>";
-                echo "</form>";
-                echo "</div>";
-        
                 echo "</td></tr>";
                 echo "</table>";
         

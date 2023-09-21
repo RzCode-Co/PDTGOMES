@@ -86,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Calcular o preço total geral (produtos + serviços)
     $preco_total_geral = $preco_total_produtos + $preco_total_servicos;
 
+    $valor_debito = NULL;
     // Inserir os dados na tabela ordem_servico
     $sql = "INSERT INTO ordem_servico (cliente_nome, veiculo_nome, veiculo_placa, data_abertura, preco_total_produtos, preco_total_servicos, preco_total_geral, observacoes_vendedor) VALUES ('$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', $preco_total_produtos, $preco_total_servicos, $preco_total_geral, '$observacoes_vendedor')";
 
@@ -114,14 +115,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Erro ao inserir a ordem de serviço: " . $conn->error;
     }
+    // Consulta SQL para verificar o ID da ordem de serviço
+    $verifica_ordem_id = "SELECT id FROM ordem_servico WHERE cliente_nome = '$cliente_nome' AND veiculo_nome = '$veiculo_nome' AND veiculo_placa = '$veiculo_placa' AND data_abertura = '$data_abertura'";
+    $result_id = $conn->query($verifica_ordem_id);
+
+    if ($result_id->num_rows > 0) {
+        $row = $result_id->fetch_assoc();
+        $id_op = $row["id"];
+
+        // Consulta SQL para inserir valores na tabela "valores" com o ID da ordem de serviço
+        $sql = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES('$id_op', '$data_abertura','$preco_total_produtos', '$preco_total_servicos', '$preco_total_geral', '$valor_debito')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "Valores atualizados.";
+        } else {
+            echo "Erro ao atualizar valor de venda: " . $conn->error;
+        }
+    } else {
+        echo "Ordem de serviço não encontrada.";
+    }
     $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Dados inseridos na tabela ordem_servico_completa com sucesso!";
+        echo "<script>alert('Ordem de Serviços criada com sucesso!');</script>";
     } else {
         echo "Erro ao inserir dados na tabela ordem_servico_completa: " . $conn->error;
     }
 
     $conn->close();
+    header("Location:Criação OS.php");
 }
 ?>

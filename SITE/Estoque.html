@@ -81,71 +81,72 @@
                 <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
-
+        <div id="botoes-estoque">
+            <button onclick="mostrarAdicionarItem()">Adicionar Item</button>
+            <button onclick="mostrarRemoverItem()">Remover Item</button>
+            <button onclick="mostrarConsultarItem()">Consultar Item</button>
+            <button onclick="window.location.href = 'consulta_item_geral.php'">Consultar Todos os itens</button>
+        </div>
         <div id="conteudo">
-            <h1>Gerenciar Estoque</h1>
-            
-            <!-- Formulário para Adicionar Itens ao Estoque -->
-            <h2>Adicionar Item ao Estoque</h2>
-            <form action="processar_adicionar_item.php" method="post">
-                <label>Nome do Item: <input type="text" name="nome"></label><br>
-                <label>Referência: <input type="text" name="referencia"></label><br>
-                <label>Marca: <input type="text" name="marca"></label><br>
-                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano"></label><br>
-                <label>Quantidade: <input type="number" name="quantidade"></label><br>
-                <label>Valor de Custo: <input type="float" name="valor_custo"></label><br>
-                <label>Valor de Varejo: <input type="float" name="valor_varejo"></label><br>
-                <label>Valor de Atacado: <input type="float" name="valor_atacado"></label><br>
-                <label>Local: <input type="text" name="local"></label><br>
-                <input type="submit" value="Adicionar">
-            </form>
-            
-            <!-- Formulário para Remover Itens do Estoque -->
-            <h2>Remover Item do Estoque</h2>
-            <form action="processar_remover_item.php" method="post">
-                <label>Nome do Item: <input type="text" name="nome"></label><br>
-                <label>Referência: <input type="text" name="referencia"></label><br>
-                <label>Marca: <input type="text" name="marca"></label><br>
-                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano"></label><br>
-                <label>Quantidade: <input type="number" name="quantidade"></label><br>
-                <input type="submit" value="Remover">
-            </form>
 
-            <h2>Pesquisa de Estoque</h2>
-            <form action="consulta_item.php" method="post">
-                <label>Nome do Item: <input type="text" name="nome"></label><br>
-                <label>Referência: <input type="text" name="referencia"></label><br>
-                <label>Marca: <input type="text" name="marca"></label><br>
-                <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                <label>Ano: <input type="number" name="ano"></label><br>
-                <input type="submit" value="Pesquisar">
-            </form>
+            <div id="adicionar-item" style="display: none;">
+                <h2>Adicionar Item ao Estoque</h2>
+                <form action="processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
+                    <label>Nome do Item: <input type="text" name="nome"></label><br>
+                    <label>Referência: <input type="text" name="referencia"></label><br>
+                    <label>Marca: <input type="text" name="marca"></label><br>
+                    <label>Aplicação: <input type="text" name="aplicacao"></label><br>
+                    <label>Ano: <input type="number" name="ano"></label><br>
+                    <label>Quantidade: <input type="number" name="quantidade"></label><br>
+                    <label>Valor de Custo: <input type="float" name="valor_custo"></label><br>
+                    <label>Valor de Varejo: <input type="float" name="valor_varejo"></label><br>
+                    <label>Valor de Atacado: <input type="float" name="valor_atacado"></label><br>
+                    <label>Local: <input type="text" name="local"></label><br>
+                    <input type="submit" value="Adicionar">
+                </form>
+            </div>    
+                
+            <div id="remover-item" style="display: none;">
+                <h2>Remover Item do Estoque</h2>
+                <form action="processar_remover_item.php" method="post" onchange="mostrarRemoverItem()">
+                    <label>Nome do Item: <input type="text" name="nome"></label><br>
+                    <label>Referência: <input type="text" name="referencia"></label><br>
+                    <label>Marca: <input type="text" name="marca"></label><br>
+                    <label>Aplicação: <input type="text" name="aplicacao"></label><br>
+                    <label>Ano: <input type="number" name="ano"></label><br>
+                    <label>Quantidade: <input type="number" name="quantidade"></label><br>
+                    <input type="submit" value="Remover">
+                </form>
+            </div>
 
-            <h2>Devolução de Item</h2>
-            <form method="post" action="processar_devolucao.php">
-                <label>Nome do produto:</label>
-                <input type="text" name="nome" required><br>
-
-                <label>Quantidade:</label>
-                <input type="number" name="quantidade" required><br>
-
-                <label>Referência:</label>
-                <input type="text" name="referencia" required><br>
-
-                <!--Acho que só isso seria necessario pra poder fazer a devolução, EU ACHO, pode ser que seja necessario o ano pra ser mais exato ou a aplicação-->
-                <!--No processar_devoluçao.php tu vai fazer a logica de localização do produto no estoque e a adição da quantidade de volta-->
-                <!--E colocar uma mensagem que foi devolvido ao estoque (Seria interessante dps a gente transformar essas mensagens em pop-up, mas ai eu não sei se é back ou front)-->
-                <!--AAAAAAA e tem que fazer a subtração do valor da venda na parte do financeiro, pra que na consulta final da semana ou mês não apareça lá como saldo positivo-->
-
-                <input type="submit" value="Registrar Devolução">
-            </form>
-
-            <h2>Consulta Geral de Estoque</h2>
-            <form action="consulta_item_geral.php" method="post">
-                <input type="submit" value="Consultar tudo">
-            </form>
+            <div id="consultar-item" style="display: none;">
+                <h2>Pesquisa de Estoque</h2>
+                <form action="consulta_item.php" method="post"  onchange="mostrarConsultarItem()">
+                    <label>Nome do Item: <input type="text" name="nome"></label><br>
+                    <label>Referência: <input type="text" name="referencia"></label><br>
+                    <label>Marca: <input type="text" name="marca"></label><br>
+                    <label>Aplicação: <input type="text" name="aplicacao"></label><br>
+                    <label>Ano: <input type="number" name="ano"></label><br>
+                    <input type="submit" value="Pesquisar">
+                </form>
+            </div>
         </div>
     </body>
+    <script>
+        function mostrarAdicionarItem() {
+            document.getElementById("adicionar-item").style.display = "block";
+            document.getElementById("remover-item").style.display = "none";
+            document.getElementById("consultar-item").style.display = "none";
+        }
+        function mostrarRemoverItem() {
+            document.getElementById("adicionar-item").style.display = "none";
+            document.getElementById("remover-item").style.display = "block";
+            document.getElementById("consultar-item").style.display = "none";
+        }
+        function mostrarConsultarItem() {
+            document.getElementById("adicionar-item").style.display = "none";
+            document.getElementById("remover-item").style.display = "none";
+            document.getElementById("consultar-item").style.display = "block";
+        }
+    </script>
 </html>

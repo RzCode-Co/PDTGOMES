@@ -1,8 +1,6 @@
 <?php
 // Conexão com o banco de dados
 require_once "config.php";
-
-// Verifique se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verifique se todos os campos obrigatórios foram preenchidos
     if (isset($_POST["data_debito"]) && isset($_POST["nome"]) && isset($_POST["tipo"]) && isset($_POST["descricao"]) && isset($_FILES["arquivo"])) {
@@ -25,9 +23,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "INSERT INTO debitos (data_debito, nome, valor_debito, tipo, descricao, arquivo) VALUES ('$data_debito', '$nome', '$valor_debito', '$tipo', '$descricao', '$caminhoCompleto')";
 
             if ($conn->query($sql) === TRUE) {
+                $debito_id = mysqli_insert_id($conn);
                 echo "<script>alert('Dados inseridos com sucesso.');</script>";
             } else {
                 echo "<script>alert('Erro ao inserir os dados: " . $conn->error . ");</script>";
+            }
+            $preco_total_produtos = NULL;
+            $preco_total_servicos = NULL;
+            $preco_total_geral = NULL;
+
+            $sql = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES('$debito_id', '$data_debito','$preco_total_produtos', '$preco_total_servicos', '$preco_total_geral', '$valor_debito')";
+            if ($conn->query($sql) === TRUE) {
+                echo "valores atualizados.";
+            } else {
+                echo "Erro ao atualizar valor de venda: " . $conn->error;
             }
         } else {
             echo "<script>alert('Erro ao fazer o upload do arquivo.');</script>";

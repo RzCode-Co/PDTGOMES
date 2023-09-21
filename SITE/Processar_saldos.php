@@ -1,5 +1,62 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
+
+// Consulta SQL para calcular os valores de total_ganho, total_gasto e total_lucro (conforme mostrado no exemplo anterior)
+$sql_calcula_valores = "SELECT 
+    SUM(valor_venda) AS soma_valor_venda,
+    SUM(valor_servico) AS soma_valor_servico,
+    SUM(preco_total_geral) AS soma_preco_total_geral,
+    SUM(valor_debito) AS soma_valor_debito
+FROM valores";
+
+$result_calcula_valores = $conn->query($sql_calcula_valores);
+
+if ($result_calcula_valores) {
+    if ($result_calcula_valores->num_rows > 0) {
+        $row = $result_calcula_valores->fetch_assoc();
+
+        // Soma dos valores
+        $total_ganho = $row["soma_valor_venda"] + $row["soma_valor_servico"] + $row["soma_preco_total_geral"];
+        $total_gasto = $row["soma_valor_debito"];
+
+        // Cálculo do lucro
+        $total_lucro = $total_ganho - $total_gasto;
+
+        // Consulta SQL para inserir ou atualizar os valores na tabela saldos
+        $sql_insere_atualiza_saldos = "INSERT INTO saldos (id, total_ganho, total_lucro, total_gasto) 
+            VALUES (1, '$total_ganho', '$total_lucro', '$total_gasto') 
+            ON DUPLICATE KEY UPDATE 
+            total_ganho = VALUES(total_ganho), 
+            total_lucro = VALUES(total_lucro), 
+            total_gasto = VALUES(total_gasto)";
+        
+        if ($conn->query($sql_insere_atualiza_saldos) === TRUE) {
+            echo "Valores de saldo inseridos/atualizados com sucesso.";
+        } else {
+            echo "Erro ao inserir/atualizar valores de saldo: " . $conn->error;
+        }
+    } else {
+        echo "Nenhum resultado encontrado na consulta para calcular valores.";
+    }
+} else {
+    echo "Erro na consulta SQL para calcular valores: " . $conn->error;
+}
+
+// Consulta SQL para obter os valores da tabela saldos
+$sql_saldos = "SELECT * FROM saldos WHERE id = 1";
+$result_saldos = $conn->query($sql_saldos);
+
+// Inicializar um array para armazenar os valores
+$valores_saldos = array();
+
+if ($result_saldos) {
+    if ($result_saldos->num_rows > 0) {
+        $saldos_row = $result_saldos->fetch_assoc();
+        $valores_saldos['total_ganho'] = $saldos_row['total_ganho'];
+        $valores_saldos['total_gasto'] = $saldos_row['total_gasto'];
+        $valores_saldos['total_lucro'] = $saldos_row['total_lucro'];
+    }
+}
 // Consulta SQL para buscar todas as vendas na tabela "vendas"
 $sql = "SELECT * FROM vendas";
 
@@ -62,7 +119,6 @@ if ($result_meses_disponiveis->num_rows > 0) {
 }
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -123,6 +179,17 @@ $conn->close();
         }
     </style>
     <body>
+        <div id="cabecalho">
+            <div id="usuario-info">
+                <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
+                <p><?php echo $nomeUsuario; ?></p>
+                <p><?php echo $cargoUsuario; ?></p>
+            </div>
+            <!-- Ícone de notificações -->
+            <div id="icone-notificacoes">
+                <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
+            </div>
+        </div>
         <!-- Seu menu lateral -->
         <div id="menu-lateral">
             <ul>
@@ -189,19 +256,18 @@ $conn->close();
         <form method="post" action="Consulta_saldos.php">
             <label>Consultar Saldos e Débitos por:
                 <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()">
-                    <option value="" selected disabled>Escolha uma opção</option>
+                    <option value=''selected disabled>Escolha uma opção</option>
                     <option value="Dias">Dias</option>
                     <option value="Semana">Semana</option>
                     <option value="Mes">Mês</option>
                     <option value="Ano">Ano</option>
                 </select>
             </label>
-
             <!-- Div para escolher intervalo de tempo -->
             <div id="intervalo-de-tempo" style="display: none;">
-                <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
+                <label for="intervalo-saldos">Escolha a data:</label>
                 <select name="intervalo-saldos" id="intervalo-saldos">
-                    <?php
+                <?php
                     echo "<option value=''selected disabled>Escolha uma opção</option>";
                     foreach ($dias_disponiveis as $dia) {
                         echo "<option value='$dia'>$dia</option>";
@@ -214,38 +280,58 @@ $conn->close();
                 <label for="mes">Escolha o mês:</label>
                 <select name="mes" id="mes">
                     <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($meses_disponiveis as $mes) {
-                        $valor_mes = $mes['valor'];
-                        $nome_mes = $mes['nome'];
-                        echo "<option value='$valor_mes'>$nome_mes</option>";
-                    }
+                        echo "<option value=''selected disabled>Escolha uma opção</option>";
+                        foreach ($meses_disponiveis as $mes) {
+                            $valor_mes = $mes['valor'];
+                            $nome_mes = $mes['nome'];
+                            echo "<option value='$valor_mes'>$nome_mes</option>";
+                        }
                     ?>
                 </select>
             </div>
+            <!-- Div para escolher o ano (para a opção "Ano") -->
             <div id="ano-selecionado" style="display: none;">
                 <label for="ano">Escolha o ano:</label>
                 <select name="ano" id="ano">
                     <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($anos_disponiveis as $ano) {
-                        echo "<option value='$ano'>$ano</option>";
-                    }
+                        echo "<option value=''selected disabled>Escolha uma opção</option>";
+                        foreach ($anos_disponiveis as $ano) {
+                            echo "<option value='$ano'>$ano</option>";
+                        }
                     ?>
                 </select>
             </div>
+
             <input type="submit" value="Consultar">
         </form>
+        <!-- Tabela para mostrar os valores -->
+        <div id="valores">
+            <h1>Valores Financeiros</h1>
+            <table>
+                <tr>
+                    <th>Total Ganho</th>
+                    <th>Total Gasto</th>
+                    <th>Total Lucro</th>
+                </tr>
+                <tr>
+                    <td><?php echo $valores_saldos['total_ganho']; ?></td>
+                    <td><?php echo $valores_saldos['total_gasto']; ?></td>
+                    <td><?php echo $valores_saldos['total_lucro']; ?></td>
+                </tr>
+            </table>
+        </div>
     </body>
     <script>
         function mostrarHistorico() {
             document.getElementById("historico-de-vendas").style.display = "block";
             document.getElementById("contas-a-receber").style.display = "none";
+            document.getElementById("valores").style.display = "none"; // Oculta a div de valores
         }
 
         function mostrarContas() {
             document.getElementById("historico-de-vendas").style.display = "none";
             document.getElementById("contas-a-receber").style.display = "block";
+            document.getElementById("valores").style.display = "none"; // Oculta a div de valores
         }
         function mostrarIntervaloDeTempo() {
             var selectSaldos = document.getElementById("saldos");
@@ -273,3 +359,4 @@ $conn->close();
         }
     </script>
 </html>
+

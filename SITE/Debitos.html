@@ -81,33 +81,75 @@
                 <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
-        <form enctype="multipart/form-data" action="processar_debito.php" method="post">
+        <div id="botoes-debitos">
+            <button onclick="mostrarRegistrarDebito()">Registrar Débito</button>
+            <button onclick="mostrarCancelarDebito()">Cancelar Débito</button>
+        </div>
+        <div id="registrar-debito" style="display: none;">
+            <form enctype="multipart/form-data" action="processar_debito.php" method="post">
 
-            <label>Data: <input type="date" name="data_debito"></label>
+                <label>Data: <input type="date" name="data_debito"></label>
 
-            <br>
+                <br>
 
-            <label>Nome: <input type="text" name="nome"></label>
+                <label>Nome: <input type="text" name="nome"></label>
 
-            <br>    
+                <br>    
 
-            <label>Valor: <input type="number" name="valor_debito"></label>
+                <label>Valor: <input type="number" name="valor_debito"></label>
 
-            <br>
+                <br>
 
-            <label>Tipo: <input type="text" name="tipo"></label>
+                <label>Tipo: <input type="text" name="tipo"></label>
 
-            <br>
-            
-            <label>Descrição: <input type="text" name="descricao"></label>
+                <br>
+                
+                <label>Descrição: <input type="text" name="descricao"></label>
 
-            <br>
+                <br>
 
-            <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
+                <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
 
-            <br>
+                <br>
 
-            <input type="submit" value="Registrar Custo">
-        </form>
+                <input type="submit" value="Registrar Custo">
+            </form>
+        </div>
+        <div id="cancelar-debito" style="display: none;">
+            <form enctype="multipart/form-data" action="cancelar_debito.php" method="post">
+
+                <label>Data: <input type="date" name="data_debito"></label>
+
+                <br>
+
+                <label>Nome: <input type="text" name="nome"></label>
+
+                <br>    
+
+                <label>Valor: <input type="number" name="valor_debito"></label>
+
+                <br>
+
+                <label>Tipo: <input type="text" name="tipo"></label>
+
+                <br>
+
+                <label>Descrição: <input type="text" name="descricao"></label>
+
+                <br>
+
+                <input type="submit" value="Cancelar Débito">
+            </form>
+        </div>
     </body>
+    <script>
+        function mostrarRegistrarDebito() {
+            document.getElementById("registrar-debito").style.display = "block";
+            document.getElementById("cancelar-debito").style.display = "none";
+        }
+        function mostrarCancelarDebito() {
+            document.getElementById("registrar-debito").style.display = "none";
+            document.getElementById("cancelar-debito").style.display = "block";
+        }
+    </script>
 </html>

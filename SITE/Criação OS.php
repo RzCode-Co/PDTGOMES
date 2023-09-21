@@ -115,9 +115,10 @@ $conn->close();
                 <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
-        <div id="criar-consulta">
+        <div id="botoes-os">
             <button onclick="mostrarCriarOrdem()">Criar Ordem</button>
             <button onclick="mostrarConsultarOrdens()">Consultar Ordens</button>
+            <button onclick="mostrarCancelarOrdem()">Cancelar Ordem</button>
         </div>
     
         <div id="criar-ordem" style="display: none;">
@@ -139,7 +140,7 @@ $conn->close();
                 <label>Data de Abertura:</label>
                 <input type="date" name="data_abertura" required><br><br>
 
-            <h2>Produtos Vendidos</h2>
+                <h2>Produtos Vendidos</h2>
                 <label>Código do Produto:</label>
                 <input type="number" name="codigo_produto[]"><br>
 
@@ -158,7 +159,7 @@ $conn->close();
                 <label>Preço:</label>
                 <input type="number" name="preco[]"><br>
 
-            <h2>Serviços Prestados</h2>
+                <h2>Serviços Prestados</h2>
                 <label>Nome do Serviço:</label>
                 <input type="text" name="servico_nome[]"><br>
             
@@ -168,7 +169,7 @@ $conn->close();
                 <label>Valor do Serviço:</label>
                 <input type="number" name="valor_servico[]"><br>
                 
-            <h2>Observações</h2>
+                <h2>Observações</h2>
                 <label>Observações:</label>
                 <textarea name="observacoes_vendedor" rows="4" cols="50"></textarea><br>
 
@@ -176,7 +177,42 @@ $conn->close();
                 <input type="submit" value="Cadastrar Ordem de Serviço">
             </form>
         </div>
-    
+        <div id="cancelar-ordem" style="display: none;">
+            <h2>Cancelar Ordem de Serviço</h2>
+            <form method="POST" action="processar_os_devolucao.php">
+                <label>Nome do Cliente:</label>
+                <input type="text" name="cliente" required><br><br>
+
+                <label>Nome do Veículo:</label>
+                <input type="text" name="veiculo_nome" required><br>
+
+                <label>Placa do Veículo:</label>
+                <input type="text" name="veiculo_placa" required><br>
+                
+                <label>Data de Abertura:</label>
+                <input type="date" name="data_abertura" required><br><br>
+
+                <h2>Produtos Vendidos</h2>
+                <label>Código do Produto:</label>
+                <input type="text" name="codigo_produto[]"><br>
+
+                <label>Produto:</label>
+                <input type="text" name="produto[]"><br>
+
+                <label>Referência:</label>
+                <input type="text" name="referencia[]"><br>
+
+                <h2>Serviços Prestados</h2>
+                <label>Nome do Serviço:</label>
+                <input type="text" name="servico_nome[]"><br>
+            
+                <label>Técnico Responsável:</label>
+                <input type="text" name="tecnico_responsavel[]"><br>
+                
+                <input type="submit" value="Cancelar Ordem de Serviço">
+            </form>
+        </div>
+        
         <div id="consultar-ordens" style="display: none;">
             <!-- Conteúdo para consultar ordens de serviço existentes -->
             <h2>Consultar Ordens de Serviço</h2>
@@ -197,18 +233,23 @@ $conn->close();
             ?>
             <a href="detalhes_os.php">Detalhes</a>
         </div>
-    
-        <script>
-            function mostrarCriarOrdem() {
-                document.getElementById("criar-ordem").style.display = "block";
-                document.getElementById("consultar-ordens").style.display = "none";
-            }
-    
-            function mostrarConsultarOrdens() {
-                document.getElementById("criar-ordem").style.display = "none";
-                document.getElementById("consultar-ordens").style.display = "block";
-                // Aqui você pode adicionar a lógica para consultar as ordens de serviço existentes
-            }
-        </script>
     </body>
+    <script>
+        function mostrarCriarOrdem() {
+            document.getElementById("criar-ordem").style.display = "block";
+            document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("cancelar-ordem").style.display = "none";
+        }
+    
+        function mostrarConsultarOrdens() {
+            document.getElementById("criar-ordem").style.display = "none";
+            document.getElementById("consultar-ordens").style.display = "block";
+            document.getElementById("cancelar-ordem").style.display = "none";
+        }
+        function mostrarCancelarOrdem() {
+            document.getElementById("criar-ordem").style.display = "none";
+            document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("cancelar-ordem").style.display = "block";
+        }
+    </script>
 </html>

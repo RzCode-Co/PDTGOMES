@@ -1,65 +1,75 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
-// Consulta SQL para buscar todas as vendas na tabela "vendas"
-$sql = "SELECT * FROM vendas";
+
+// Função para redirecionar para a página de origem
+function redirectToReferer() {
+    header("Location: " . $_SERVER['HTTP_REFERER']);
+    exit;
+}
+
+// Verifica se a opção de intervalo foi selecionada
+if (!isset($_GET['intervalo'])) {
+    redirectToReferer();
+}
+
+// Recupera a opção selecionada pelo usuário
+$intervalo = $_GET['intervalo'];
+
+// Data atual
+$dataAtual = date("Y-m-d");
+
+// Data de 7 dias antes da data atual
+$dataSeteDiasAtras = date("Y-m-d", strtotime("-7 days"));
+
+// Verifica a opção selecionada e define as datas de início e fim conforme necessário
+switch ($intervalo) {
+    case "Dias":
+        if (isset($_GET['data_consulta'])) {
+            $dataConsulta = $_GET['data_consulta']; // A data específica selecionada pelo usuário
+            // Consulta SQL para buscar os valores da data selecionada
+            $sql = "SELECT * FROM valores WHERE DATE(data_venda) = '$dataConsulta'";
+        } else {
+            redirectToReferer();
+        }
+        break;
+    case "Semana":
+        // Consulta SQL para buscar os valores dentro do intervalo de 7 dias (semana)
+        $sql = "SELECT * FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
+        break;
+    case "Mes":
+        if (isset($_GET['mes'])) {
+            $mesSelecionado = $_GET['mes']; // O mês selecionado pelo usuário (1 a 12)
+            // Consulta SQL para buscar os valores do mês selecionado
+            $sql = "SELECT * FROM valores WHERE MONTH(data_venda) = '$mesSelecionado'";
+        } else {
+            redirectToReferer();
+        }
+        break;
+    case "Ano":
+        if (isset($_GET['ano'])) {
+            $anoSelecionado = $_GET['ano']; // O ano selecionado pelo usuário
+            // Consulta SQL para buscar os valores do ano selecionado
+            $sql = "SELECT * FROM valores WHERE YEAR(data_venda) = '$anoSelecionado'";
+        } else {
+            redirectToReferer();
+        }
+        break;
+    default:
+        redirectToReferer();
+        break;
+}
 
 $result = $conn->query($sql);
 
-// Array para armazenar o histórico de vendas
-$historico = array();
+// Array para armazenar os valores
+$valores = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        $historico[] = $row;
+        $valores[] = $row;
     }
 }
-// Data atual
-$dataAtual = date("Y-m-d");
-$dataAtual = date("Y-m-d", strtotime("+ 1 days"));
-// Data de 7 dias antes da data atual
-$dataSeteDiasAtras = date("Y-m-d", strtotime("-7 days"));
-if ($dataSeteDiasAtras === NULL){
-    $dataSeteDiasAtras = NULL;
-}
-// Consulta SQL para buscar os dias únicos da coluna data_venda na tabela valores dentro do intervalo de datas
-$sql_dias_disponiveis = "SELECT DISTINCT DATE(data_venda) AS dia FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
-$result_dias_disponiveis = $conn->query($sql_dias_disponiveis);
-// Array para armazenar os dias disponíveis
-$dias_disponiveis = array();
 
-if ($result_dias_disponiveis->num_rows > 0) {
-    while ($row_dias = $result_dias_disponiveis->fetch_assoc()) {
-        $dias_disponiveis[] = $row_dias['dia'];
-    }
-}
-// Defina a localização para o idioma português
-setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
-
-// Consulta SQL para buscar os meses e anos únicos da coluna data_venda na tabela valores
-$sql_meses_disponiveis = "SELECT DISTINCT YEAR(data_venda) AS ano, MONTH(data_venda) AS mes FROM valores";
-$result_meses_disponiveis = $conn->query($sql_meses_disponiveis);
-
-// Arrays para armazenar os meses e anos disponíveis
-$meses_disponiveis = array();
-$anos_disponiveis = array();
-
-if ($result_meses_disponiveis->num_rows > 0) {
-    while ($row_meses = $result_meses_disponiveis->fetch_assoc()) {
-        $ano = $row_meses['ano'];
-        $mes = $row_meses['mes'];
-        
-        // Obtenha o nome do mês em português
-        $nome_mes = strftime('%B', strtotime("{$ano}-{$mes}-01"));
-        
-        // Adicione o mês e o ano ao array apenas se ainda não estiverem lá
-        if (!in_array($mes, $meses_disponiveis)) {
-            $meses_disponiveis[] = array('valor' => $mes, 'nome' => $nome_mes);
-        }
-        if (!in_array($ano, $anos_disponiveis)) {
-            $anos_disponiveis[] = $ano;
-        }
-    }
-}
 $conn->close();
 ?>
 
@@ -123,6 +133,17 @@ $conn->close();
         }
     </style>
     <body>
+        <div id="cabecalho">
+            <div id="usuario-info">
+                <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
+                <p><?php echo $nomeUsuario; ?></p>
+                <p><?php echo $cargoUsuario; ?></p>
+            </div>
+            <!-- Ícone de notificações -->
+            <div id="icone-notificacoes">
+                <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
+            </div>
+        </div>
         <!-- Seu menu lateral -->
         <div id="menu-lateral">
             <ul>
@@ -186,10 +207,9 @@ $conn->close();
         <button onclick="mostrarHistorico()">Mostrar Histórico</button>
         <button onclick="mostrarContas()">Mostrar Contas a Receber</button>
         <a href="Processar_saldos.php" class="botao-redirecionamento">Mostrar Saldos e Débitos</a>
-        <form method="post" action="Consulta_saldos.php">
+        <form action="consulta_saldos_tempo.php" method="post">
             <label>Consultar Saldos e Débitos por:
                 <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()">
-                    <option value="" selected disabled>Escolha uma opção</option>
                     <option value="Dias">Dias</option>
                     <option value="Semana">Semana</option>
                     <option value="Mes">Mês</option>
@@ -202,7 +222,6 @@ $conn->close();
                 <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
                 <select name="intervalo-saldos" id="intervalo-saldos">
                     <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
                     foreach ($dias_disponiveis as $dia) {
                         echo "<option value='$dia'>$dia</option>";
                     }
@@ -214,7 +233,6 @@ $conn->close();
                 <label for="mes">Escolha o mês:</label>
                 <select name="mes" id="mes">
                     <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
                     foreach ($meses_disponiveis as $mes) {
                         $valor_mes = $mes['valor'];
                         $nome_mes = $mes['nome'];
@@ -227,14 +245,13 @@ $conn->close();
                 <label for="ano">Escolha o ano:</label>
                 <select name="ano" id="ano">
                     <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
                     foreach ($anos_disponiveis as $ano) {
                         echo "<option value='$ano'>$ano</option>";
                     }
                     ?>
                 </select>
             </div>
-            <input type="submit" value="Consultar">
+            <button type="submit">Consultar</button>
         </form>
     </body>
     <script>
