@@ -87,6 +87,17 @@ require_once "config.php";
 $sql = "SELECT * FROM notificacoes ORDER BY data DESC";
 $result = $conn->query($sql);
 
+
+if (isset($_POST['apagar_notificacoes'])) {
+    // Código para apagar todas as notificações
+    $sql = "DELETE FROM notificacoes";
+    if ($conn->query($sql) === TRUE) {
+        echo "Todas as notificações foram apagadas com sucesso.";
+    } else {
+        echo "Erro ao apagar notificações: " . $conn->error;
+    }
+}
+
 // Inicialize um array para armazenar as notificações
 $notificacoes = array();
 
@@ -119,6 +130,10 @@ if ($result->num_rows > 0) {
         echo "<p>Nenhuma notificação encontrada.</p>";
     }
     ?>
+
+    <form method="post">
+        <button type="submit" name="apagar_notificacoes">Apagar Todas as Notificações</button>
+    </form>
 
 </body>
 </html>
