@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/09/2023 às 22:00
+-- Tempo de geração: 27-Set-2023 às 22:28
 -- Versão do servidor: 10.4.28-MariaDB
--- Versão do PHP: 8.2.4
+-- versão do PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `banco_de_dados_pdt`
+-- Estrutura da tabela `banco_de_dados_pdt`
 --
 
 CREATE TABLE `banco_de_dados_pdt` (
@@ -38,7 +38,7 @@ CREATE TABLE `banco_de_dados_pdt` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
--- Despejando dados para a tabela `banco_de_dados_pdt`
+-- Extraindo dados da tabela `banco_de_dados_pdt`
 --
 
 INSERT INTO `banco_de_dados_pdt` (`COL 1`, `COL 2`, `COL 3`, `COL 4`, `COL 5`, `COL 6`, `COL 7`) VALUES
@@ -37543,7 +37543,7 @@ INSERT INTO `banco_de_dados_pdt` (`COL 1`, `COL 2`, `COL 3`, `COL 4`, `COL 5`, `
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `debitos`
+-- Estrutura da tabela `debitos`
 --
 
 CREATE TABLE `debitos` (
@@ -37557,7 +37557,7 @@ CREATE TABLE `debitos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `debitos`
+-- Extraindo dados da tabela `debitos`
 --
 
 INSERT INTO `debitos` (`id`, `data_debito`, `nome`, `valor_debito`, `tipo`, `descricao`, `arquivo`) VALUES
@@ -37570,7 +37570,7 @@ INSERT INTO `debitos` (`id`, `data_debito`, `nome`, `valor_debito`, `tipo`, `des
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `estoque`
+-- Estrutura da tabela `estoque`
 --
 
 CREATE TABLE `estoque` (
@@ -37588,7 +37588,7 @@ CREATE TABLE `estoque` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `estoque`
+-- Extraindo dados da tabela `estoque`
 --
 
 INSERT INTO `estoque` (`id`, `nome`, `referencia`, `marca`, `aplicacao`, `ano`, `quantidade`, `valor_custo`, `valor_varejo`, `valor_atacado`, `localizacao`) VALUES
@@ -37597,12 +37597,12 @@ INSERT INTO `estoque` (`id`, `nome`, `referencia`, `marca`, `aplicacao`, `ano`, 
 (5, 'aj', 'sla', 'honda', '', 2012, 0, 0, 200, 289, 'mossoro'),
 (6, 'es', 'sla', 'honda', '', 2012, 15, 0, 200, 289, 'mossoro'),
 (11, 'aj', 'sla', 'honda', 'motor', 2018, 3, 0, 200, 289, 'mossoro'),
-(14, 'arthur', 'sla', 'honda', 'motor', 2018, 164, 10, 12, 11, 'mossoro');
+(14, 'arthur', 'sla', 'honda', 'motor', 2018, 161, 10, 12, 11, 'mossoro');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `notificacoes`
+-- Estrutura da tabela `notificacoes`
 --
 
 CREATE TABLE `notificacoes` (
@@ -37611,14 +37611,57 @@ CREATE TABLE `notificacoes` (
   `data` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Extraindo dados da tabela `notificacoes`
+--
+
+INSERT INTO `notificacoes` (`id`, `mensagem`, `data`) VALUES
+(4, 'fabio realizou uma venda de um(a) aj no valor de 200 em 2023-09-16', '2023-09-16 17:07:16'),
+(5, 'arthur foi adicionado ao estoque em 200 quantidades', '2023-09-20 15:36:21'),
+(6, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 15:37:34'),
+(7, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 15:38:26'),
+(8, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 17:02:10'),
+(9, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 17:12:36'),
+(10, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 17:13:25'),
+(11, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 17:14:06'),
+(12, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 17:15:43'),
+(13, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 17:19:27'),
+(14, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 20-09-2023', '2023-09-20 17:22:39'),
+(15, 'O item ajai tem menos de 4 unidades no estoque.', '2023-09-20 23:01:48'),
+(16, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-20 23:01:48'),
+(17, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-20 23:01:48'),
+(18, 'O item ajai tem menos de 4 unidades no estoque.', '2023-09-20 23:01:58'),
+(19, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-20 23:01:58'),
+(20, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-20 23:01:58'),
+(21, 'O item ajai tem menos de 4 unidades no estoque.', '2023-09-20 23:04:55'),
+(22, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-20 23:04:55'),
+(23, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-20 23:04:55'),
+(24, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-20 23:39:07'),
+(25, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-20 23:42:34'),
+(26, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-20 23:45:20'),
+(27, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-20 23:52:02'),
+(28, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-20 23:52:44'),
+(29, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-20 23:55:04'),
+(30, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-20 23:57:05'),
+(31, 'fabio realizou uma venda de um(a) arthur no valor de 12 em 21-09-2023', '2023-09-21 00:01:33'),
+(32, 'O item ajai tem menos de 4 unidades no estoque.', '2023-09-21 20:55:41'),
+(33, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-21 20:55:41'),
+(34, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-21 20:55:41'),
+(35, 'O item ajai tem menos de 4 unidades no estoque.', '2023-09-21 20:55:46'),
+(36, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-21 20:55:46'),
+(37, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-21 20:55:46'),
+(38, 'O item ajai tem menos de 4 unidades no estoque.', '2023-09-21 20:56:52'),
+(39, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-21 20:56:52'),
+(40, 'O item aj tem menos de 4 unidades no estoque.', '2023-09-21 20:56:52');
+
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `ordem_servico`
+-- Estrutura da tabela `ordem_servico`
 --
 
 CREATE TABLE `ordem_servico` (
-  `ordem_servico_id` int(255) NOT NULL,
+  `id` int(11) NOT NULL,
   `cliente_nome` text NOT NULL,
   `veiculo_nome` text NOT NULL,
   `veiculo_placa` text NOT NULL,
@@ -37631,16 +37674,30 @@ CREATE TABLE `ordem_servico` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `ordem_servico`
+-- Extraindo dados da tabela `ordem_servico`
 --
 
-INSERT INTO `ordem_servico` (`ordem_servico_id`, `cliente_nome`, `veiculo_nome`, `veiculo_placa`, `data_abertura`, `preco_total_produtos`, `preco_total_servicos`, `preco_total_geral`, `observacoes_vendedor`, `status`) VALUES
-(23, 'Anthony Anderson', 'Honda Civic G10', 'bct1879', '2023-09-26', 12, 12, 24, '', NULL);
+INSERT INTO `ordem_servico` (`id`, `cliente_nome`, `veiculo_nome`, `veiculo_placa`, `data_abertura`, `preco_total_produtos`, `preco_total_servicos`, `preco_total_geral`, `observacoes_vendedor`, `status`) VALUES
+(1, 'caio', 'civic', 'kgh3245', '2023-09-09', 25, 254, 279, '0', NULL),
+(2, 'caio', 'civic', 'kgh3245', '2023-09-09', 25, 254, 279, 'ddfdfdgfgfg', NULL),
+(3, 'caio', 'civic', 'kgh3245', '2023-09-09', 25, 254, 279, 'ddfdfdgfgfg', NULL),
+(4, 'caio', 'civic', 'kgh3245', '2023-09-09', 25, 254, 279, 'ddfdfdgfgfg', NULL),
+(5, 'caio', 'civic', 'kgh3245', '2023-09-09', 25, 254, 279, 'ddfdfdgfgfg', NULL),
+(6, 'caio', 'civic', 'kgh3245', '2023-09-09', 25, 254, 279, 'ddfdfdgfgfg', NULL),
+(7, 'caio', 'arthur', 'kgh3245', '2023-09-21', 24, 25, 49, 'abc', NULL),
+(8, 'caio', 'arthur', 'kgh3245', '2023-09-22', 48, 200, 248, '', NULL),
+(9, 'caio', 'civic', 'kgh3245', '2023-09-21', 12, 120, 132, '', NULL),
+(10, 'caio', 'civic', 'kgh3245', '2023-09-22', 12, 234, 246, '', NULL),
+(11, 'caio', 'civic', 'kgh3245', '2023-09-21', 12, 123, 135, '', NULL),
+(12, 'caio', 'civic', 'kgh3245', '2023-09-21', 12, 123, 135, '', NULL),
+(13, 'caio', 'civic', 'kgh3245', '2023-09-23', 12, 123, 135, '', NULL),
+(14, 'caio', 'civic', 'kgh3245', '2023-09-25', 12, 123, 135, '', NULL),
+(16, 'caio', 'civic', 'kgh3245', '2023-09-29', 15876, 12, 15888, '', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `ordem_servico_completa`
+-- Estrutura da tabela `ordem_servico_completa`
 --
 
 CREATE TABLE `ordem_servico_completa` (
@@ -37664,49 +37721,27 @@ CREATE TABLE `ordem_servico_completa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `ordem_servico_completa`
+-- Extraindo dados da tabela `ordem_servico_completa`
 --
 
 INSERT INTO `ordem_servico_completa` (`ordem_servico_id`, `codigo_produto`, `cliente_nome`, `veiculo_nome`, `veiculo_placa`, `data_abertura`, `produto`, `referencia`, `tipo`, `quantidade`, `preco_total_produto`, `servico_nome`, `tecnico_responsavel`, `preco_total_servico`, `preco_total_geral`, `observacoes_vendedor`, `status`) VALUES
-(23, 14, 'Anthony Anderson', 'Honda Civic G10', 'bct1879', '2023-09-26', 'arthur', 'sla', 'UN', 1, 12, 'Instalação da peça', 'Nanico', 12, 24, '', 'Concluída');
+(4, 6, 'caio', 'civic', 'kgh3245', '2023-09-09', 'Array', 'sla', 'un', 0, 0, 'manutencao', 'fabio', 0, 279, 'ddfdfdgfgfg', 'Concluída'),
+(5, 6, 'caio', 'civic', 'kgh3245', '2023-09-09', 'es', 'sla', 'un', 0, 0, 'manutencao', 'fabio', 0, 279, 'ddfdfdgfgfg', 'Concluída'),
+(6, 6, 'caio', 'civic', 'kgh3245', '2023-09-09', 'es', 'sla', 'un', 0, 25, 'manutencao', 'fabio', 254, 279, 'ddfdfdgfgfg', 'Em Andamento'),
+(7, 14, 'caio', 'arthur', 'kgh3245', '2023-09-21', 'arthur', 'sla', 'un', 2, 24, 'manutencao', 'fabio', 25, 49, 'abc', ''),
+(8, 14, 'caio', 'arthur', 'kgh3245', '2023-09-22', 'arthur', 'sla', 'un', 2, 48, 'manutencao', 'fabio', 200, 248, '', NULL),
+(9, 14, 'caio', 'civic', 'kgh3245', '2023-09-21', 'arthur', 'sla', 'un', 1, 12, 'manutencao', 'fabio', 120, 132, '', NULL),
+(10, 14, 'caio', 'civic', 'kgh3245', '2023-09-22', 'arthur', 'sla', 'un', 1, 12, 'manutencao', 'fabio', 234, 246, '', NULL),
+(11, 14, 'caio', 'civic', 'kgh3245', '2023-09-21', 'arthur', 'sla', 'un', 1, 12, 'manutencao', 'fabio', 123, 135, '', NULL),
+(12, 14, 'caio', 'civic', 'kgh3245', '2023-09-21', 'arthur', 'sla', 'un', 1, 12, 'manutencao', 'fabio', 123, 135, '', NULL),
+(13, 14, 'caio', 'civic', 'kgh3245', '2023-09-23', 'arthur', 'sla', 'un', 1, 12, 'manutencao', 'fabio', 123, 135, '', NULL),
+(14, 14, 'caio', 'civic', 'kgh3245', '2023-09-25', 'arthur', 'sla', 'un', 1, 12, 'manutencao', 'fabio', 123, 135, '', NULL),
+(16, 14, 'caio', 'civic', 'kgh3245', '2023-09-29', 'arthur', 'sla', 'un', 12, 15876, 'manutencao', 'fabio', 12, 15888, '', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `ordem_servico_concluida`
---
-
-CREATE TABLE `ordem_servico_concluida` (
-  `ordem_servico_id` int(64) NOT NULL,
-  `codigo_produto` int(64) NOT NULL,
-  `cliente_nome` text NOT NULL,
-  `veiculo_nome` text NOT NULL,
-  `veiculo_placa` text NOT NULL,
-  `data_abertura` date NOT NULL,
-  `produto` text NOT NULL,
-  `referencia` text NOT NULL,
-  `tipo` text NOT NULL,
-  `quantidade` int(64) NOT NULL,
-  `preco_total_produto` int(64) NOT NULL,
-  `servico_nome` text NOT NULL,
-  `tecnico_responsavel` text NOT NULL,
-  `preco_total_servico` int(64) NOT NULL,
-  `preco_total_geral` int(64) NOT NULL,
-  `observacoes_vendedor` text NOT NULL,
-  `status` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `ordem_servico_concluida`
---
-
-INSERT INTO `ordem_servico_concluida` (`ordem_servico_id`, `codigo_produto`, `cliente_nome`, `veiculo_nome`, `veiculo_placa`, `data_abertura`, `produto`, `referencia`, `tipo`, `quantidade`, `preco_total_produto`, `servico_nome`, `tecnico_responsavel`, `preco_total_servico`, `preco_total_geral`, `observacoes_vendedor`, `status`) VALUES
-(23, 14, 'Anthony Anderson', 'Honda Civic G10', 'bct1879', '2023-09-26', 'arthur', 'sla', 'UN', 1, 12, 'Instalação da peça', 'Nanico', 12, 24, '', 'Concluída');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `produtos_ordem_servico`
+-- Estrutura da tabela `produtos_ordem_servico`
 --
 
 CREATE TABLE `produtos_ordem_servico` (
@@ -37720,20 +37755,30 @@ CREATE TABLE `produtos_ordem_servico` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `produtos_ordem_servico`
+-- Extraindo dados da tabela `produtos_ordem_servico`
 --
 
 INSERT INTO `produtos_ordem_servico` (`ordem_servico_id`, `codigo_produto`, `produto`, `referencia`, `tipo`, `quantidade`, `preco_produto`) VALUES
 (1, 0, '', '', '', 0, 0),
 (2, 6, 'Array', 'sla', 'un', 1, 25),
 (3, 6, 'es', 'sla', 'un', 1, 25),
-(18, 14, 'arthur', 'sla', 'UN', 1, 12),
-(23, 14, 'arthur', 'sla', 'UN', 1, 12);
+(4, 6, 'es', 'sla', 'un', 1, 25),
+(5, 6, 'es', 'sla', 'un', 1, 25),
+(6, 6, 'es', 'sla', 'un', 1, 25),
+(7, 14, 'arthur', 'sla', 'un', 2, 12),
+(8, 14, 'arthur', 'sla', 'un', 2, 24),
+(9, 14, 'arthur', 'sla', 'un', 1, 12),
+(10, 14, 'arthur', 'sla', 'un', 1, 12),
+(11, 14, 'arthur', 'sla', 'un', 1, 12),
+(12, 14, 'arthur', 'sla', 'un', 1, 12),
+(13, 14, 'arthur', 'sla', 'un', 1, 12),
+(14, 14, 'arthur', 'sla', 'un', 1, 12),
+(16, 14, 'arthur', 'sla', 'un', 12, 1323);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `saldos`
+-- Estrutura da tabela `saldos`
 --
 
 CREATE TABLE `saldos` (
@@ -37744,7 +37789,7 @@ CREATE TABLE `saldos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `saldos`
+-- Extraindo dados da tabela `saldos`
 --
 
 INSERT INTO `saldos` (`id`, `total_ganho`, `total_lucro`, `total_gasto`) VALUES
@@ -37753,7 +37798,7 @@ INSERT INTO `saldos` (`id`, `total_ganho`, `total_lucro`, `total_gasto`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `saldo_dias`
+-- Estrutura da tabela `saldo_dias`
 --
 
 CREATE TABLE `saldo_dias` (
@@ -37767,7 +37812,7 @@ CREATE TABLE `saldo_dias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `servicos_ordem_servico`
+-- Estrutura da tabela `servicos_ordem_servico`
 --
 
 CREATE TABLE `servicos_ordem_servico` (
@@ -37778,21 +37823,30 @@ CREATE TABLE `servicos_ordem_servico` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `servicos_ordem_servico`
+-- Extraindo dados da tabela `servicos_ordem_servico`
 --
 
 INSERT INTO `servicos_ordem_servico` (`ordem_servico_id`, `servico_nome`, `tecnico_responsavel`, `valor_servico`) VALUES
 (1, 'manutencao', 'fabio', 254),
 (2, 'manutencao', 'fabio', 254),
 (3, 'manutencao', 'fabio', 254),
-(18, 'Instalação da peça', 'Nanico', 12),
-(18, 'Instalação da peça', 'Nanico', 12),
-(23, 'Instalação da peça', 'Nanico', 12);
+(4, 'manutencao', 'fabio', 254),
+(5, 'manutencao', 'fabio', 254),
+(6, 'manutencao', 'fabio', 254),
+(7, 'manutencao', 'fabio', 25),
+(8, 'manutencao', 'fabio', 200),
+(9, 'manutencao', 'fabio', 120),
+(10, 'manutencao', 'fabio', 234),
+(11, 'manutencao', 'fabio', 123),
+(12, 'manutencao', 'fabio', 123),
+(13, 'manutencao', 'fabio', 123),
+(14, 'manutencao', 'fabio', 123),
+(16, 'manutencao', 'fabio', 12);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuarios`
+-- Estrutura da tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -37806,7 +37860,7 @@ CREATE TABLE `usuarios` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `valores`
+-- Estrutura da tabela `valores`
 --
 
 CREATE TABLE `valores` (
@@ -37820,19 +37874,35 @@ CREATE TABLE `valores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `valores`
+-- Extraindo dados da tabela `valores`
 --
 
 INSERT INTO `valores` (`id`, `id_op`, `data_venda`, `valor_venda`, `valor_servico`, `preco_total_geral`, `valor_debito`) VALUES
-(23, 18, '2023-09-25', 12, 12, 24, 0),
-(24, 18, '2023-09-25', 12, 12, 24, 0),
-(25, 18, '2023-09-25', 12, 12, 24, 0),
-(28, 23, '2023-09-26', 12, 12, 24, 0);
+(1, 0, '0000-00-00', 0, 0, 0, 0),
+(2, 0, '0000-00-00', 48, 200, 248, 0),
+(3, 0, '0000-00-00', 0, 0, 0, 0),
+(4, 0, '0000-00-00', 0, 0, 0, 0),
+(5, 0, '0000-00-00', 0, 0, 0, 0),
+(6, 0, '0000-00-00', 12, 0, 0, 0),
+(7, 0, '2023-09-21', 12, 120, 132, 0),
+(8, 0, '2023-09-21', 0, 0, 0, 100),
+(9, 0, '0000-00-00', 12, 0, 0, 0),
+(10, 0, '0000-00-00', 12, 0, 0, 0),
+(11, 0, '2023-09-22', 12, 234, 246, 0),
+(12, 0, '2023-09-21', 12, 123, 135, 0),
+(13, 0, '2023-09-21', 12, 123, 135, 0),
+(14, 6, '2023-09-22', 0, 0, 0, 0),
+(15, 0, '0000-00-00', 12, 0, 0, 0),
+(16, 0, '0000-00-00', 12, 0, 0, 0),
+(17, 14, '0000-00-00', 12, 0, 0, 0),
+(18, 0, '2023-09-23', 12, 123, 135, 0),
+(19, 14, '2023-09-25', 12, 123, 135, 0),
+(21, 16, '2023-09-29', 15876, 12, 15888, 0);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `vendas`
+-- Estrutura da tabela `vendas`
 --
 
 CREATE TABLE `vendas` (
@@ -37856,7 +37926,7 @@ CREATE TABLE `vendas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `vendas`
+-- Extraindo dados da tabela `vendas`
 --
 
 INSERT INTO `vendas` (`id`, `nome_comprador`, `nome_peca`, `marca`, `ano`, `referencia`, `aplicacao`, `quantidade`, `cpf_cnpj`, `CPF`, `CNPJ`, `valor_venda`, `forma_pagamento`, `numero_parcelas`, `funcionario_vendedor`, `garantia_produto`, `data_venda`) VALUES
@@ -37904,73 +37974,61 @@ INSERT INTO `vendas` (`id`, `nome_comprador`, `nome_peca`, `marca`, `ano`, `refe
 --
 
 --
--- Índices de tabela `debitos`
+-- Índices para tabela `debitos`
 --
 ALTER TABLE `debitos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `estoque`
+-- Índices para tabela `estoque`
 --
 ALTER TABLE `estoque`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `notificacoes`
+-- Índices para tabela `notificacoes`
 --
 ALTER TABLE `notificacoes`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `ordem_servico`
+-- Índices para tabela `ordem_servico`
 --
 ALTER TABLE `ordem_servico`
-  ADD PRIMARY KEY (`ordem_servico_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `ordem_servico_completa`
---
-ALTER TABLE `ordem_servico_completa`
-  ADD PRIMARY KEY (`ordem_servico_id`);
-
---
--- Índices de tabela `ordem_servico_concluida`
---
-ALTER TABLE `ordem_servico_concluida`
-  ADD PRIMARY KEY (`ordem_servico_id`);
-
---
--- Índices de tabela `saldos`
+-- Índices para tabela `saldos`
 --
 ALTER TABLE `saldos`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `saldo_dias`
+-- Índices para tabela `saldo_dias`
 --
 ALTER TABLE `saldo_dias`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `usuarios`
+-- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `valores`
+-- Índices para tabela `valores`
 --
 ALTER TABLE `valores`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `vendas`
+-- Índices para tabela `vendas`
 --
 ALTER TABLE `vendas`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
@@ -37989,13 +38047,13 @@ ALTER TABLE `estoque`
 -- AUTO_INCREMENT de tabela `notificacoes`
 --
 ALTER TABLE `notificacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
--- AUTO_INCREMENT de tabela `ordem_servico_concluida`
+-- AUTO_INCREMENT de tabela `ordem_servico`
 --
-ALTER TABLE `ordem_servico_concluida`
-  MODIFY `ordem_servico_id` int(64) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+ALTER TABLE `ordem_servico`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `saldos`
@@ -38019,7 +38077,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `valores`
 --
 ALTER TABLE `valores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`
