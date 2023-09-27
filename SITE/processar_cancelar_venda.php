@@ -1,64 +1,73 @@
 <?php
+// Conexão com o banco de dados
 require_once "config.php";
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["excluir_venda"])) {
-// Obtenha os valores do formulário
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Recupere os dados do formulário
     $nome_comprador = $_POST["nome_comprador"];
     $nome_peca = $_POST["nome_peca"];
     $marca = $_POST["marca"];
     $ano = $_POST["ano"];
     $referencia = $_POST["referencia"];
     $aplicacao = $_POST["aplicacao"];
-    $cpf_cnpj = $_POST["cpf_cnpj"];
-    $CPF = $_POST["CPF"];
-    $CNPJ = $_POST["CNPJ"];
+    $cpf_cnpj = $_POST["cpf_cnpj2"];
+
+    // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
+    if ($_POST["cpf_cnpj2"] == "CPF2") {
+        $CPF = $_POST["CPF2"];
+        $CNPJ = 0; // Defina CNPJ como nulo
+    } elseif ($_POST["cpf_cnpj2"] == "CNPJ2") {
+        $CNPJ = $_POST["CNPJ2"];
+        $CPF = 0; // Defina CPF como nulo
+    } else {
+        // Trate o caso em que nenhum dos campos foi escolhido
+        echo '<script>
+            alert("Escolha CPF ou CNPJ.");
+            window.location.href = "Venda.html";
+        </script>';
+        exit; // Saia do script
+    }
     $funcionario_vendedor = $_POST["funcionario_vendedor"];
 
-    // Consulta SQL para encontrar a venda com base nos critérios fornecidos
-    $sql = "SELECT id FROM vendas WHERE
-        nome_comprador = '$nome_comprador' AND
-        nome_peca = '$nome_peca' AND
-        marca = '$marca' AND
-        ano = '$ano' AND
-        referencia = '$referencia' AND
-        aplicacao = '$aplicacao' AND
-        cpf_cnpj = '$cpf_cnpj' AND
-        CPF = '$CPF' AND
-        CNPJ = '$CNPJ' AND
-        funcionario_vendedor = '$funcionario_vendedor'";
+    // Consulta SQL para obter o ID da venda com base nos dados do formulário
+    $consulta_id_venda = "SELECT id, quantidade FROM vendas WHERE nome_comprador = '$nome_comprador' AND nome_peca = '$nome_peca' AND CPF ='$CPF' AND CNPJ ='$CNPJ' AND funcionario_vendedor ='$funcionario_vendedor'";
 
-    $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        // A venda foi encontrada, obtenha o ID da venda
-        $row = $result->fetch_assoc();
+    $resultado = $conn->query($consulta_id_venda);
+
+    if ($resultado->num_rows > 0) {
+        // Obtém o ID da venda a partir do resultado da consulta
+        $row = $resultado->fetch_assoc();
         $venda_id = $row["id"];
+        $quantidade = $row["quantidade"];
+        // Agora você tem o ID da venda que deseja cancelar
+        // Faça a exclusão da venda e dos valores com base no ID como mostrado no exemplo anterior
 
-        // Consulta SQL para excluir a venda com base no ID
+        // Consulta SQL para excluir a venda da tabela "vendas" com base no ID
         $sql_excluir_venda = "DELETE FROM vendas WHERE id = $venda_id";
-        if ($conn->query($sql_excluir_venda) === TRUE) {
-            // A venda foi excluída com sucesso
 
-            // Agora, verifique se o ID corresponde ao ID_OP na tabela "valores" e exclua o registro correspondente
-            $sql_verificar_id_op = "SELECT id_op FROM valores WHERE id_op = $venda_id";
-            $result_id_op = $conn->query($sql_verificar_id_op);
+        // Consulta SQL para excluir valores da tabela "valores" com base no ID da venda (id_op)
+        $sql_excluir_valores = "DELETE FROM valores WHERE id_op = $venda_id";
 
-            if ($result_id_op->num_rows > 0) {
-                // O ID corresponde ao ID_OP na tabela "valores", exclua o registro correspondente
-                $sql_excluir_valor = "DELETE FROM valores WHERE id_op = $venda_id";
-                if ($conn->query($sql_excluir_valor) === TRUE) {
-                    echo "Venda e registro de valores excluídos com sucesso.";
-                } else {
-                    echo "Erro ao excluir registro de valores: " . $conn->error;
-                }
+        // Execute as consultas SQL de exclusão
+        if ($conn->query($sql_excluir_venda) === TRUE && $conn->query($sql_excluir_valores) === TRUE) {
+            // Consulta SQL para atualizar a quantidade no estoque
+            $sql_atualizar_estoque = "UPDATE estoque SET quantidade = quantidade + $quantidade WHERE nome = '$nome_peca' AND marca = '$marca' AND ano = '$ano' AND referencia = '$referencia' AND aplicacao = '$aplicacao'";
+
+            // Execute a consulta SQL de atualização do estoque
+            if ($conn->query($sql_atualizar_estoque) === TRUE) {
+                echo '<script>alert("Venda cancelada com sucesso.");window.location.href = "Venda.html";</script>';
             } else {
-                echo "Venda excluída com sucesso, mas nenhum registro correspondente de valores encontrado.";
+                echo "Erro ao atualizar o estoque: " . $conn->error;
             }
         } else {
-            echo "Erro ao excluir venda: " . $conn->error;
+                echo "Erro ao cancelar a venda: " . $conn->error;
         }
     } else {
-        echo "Nenhuma venda correspondente encontrada. Verifique os detalhes informados.";
+        echo "Venda não encontrada com os dados fornecidos.";
     }
 }
+
+// Feche a conexão com o banco de dados
 $conn->close();
 ?>
