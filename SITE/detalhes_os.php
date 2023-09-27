@@ -57,6 +57,15 @@ $conn->close();
                 echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
                 echo "<tr><th>Ações</th><td>";
         
+                // Botão para Em Andamento
+                echo "<div style='display: inline-block;'>";
+                echo "<form method='POST' action='atualizar_status.php'>";
+                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                echo "<input type='hidden' name='novo_status' value='Em Andamento'>";
+                echo "<input type='submit' value='Em Andamento'>";
+                echo "</form>";
+                echo "</div>";
+        
                 // Botão para Concluída
                 echo "<div style='display: inline-block;'>";
                 echo "<form method='POST' action='atualizar_status.php'>";

@@ -118,7 +118,6 @@ $conn->close();
         <div id="botoes-os">
             <button onclick="mostrarCriarOrdem()">Criar Ordem</button>
             <button onclick="mostrarConsultarOrdens()">Consultar Ordens</button>
-            <button onclick="mostrarOrdensConcluidas()">Ordens Concluidas</button>
             <button onclick="mostrarCancelarOrdem()">Cancelar Ordem</button>
         </div>
     
@@ -234,37 +233,22 @@ $conn->close();
             ?>
             <a href="detalhes_os.php">Detalhes</a>
         </div>
-
-        <div id="ordens-concluidas" style="display: none;">
-            <h2>Ordens Concluidas</h2>
-            
-
-        </div>
     </body>
     <script>
         function mostrarCriarOrdem() {
             document.getElementById("criar-ordem").style.display = "block";
             document.getElementById("consultar-ordens").style.display = "none";
-            document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "none";
         }
     
         function mostrarConsultarOrdens() {
             document.getElementById("criar-ordem").style.display = "none";
             document.getElementById("consultar-ordens").style.display = "block";
-            document.getElementById("ordens-concluidas").style.display = "none";
-            document.getElementById("cancelar-ordem").style.display = "none";
-        }
-        function mostrarOrdensConcluidas() {
-            document.getElementById("criar-ordem").style.display = "none";
-            document.getElementById("consultar-ordens").style.display = "none";
-            document.getElementById("ordens-concluidas").style.display = "block";
             document.getElementById("cancelar-ordem").style.display = "none";
         }
         function mostrarCancelarOrdem() {
             document.getElementById("criar-ordem").style.display = "none";
             document.getElementById("consultar-ordens").style.display = "none";
-            document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "block";
         }
     </script>
