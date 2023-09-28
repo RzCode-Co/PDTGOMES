@@ -57,15 +57,6 @@ $conn->close();
                 echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
                 echo "<tr><th>Ações</th><td>";
         
-                // Botão para Em Andamento
-                echo "<div style='display: inline-block;'>";
-                echo "<form method='POST' action='atualizar_status.php'>";
-                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
-                echo "<input type='hidden' name='novo_status' value='Em Andamento'>";
-                echo "<input type='submit' value='Em Andamento'>";
-                echo "</form>";
-                echo "</div>";
-        
                 // Botão para Concluída
                 echo "<div style='display: inline-block;'>";
                 echo "<form method='POST' action='atualizar_status.php'>";
@@ -99,6 +90,9 @@ $conn->close();
             // Exiba as observações
             echo "<h3>Observações do Vendedor</h3>";
             echo "<p>{$os['observacoes_vendedor']}</p>";
+
+            // Exibir o valor total
+            echo "<p>Valor Total: {$os['preco_total_geral']}</p>";
         }
     } else {
         echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";

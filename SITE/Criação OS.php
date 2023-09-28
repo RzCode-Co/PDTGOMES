@@ -118,9 +118,9 @@ $conn->close();
         <div id="botoes-os">
             <button onclick="mostrarCriarOrdem()">Criar Ordem</button>
             <button onclick="mostrarConsultarOrdens()">Consultar Ordens</button>
+            <button onclick="mostrarOrdensConcluidas()">Ordens Concluidas</button>
             <button onclick="mostrarCancelarOrdem()">Cancelar Ordem</button>
         </div>
-    
         <div id="criar-ordem" style="display: none;">
             <!-- Conteúdo para criar uma nova ordem de serviço -->
             <h2>Criar Nova Ordem de Serviço</h2>
@@ -219,6 +219,10 @@ $conn->close();
             <?php
                 if (!empty($os_details)) {
                     foreach ($os_details as $os) {
+                        if ($os['status'] == 'Concluída') {
+                            // Não exiba ordens concluídas aqui
+                            continue;
+                        }
                         echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
                         echo "<table>";
                         echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
@@ -231,24 +235,58 @@ $conn->close();
                     }
                 }
             ?>
-            <a href="detalhes_os.php">Detalhes</a>
+            <a href="detalhes_os_em_andamento.php">Detalhes</a>
         </div>
+
+        <div id="ordens-concluidas" style="display: none;">
+            <h2>Ordens Concluidas</h2>
+            <?php
+                if (!empty($os_details)) {
+                    foreach ($os_details as $os) {
+                        if ($os['status'] != 'Concluída') {
+                            // Ignorar ordens com status diferente de "Concluída"
+                            continue;
+                        }                
+                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                        echo "<table>";
+                        echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
+                        echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
+                        echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
+                        echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
+                        echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
+                        echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
+                        echo "</table>";
+                    }
+                }
+            ?>
+            <a href="detalhes_os_concluidas.php">Detalhes</a>
+        </div>
+
     </body>
     <script>
         function mostrarCriarOrdem() {
             document.getElementById("criar-ordem").style.display = "block";
             document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "none";
         }
     
         function mostrarConsultarOrdens() {
             document.getElementById("criar-ordem").style.display = "none";
             document.getElementById("consultar-ordens").style.display = "block";
+            document.getElementById("ordens-concluidas").style.display = "none";
+            document.getElementById("cancelar-ordem").style.display = "none";
+        }
+        function mostrarOrdensConcluidas() {
+            document.getElementById("criar-ordem").style.display = "none";
+            document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("ordens-concluidas").style.display = "block";
             document.getElementById("cancelar-ordem").style.display = "none";
         }
         function mostrarCancelarOrdem() {
             document.getElementById("criar-ordem").style.display = "none";
             document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "block";
         }
     </script>
