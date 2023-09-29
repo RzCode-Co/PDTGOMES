@@ -1,7 +1,7 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
-// Prepare a consulta SQL com a cláusula WHERE para selecionar apenas as OS com status 'Concluída'
+// Prepare a consulta SQL com a cláusula WHERE para selecionar apenas as OS com status 'Em Andamento'
 $sql = "SELECT * FROM ordem_servico_completa WHERE status = 'Em Andamento'";
 $result = $conn->query($sql);
 
@@ -13,18 +13,15 @@ if ($result->num_rows > 0) {
         $os_details[] = $row;
     }
 } else {
-    echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
+    echo "<p>Nenhuma Ordem de Serviço em andamento encontrada.</p>";
 }
-
-// Fechar a conexão
-$conn->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Ordens de serviço</title>
+    <title>Ordens em andamento</title>
     <style>
         table {
             border-collapse: collapse;
@@ -56,8 +53,8 @@ $conn->close();
             echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
             echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
             echo "<tr><th>Ações</th><td>";
-    
-            // Botão para Em Andamento
+
+            // Botão para Concluída
             echo "<div style='display: inline-block;'>";
             echo "<form method='POST' action='atualizar_status.php'>";
             echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
@@ -65,17 +62,47 @@ $conn->close();
             echo "<input type='submit' value='Concluída'>";
             echo "</form>";
             echo "</div>";
-    
+
             echo "</td></tr>";
             echo "</table>";
 
+            // Quebra de linha para exibir em colunas separadas
+            echo "<br>";
+
+            // Exiba a lista de serviços prestados
+            echo "<h3>Serviços Prestados</h3>";
+            echo "<table>";
+            echo "<tr><th>Nome do Serviço</th><th>Técnico Responsável</th><th>Valor do Serviço</th></tr>";
+
+            // Aqui você deve percorrer o array de serviços específico para esta ordem de serviço em andamento
+            $ordem_servico_id = $os['ordem_servico_id'];
+            $sql_servicos = "SELECT * FROM servicos_ordem_servico WHERE ordem_servico_id = $ordem_servico_id";
+            $result_servicos = $conn->query($sql_servicos);
+
+            if ($result_servicos->num_rows > 0) {
+                while ($servico = $result_servicos->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>{$servico['servico_nome']}</td>";
+                    echo "<td>{$servico['tecnico_responsavel']}</td>";
+                    echo "<td>{$servico['preco_total_servico']}</td>";
+                    echo "</tr>";
+                }
+            }
+
+            echo "</table>";
+
             // Exibir a lista de produtos
-            if (!empty($os['produtos'])) {
+            $ordem_servico_id = $os['ordem_servico_id'];
+            $sql_produtos = "SELECT * FROM produtos_ordem_servico WHERE ordem_servico_id = $ordem_servico_id";
+            $result_produtos = $conn->query($sql_produtos);
+
+            if ($result_produtos->num_rows > 0) {
+                // Exibir a lista de produtos
                 echo "<h3>Produtos Vendidos</h3>";
                 echo "<table>";
-                echo "<tr><th>Código do Produto</th><th>Produto</th><th>Referência</th><th>Tipo</th><th>Quantidade</th><th>Preço Unitário</th><th>Subtotal</th></tr>";
+                echo "<tr><th>Código do Produto</th><th>Produto</th><th>Referência</th><th>Tipo</th><th>Quantidade</th><th>Preço Unitário</th></tr>";
 
-                foreach ($os['produtos'] as $produto) {
+                while ($produto = $result_produtos->fetch_assoc()) {
                     echo "<tr>";
                     echo "<td>{$produto['codigo_produto']}</td>";
                     echo "<td>{$produto['produto']}</td>";
@@ -83,39 +110,32 @@ $conn->close();
                     echo "<td>{$produto['tipo']}</td>";
                     echo "<td>{$produto['quantidade']}</td>";
                     echo "<td>{$produto['preco_produto']}</td>";
-                    echo "<td>{$produto['subtotal_produto']}</td>";
                     echo "</tr>";
                 }
 
                 echo "</table>";
             }
 
-            // Exiba a lista de serviços prestados
-            echo "<h3>Serviços Prestados</h3>";
-            echo "<table>";
-            echo "<tr><th>Nome do Serviço</th><th>Técnico Responsável</th><th>Valor do Serviço</th></tr>";
-
-            foreach ($os_details as $servico) {
-                echo "<tr>";
-                echo "<td>{$servico['servico_nome']}</td>";
-                echo "<td>{$servico['tecnico_responsavel']}</td>";
-                echo "<td>{$servico['preco_total_servico']}</td>";
-                echo "</tr>";
-            }
-
-            echo "</table>";
-
             // Exiba as observações
             echo "<h3>Observações do Vendedor</h3>";
-            echo "<p>{$os['observacoes_vendedor']}</p>";
+            $observacoes_vendedor = $os['observacoes_vendedor'];
+            if (!empty($observacoes_vendedor)) {
+                echo "<p>{$observacoes_vendedor}</p>";
+            } else {
+                echo "<p>Nenhuma observação foi inserida.</p>";
+            }
+
+            // Exibir o valor total
+            echo "<p>Valor Total: {$os['preco_total_geral']}</p>";
         }
-    
-            // Quebra de linha para exibir em colunas separadas
-            echo "<br>";
-        
+
+        // Quebra de linha para exibir em colunas separadas
+        echo "<br>";
+
     } else {
-        echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
+        echo "<p>Nenhuma Ordem de Serviço em andamento encontrada.</p>";
     }
+    $conn->close();
     ?>
 
     <p><a href="Criação OS.php">Voltar para a Lista de Ordens de Serviço</a></p>
