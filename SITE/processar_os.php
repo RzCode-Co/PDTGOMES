@@ -145,6 +145,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Erro ao inserir dados na tabela ordem_servico_completa: " . $conn->error;
     }
 
+    // Insira a notificação no banco de dados de notificações
+    $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('Uma nova Ordem de Serviço foi criada', NOW())";
+                          
+    if ($conn->query($sql) === TRUE) {
+        echo "Notificação de atualização criada com sucesso.";
+    } else {
+        echo "Erro ao criar notificação de atualização: " . $conn->error;
+    }
+
     $conn->close();
     header("Location:Criação OS.php");
 }
