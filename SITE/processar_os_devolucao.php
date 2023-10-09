@@ -33,21 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($conn->query($delete_valores_sql) === TRUE) {
                         echo '<script>
                                 alert("Ordem de Serviço cancelada com sucesso!");
-                                window.location.href = "Criação OS.php";
+                                window.location.href = "pagina_de_redirecionamento.html";
                               </script>';
                     } else {
                         echo "Erro ao excluir a linha na tabela valores: " . $conn->error;
                     }
-
-                        // Insira a notificação no banco de dados de notificações
-                        $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('Uma ordem de serviço foi cancelada, os produtos retornaram ao estoque', NOW())";
-                          
-                        if ($conn->query($sql) === TRUE) {
-                            echo "Notificação de atualização criada com sucesso.";
-                        } else {
-                            echo "Erro ao criar notificação de atualização: " . $conn->error;
-                        }
-
                 } else {
                     echo "Erro ao excluir a OS da tabela ordem_servico_completa: " . $conn->error;
                 }

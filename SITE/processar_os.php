@@ -88,7 +88,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $valor_debito = NULL;
     // Inserir os dados na tabela ordem_servico
-    $status = "Em andamento";
     $sql = "INSERT INTO ordem_servico (cliente_nome, veiculo_nome, veiculo_placa, data_abertura, preco_total_produtos, preco_total_servicos, preco_total_geral, observacoes_vendedor) VALUES ('$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', $preco_total_produtos, $preco_total_servicos, $preco_total_geral, '$observacoes_vendedor')";
 
     if ($conn->query($sql) === TRUE) {
@@ -116,7 +115,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Erro ao inserir a ordem de serviço: " . $conn->error;
     }
-
     // Consulta SQL para verificar o ID da ordem de serviço
     $verifica_ordem_id = "SELECT id FROM ordem_servico WHERE cliente_nome = '$cliente_nome' AND veiculo_nome = '$veiculo_nome' AND veiculo_placa = '$veiculo_placa' AND data_abertura = '$data_abertura'";
     $result_id = $conn->query($verifica_ordem_id);
@@ -136,22 +134,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Ordem de serviço não encontrada.";
     }
-    $status = "Em andamento";
-    $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor, status) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor', '$status')";
+    $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor')";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Ordem de Serviços criada com sucesso!');</script>";
     } else {
         echo "Erro ao inserir dados na tabela ordem_servico_completa: " . $conn->error;
-    }
-
-    // Insira a notificação no banco de dados de notificações
-    $sql = "INSERT INTO notificacoes (mensagem, data) VALUES ('Uma nova Ordem de Serviço foi criada', NOW())";
-                          
-    if ($conn->query($sql) === TRUE) {
-        echo "Notificação de atualização criada com sucesso.";
-    } else {
-        echo "Erro ao criar notificação de atualização: " . $conn->error;
     }
 
     $conn->close();

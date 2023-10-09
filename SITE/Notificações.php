@@ -96,17 +96,6 @@ if ($result->num_rows > 0) {
         $notificacoes[] = $row;
     }
 }
-
-if (isset($_POST['apagar_notificacoes'])) {
-    // Código para apagar todas as notificações
-    $sql = "DELETE FROM notificacoes";
-    if ($conn->query($sql) === TRUE) {
-        echo "Todas as notificações foram apagadas com sucesso.";
-    } else {
-        echo "Erro ao apagar notificações: " . $conn->error;
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -130,10 +119,6 @@ if (isset($_POST['apagar_notificacoes'])) {
         echo "<p>Nenhuma notificação encontrada.</p>";
     }
     ?>
-
-    <form method="post">
-        <button type="submit" name="apagar_notificacoes">Apagar Todas as Notificações</button>
-    </form>
 
 </body>
 </html>
