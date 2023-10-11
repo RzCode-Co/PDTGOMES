@@ -117,6 +117,17 @@ if ($result->num_rows > 0) {
                 echo "</table>";
             }
 
+            $pagamentoPrevio = isset($_GET['pagamento_previo']) && $_GET['pagamento_previo'] === 'on';
+            if ($pagamentoPrevio) {
+                // A checkbox foi marcada, o produto já foi pago
+                $formaPagamento = $_GET['forma_pagamento']; // Recupere a forma de pagamento
+                echo "Produtos já foram pagos previamente no caixa. Forma de pagamento: $formaPagamento";
+            } else {
+                // A checkbox não foi marcada, os produtos devem ser pagos no caixa
+                echo "Produtos devem ser pagos no caixa.";
+            }
+                
+
             // Exiba as observações
             echo "<h3>Observações do Vendedor</h3>";
             $observacoes_vendedor = $os['observacoes_vendedor'];

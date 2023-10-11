@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Executar a consulta de atualização
                 if ($conn->query($update_sql) === TRUE) {
-                    $dataVenda = date("Y-m-d");
+                    $dataVenda = NULL;
                     // Insira a notificação no banco de dados de notificações
                     $sql_notificacao = "INSERT INTO notificacoes (mensagem, data) VALUES ('$funcionario_vendedor realizou uma venda de um(a) $nome_peca no valor de $valor_venda em $dataVenda', NOW())";
 

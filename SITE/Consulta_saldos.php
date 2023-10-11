@@ -27,8 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verifica a opção selecionada e define as datas de início e fim conforme necessário
     switch ($intervalo) {
         case "Dias":
-            if (isset($_POST['data_consulta'])) {
-                $dataConsulta = $_POST['data_consulta']; // A data específica selecionada pelo usuário
+            if (isset($_POST['intervalo-saldos'])) {
+                $dataConsulta = $_POST['intervalo-saldos']; // A data específica selecionada pelo usuário
                 $dataSelecionada = $dataConsulta;
                 // Consulta SQL para buscar os valores da data selecionada
                 $sql = "SELECT * FROM valores WHERE DATE(data_venda) = '$dataConsulta'";

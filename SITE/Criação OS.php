@@ -1,8 +1,21 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
-// Prepare a consulta SQL sem a cláusula WHERE
-$sql = "SELECT * FROM ordem_servico_completa";
+// Defina o número máximo de registros por página
+$registrosPorPagina = 5;
+
+// Recupere o número da página atual a partir da consulta GET
+if (isset($_GET['pagina'])) {
+    $paginaAtual = $_GET['pagina'];
+} else {
+    $paginaAtual = 1;
+}
+
+// Calcule o deslocamento a partir da página atual
+$deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
+
+// Prepare a consulta SQL com LIMIT e OFFSET para a página atual
+$sql = "SELECT * FROM ordem_servico_completa LIMIT $registrosPorPagina OFFSET $deslocamento";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -15,6 +28,12 @@ if ($result->num_rows > 0) {
 } else {
     echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
 }
+
+// Calcular o número total de páginas com base no total de registros
+$sqlTotalRegistros = "SELECT COUNT(*) AS total FROM ordem_servico_completa";
+$resultTotalRegistros = $conn->query($sqlTotalRegistros);
+$totalRegistros = $resultTotalRegistros->fetch_assoc()['total'];
+$totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
 // Fechar a conexão
 $conn->close();
@@ -118,9 +137,9 @@ $conn->close();
         <div id="botoes-os">
             <button onclick="mostrarCriarOrdem()">Criar Ordem</button>
             <button onclick="mostrarConsultarOrdens()">Consultar Ordens</button>
+            <button onclick="mostrarOrdensConcluidas()">Ordens Concluidas</button>
             <button onclick="mostrarCancelarOrdem()">Cancelar Ordem</button>
         </div>
-    
         <div id="criar-ordem" style="display: none;">
             <!-- Conteúdo para criar uma nova ordem de serviço -->
             <h2>Criar Nova Ordem de Serviço</h2>
@@ -159,6 +178,28 @@ $conn->close();
                 <label>Preço:</label>
                 <input type="number" name="preco[]"><br>
 
+                <label for="pagamento_previo">Produtos Pagos Antes da OS?</label>
+                <input type="checkbox" name="pagamento_previo" id="pagamento_previo">
+
+                <div id="forma_pagamento" style="display: none;">
+                    <label for="forma_pagamento">Forma de Pagamento:</label>
+                    <select name="forma_pagamento" id="forma_pagamento">
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="cartao">Cartão de Crédito</option>
+                        <option value="cartao_debito">Cartão de Débito</option>
+                        <option value="pix">Pix</option>
+                    </select>
+                </div>
+
+                <script>
+                    var checkbox = document.getElementById("pagamento_previo");
+                    var formaPagamento = document.getElementById("forma_pagamento");
+
+                    checkbox.addEventListener("change", function () {
+                        formaPagamento.style.display = checkbox.checked ? "block" : "none";
+                    });
+                </script>
+
                 <h2>Serviços Prestados</h2>
                 <label>Nome do Serviço:</label>
                 <input type="text" name="servico_nome[]"><br>
@@ -180,35 +221,18 @@ $conn->close();
         <div id="cancelar-ordem" style="display: none;">
             <h2>Cancelar Ordem de Serviço</h2>
             <form method="POST" action="processar_os_devolucao.php">
-                <label>Nome do Cliente:</label>
-                <input type="text" name="cliente" required><br><br>
+                <label>Numero da OS:</label>
+                <input type="int" name="ordem_servico_id" required><br><br>
 
-                <label>Nome do Veículo:</label>
-                <input type="text" name="veiculo_nome" required><br>
-
-                <label>Placa do Veículo:</label>
-                <input type="text" name="veiculo_placa" required><br>
+                <label>Deseja Estornar os Produto para o Estoque ?</label>
+                <select name="estornar_produtos" id="estornar_produtos" onchange="mostrarCampo()">
+                            <option value="">Selecione...</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Nao">Não</option>
+                </select>
                 
-                <label>Data de Abertura:</label>
-                <input type="date" name="data_abertura" required><br><br>
+                <br>
 
-                <h2>Produtos Vendidos</h2>
-                <label>Código do Produto:</label>
-                <input type="text" name="codigo_produto[]"><br>
-
-                <label>Produto:</label>
-                <input type="text" name="produto[]"><br>
-
-                <label>Referência:</label>
-                <input type="text" name="referencia[]"><br>
-
-                <h2>Serviços Prestados</h2>
-                <label>Nome do Serviço:</label>
-                <input type="text" name="servico_nome[]"><br>
-            
-                <label>Técnico Responsável:</label>
-                <input type="text" name="tecnico_responsavel[]"><br>
-                
                 <input type="submit" value="Cancelar Ordem de Serviço">
             </form>
         </div>
@@ -219,6 +243,10 @@ $conn->close();
             <?php
                 if (!empty($os_details)) {
                     foreach ($os_details as $os) {
+                        if ($os['status'] == 'Concluída') {
+                            // Não exiba ordens concluídas aqui
+                            continue;
+                        }
                         echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
                         echo "<table>";
                         echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
@@ -230,25 +258,85 @@ $conn->close();
                         echo "</table>";
                     }
                 }
+
+                 // Exibir links de paginação
+                if ($totalPaginas > 1) {
+                    echo "<div class='paginacao'>";
+                    if ($paginaAtual > 1) {
+                        echo "<a href='?pagina=" . ($paginaAtual - 1) . "'>Página anterior</a>";
+                    }
+                    if ($paginaAtual < $totalPaginas) {
+                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "'>Próxima página</a>";
+                    }
+                    echo "</div>";
+                }
+
             ?>
-            <a href="detalhes_os.php">Detalhes</a>
+            <a href="detalhes_os_em_andamento.php">Detalhes</a>
         </div>
+
+        <div id="ordens-concluidas" style="display: none;">
+            <h2>Ordens Concluidas</h2>
+            <?php
+                if (!empty($os_details)) {
+                    foreach ($os_details as $os) {
+                        if ($os['status'] != 'Concluída') {
+                            // Ignorar ordens com status diferente de "Concluída"
+                            continue;
+                        }                
+                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                        echo "<table>";
+                        echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
+                        echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
+                        echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
+                        echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
+                        echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
+                        echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
+                        echo "</table>";
+                    }
+                }
+
+                 // Exibir links de paginação
+                if ($totalPaginas > 1) {
+                    echo "<div class='paginacao'>";
+                    if ($paginaAtual > 1) {
+                        echo "<a href='?pagina=" . ($paginaAtual - 1) . "'>Página anterior</a>";
+                    }
+                    if ($paginaAtual < $totalPaginas) {
+                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "'>Próxima página</a>";
+                    }
+                    echo "</div>";
+                }
+
+            ?>
+            <a href="detalhes_os_concluidas.php">Detalhes</a>
+        </div>
+
     </body>
     <script>
         function mostrarCriarOrdem() {
             document.getElementById("criar-ordem").style.display = "block";
             document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "none";
         }
     
         function mostrarConsultarOrdens() {
             document.getElementById("criar-ordem").style.display = "none";
             document.getElementById("consultar-ordens").style.display = "block";
+            document.getElementById("ordens-concluidas").style.display = "none";
+            document.getElementById("cancelar-ordem").style.display = "none";
+        }
+        function mostrarOrdensConcluidas() {
+            document.getElementById("criar-ordem").style.display = "none";
+            document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("ordens-concluidas").style.display = "block";
             document.getElementById("cancelar-ordem").style.display = "none";
         }
         function mostrarCancelarOrdem() {
             document.getElementById("criar-ordem").style.display = "none";
             document.getElementById("consultar-ordens").style.display = "none";
+            document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "block";
         }
     </script>
