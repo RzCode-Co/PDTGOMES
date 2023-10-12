@@ -2,7 +2,7 @@
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
 // Inicialize as variáveis $totalVenda e $totalDebito com 0
-$totalVenda = 0;
+$preco_total_geral = 0;
 $totalDebito = 0;
 
 // Função para obter o nome do mês em português
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $vendas[] = $row;
 
             // Calcule os totais de vendas e débitos
-            $totalVenda += $row["valor_venda"];
+            $preco_total_geral += $row["preco_total_geral"];
             $totalDebito += $row["valor_debito"];
         }
     }
@@ -361,14 +361,14 @@ $conn->close();
         var ctx = document.getElementById('graficoVendas').getContext('2d');
 
         // Use os totais calculados no PHP para criar o gráfico
-        var totalVenda = <?php echo $totalVenda ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
+        var preco_total_geral = <?php echo $preco_total_geral ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
         var totalDebito = <?php echo $totalDebito ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
-        var lucro = totalVenda - totalDebito;
+        var lucro = preco_total_geral - totalDebito;
 
         var data = {
             labels: ['Ganhos', 'Gastos', 'Lucro'],
             datasets: [{
-                data: [totalVenda, totalDebito, lucro],
+                data: [preco_total_geral, totalDebito, lucro],
                 backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)'],
                 borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
                 borderWidth: 1
