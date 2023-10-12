@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     if ($conn->query($sql_notificacao) === TRUE) {
                         $valor_servico = NULL;
-                        $preco_total_geral = NULL;
+                        $preco_total_geral = $valor_venda;
                         $valor_debito = NULL;
                         // Consulta SQL para inserir valores na tabela "valores"
                         $sql_valores = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES ('$venda_id', '$dataVenda', '$valor_venda', '$valor_servico', '$preco_total_geral', '$valor_debito')";
