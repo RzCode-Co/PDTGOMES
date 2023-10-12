@@ -16,6 +16,7 @@ $valores = array();
 $dias_disponiveis = array();
 $meses_disponiveis = array();
 $anos_disponiveis = array();
+$vendas = array();
 
 // Define a consulta SQL com um valor padrão
 $sql = "";
@@ -24,38 +25,31 @@ $sql = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $intervalo = $_POST["saldos"];
 
-    // Verifica a opção selecionada e define as datas de início e fim conforme necessário
-    switch ($intervalo) {
-        case "Dias":
-            if (isset($_POST['intervalo-saldos'])) {
-                $dataConsulta = $_POST['intervalo-saldos']; // A data específica selecionada pelo usuário
-                $dataSelecionada = $dataConsulta;
-                // Consulta SQL para buscar os valores da data selecionada
-                $sql = "SELECT * FROM valores WHERE DATE(data_venda) = '$dataConsulta'";
-            }
-            break;
-        case "Semana":
-            // Consulta SQL para buscar os valores dentro do intervalo de 7 dias (semana)
-            $sql = "SELECT * FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
-            break;
-        case "Mes":
-            if (isset($_POST['mes'])) {
-                $mesSelecionado = $_POST['mes']; // O mês selecionado pelo usuário (1 a 12)
-                $dataSelecionada = date("Y-m-d", strtotime(date("Y-$mesSelecionado-01")));
-                // Consulta SQL para buscar os valores do mês selecionado
-                $sql = "SELECT * FROM valores WHERE MONTH(data_venda) = '$mesSelecionado'";
-            }
-            break;
-        case "Ano":
-            if (isset($_POST['ano'])) {
-                $anoSelecionado = $_POST['ano']; // O ano selecionado pelo usuário
-                $dataSelecionada = date("Y-m-d", strtotime("$anoSelecionado-01-01"));
-                // Consulta SQL para buscar os valores do ano selecionado
-                $sql = "SELECT * FROM valores WHERE YEAR(data_venda) = '$anoSelecionado'";
-            }
-            break;
-        default:
-            break;
+    // Defina consultas SQL diferentes com base no intervalo selecionado.
+    if ($intervalo === "Dias") {
+        $dataConsulta = $_POST['intervalo-saldos'];
+        $sql = "SELECT * FROM valores WHERE DATE(data_venda) = '$dataConsulta'";
+        $dataSelecionada = $dataConsulta;
+    } elseif ($intervalo === "Semana") {
+        $sql = "SELECT * FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
+    } elseif ($intervalo === "Mes") {
+        $mesSelecionado = $_POST['mes'];
+        $sql = "SELECT * FROM valores WHERE MONTH(data_venda) = '$mesSelecionado'";
+        $dataSelecionada = obterNomeMes(date("Y"), $mesSelecionado);
+    } elseif ($intervalo === "Ano") {
+        $anoSelecionado = $_POST['ano'];
+        $sql = "SELECT * FROM valores WHERE YEAR(data_venda) = '$anoSelecionado'";
+        $dataSelecionada = $anoSelecionado;
+    }
+    
+    // Execute a consulta SQL correspondente e obtenha os resultados
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        // Processar e armazenar os resultados no array $historico
+        while ($row = $result->fetch_assoc()) {
+            $vendas[] = $row;
+        }
     }
 $sql = "SELECT * FROM vendas";
 
@@ -321,32 +315,30 @@ $conn->close();
         </div>
         <input type="submit" value="Consultar">
     </form>
-    <div id="tabela-gastos">
-        <table>
-            <tr>
-                <th>Índice</th>
-                <th>Valor da Venda</th>
-                <th>Valor do Serviço</th>
-                <th>Preço Total Geral</th>
-                <th>Valor do Débito</th>
-                <th>Data da Venda</th>
-            </tr>
-            <?php
-            $indice = 1;
-            foreach ($valores as $venda) {
-                echo "<tr>";
-                echo "<td>" . $indice . "</td>";
-                echo "<td>" . $venda["valor_venda"] . "</td>";
-                echo "<td>" . $venda["valor_servico"] . "</td>";
-                echo "<td>" . $venda["preco_total_geral"] . "</td>";
-                echo "<td>" . $venda["valor_debito"] . "</td>";
-                echo "<td>" . $venda["data_venda"] . "</td>";
-                echo "</tr>";
-                $indice++;
-            }
-            ?>
-        </table>
-    </div>
+    <table>
+        <tr>
+            <th>Índice</th>
+            <th>Valor da Venda</th>
+            <th>Valor do Serviço</th>
+            <th>Preço Total Geral</th>
+            <th>Valor do Débito</th>
+            <th>Data da Venda</th>
+        </tr>
+        <?php
+        $indice = 1;
+        foreach ($vendas as $venda) {
+            echo "<tr>";
+            echo "<td>" . $indice . "</td>";
+            echo "<td>" . $venda["valor_venda"] . "</td>";
+            echo "<td>" . $venda["valor_servico"] . "</td>";
+            echo "<td>" . $venda["preco_total_geral"] . "</td>";
+            echo "<td>" . $venda["valor_debito"] . "</td>";
+            echo "<td>" . $venda["data_venda"] . "</td>";
+            echo "</tr>";
+            $indice++;
+        }
+        ?>
+    </table>
 </body>
 <script>
     function mostrarHistorico() {
