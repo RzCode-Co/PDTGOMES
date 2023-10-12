@@ -7,9 +7,14 @@ function obterNomeMes($ano, $mes) {
     return strftime('%B', strtotime("{$ano}-{$mes}-01"));
 }
 
-// Inicialização de variáveis
+// Obter a data atual
 $dataAtual = date("Y-m-d");
-$dataSeteDiasAtras = date("Y-m-d", strtotime("-7 days"));
+// Definir o fuso horário para evitar problemas de diferenças de data
+date_default_timezone_set('America/Sao_Paulo'); // Substitua 'America/Sao_Paulo' pelo fuso horário desejado
+// Calcular a data do domingo da semana atual
+$dataInicioSemana = date('Y-m-d', strtotime("last Sunday", strtotime($dataAtual)));
+// Calcular a data do sábado da semana atual
+$dataFimSemana = date('Y-m-d', strtotime("next Saturday", strtotime($dataInicioSemana)));
 $totalValoresGastos = 0;
 $dataSelecionada = "";
 $valores = array();
@@ -31,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT * FROM valores WHERE DATE(data_venda) = '$dataConsulta'";
         $dataSelecionada = $dataConsulta;
     } elseif ($intervalo === "Semana") {
-        $sql = "SELECT * FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
+        $sql = "SELECT * FROM valores WHERE DATE(data_venda) BETWEEN '$dataInicioSemana' AND '$dataFimSemana'";
     } elseif ($intervalo === "Mes") {
         $mesSelecionado = $_POST['mes'];
         $sql = "SELECT * FROM valores WHERE MONTH(data_venda) = '$mesSelecionado'";
