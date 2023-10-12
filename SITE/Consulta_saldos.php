@@ -57,66 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         default:
             break;
     }
-
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $valores[] = $row;
-
-            $totalValoresGastos += $row["valor_venda"];
-        }
-    }
-}
-$sql_dias_disponiveis = "SELECT DISTINCT DATE(data_venda) AS dia FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
-$result_dias_disponiveis = $conn->query($sql_dias_disponiveis);
-// Verifique se a consulta foi bem-sucedida
-if ($result_dias_disponiveis) {
-    if ($result_dias_disponiveis->num_rows > 0) {
-        while ($row_dias = $result_dias_disponiveis->fetch_assoc()) {
-            $dias_disponiveis[] = $row_dias['dia'];
-        }
-    }
-}
-// Consulta SQL para obter meses e anos únicos disponíveis
-$sql_meses_disponiveis = "SELECT DISTINCT YEAR(data_venda) AS ano, MONTH(data_venda) AS mes FROM valores";
-$result_meses_disponiveis = $conn->query($sql_meses_disponiveis);
-
-if ($result_meses_disponiveis->num_rows > 0) {
-    while ($row_meses = $result_meses_disponiveis->fetch_assoc()) {
-        $ano = $row_meses['ano'];
-        $mes = $row_meses['mes'];
-        
-        $nome_mes = obterNomeMes($ano, $mes);
-        
-        if (!in_array($mes, $meses_disponiveis)) {
-            $meses_disponiveis[] = array('valor' => $mes, 'nome' => $nome_mes);
-        }
-        
-        if (!in_array($ano, $anos_disponiveis)) {
-            $anos_disponiveis[] = $ano;
-        }
-    }
-}
-// Obtém a data atual
-$dataAtual = date("Y-m-d");
-// Calcula a data do início da semana atual (segunda-feira)
-$primeiroDiaDaSemana = date("Y-m-d", strtotime('last monday', strtotime($dataAtual)));
-// Calcula a data do fim da semana atual (domingo)
-$ultimoDiaDaSemana = date("Y-m-d", strtotime('next sunday', strtotime($dataAtual)));
-// Consulta SQL para buscar os valores dentro da semana atual
-$sql = "SELECT * FROM valores WHERE DATE(data_venda) BETWEEN '$primeiroDiaDaSemana' AND '$ultimoDiaDaSemana'";
-// Consulta SQL para obter as semanas disponíveis
-$sql_semanas_disponiveis = "SELECT DISTINCT WEEK(data_venda) AS semana FROM valores";
-$result_semanas_disponiveis = $conn->query($sql_semanas_disponiveis);
-
-if ($result_semanas_disponiveis->num_rows > 0) {
-    while ($row_semanas = $result_semanas_disponiveis->fetch_assoc()) {
-        $semana = $row_semanas['semana'];
-        $semanas_disponiveis[] = $semana;
-    }
-}
-
 $sql = "SELECT * FROM vendas";
 
 $result = $conn->query($sql);
@@ -128,6 +68,65 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $historico[] = $row;
     }
+}
+$sql = "SELECT * FROM vendas";
+
+$result = $conn->query($sql);
+
+// Array para armazenar o histórico de vendas
+$historico = array();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $historico[] = $row;
+    }
+}
+// Data atual
+$dataAtual = date("Y-m-d");
+// Data de 7 dias antes da data atual
+$dataSeteDiasAtras = date("Y-m-d", strtotime("-7 days"));
+if ($dataSeteDiasAtras === NULL){
+    $dataSeteDiasAtras = NULL;
+}
+// Consulta SQL para buscar os dias únicos da coluna data_venda na tabela valores dentro do intervalo de datas
+$sql_dias_disponiveis = "SELECT DISTINCT DATE(data_venda) AS dia FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
+$result_dias_disponiveis = $conn->query($sql_dias_disponiveis);
+// Array para armazenar os dias disponíveis
+$dias_disponiveis = array();
+
+if ($result_dias_disponiveis->num_rows > 0) {
+    while ($row_dias = $result_dias_disponiveis->fetch_assoc()) {
+        $dias_disponiveis[] = $row_dias['dia'];
+    }
+}
+// Defina a localização para o idioma português
+setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+
+// Consulta SQL para buscar os meses e anos únicos da coluna data_venda na tabela valores
+$sql_meses_disponiveis = "SELECT DISTINCT YEAR(data_venda) AS ano, MONTH(data_venda) AS mes FROM valores";
+$result_meses_disponiveis = $conn->query($sql_meses_disponiveis);
+
+// Arrays para armazenar os meses e anos disponíveis
+$meses_disponiveis = array();
+$anos_disponiveis = array();
+
+if ($result_meses_disponiveis->num_rows > 0) {
+    while ($row_meses = $result_meses_disponiveis->fetch_assoc()) {
+        $ano = $row_meses['ano'];
+        $mes = $row_meses['mes'];
+        
+        // Obtenha o nome do mês em português
+        $nome_mes = strftime('%B', strtotime("{$ano}-{$mes}-01"));
+        
+        // Adicione o mês e o ano ao array apenas se ainda não estiverem lá
+        if (!in_array($mes, $meses_disponiveis)) {
+            $meses_disponiveis[] = array('valor' => $mes, 'nome' => $nome_mes);
+        }
+        if (!in_array($ano, $anos_disponiveis)) {
+            $anos_disponiveis[] = $ano;
+        }
+    }
+}
 }
 $conn->close();
 ?>

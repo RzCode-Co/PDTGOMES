@@ -57,7 +57,6 @@ if ($result_saldos) {
         $valores_saldos['total_lucro'] = $saldos_row['total_lucro'];
     }
 }
-// Consulta SQL para buscar todas as vendas na tabela "vendas"
 $sql = "SELECT * FROM vendas";
 
 $result = $conn->query($sql);
@@ -124,6 +123,7 @@ $conn->close();
     <head>
         <meta charset="UTF-8">
         <title>Financeiro</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <style>
         body {
@@ -320,6 +320,49 @@ $conn->close();
                 </tr>
             </table>
         </div>
+        <div>
+        <canvas id="grafico" width="200" height="60"></canvas>
+            <script>
+                // Acesse o contexto do canvas
+                var ctx = document.getElementById("grafico").getContext("2d");
+
+                // Variáveis do PHP para o gráfico
+                var totalGanho = <?php echo $total_ganho; ?>;
+                var totalGasto = <?php echo $total_gasto; ?>;
+                var totalLucro = <?php echo $total_lucro; ?>;
+
+                // Crie um gráfico em barra
+                var grafico = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Total Ganho", "Total Gasto", "Total Lucro"],
+                        datasets: [{
+                            label: 'Valores',
+                            data: [totalGanho, totalGasto, totalLucro],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+
     </body>
     <script>
         function mostrarHistorico() {

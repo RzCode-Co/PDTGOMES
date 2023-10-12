@@ -59,9 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Quantidade insuficiente em estoque para o produto $codigo_produto - $produto_nome - $referencia.";
                 exit; // Sai do script em caso de quantidade insuficiente
             }
-        } else {
-            echo "Produto não encontrado no estoque: $codigo_produto - $produto_nome - $referencia.";
-            exit; // Sai do script em caso de produto não encontrado
         }
     }
 

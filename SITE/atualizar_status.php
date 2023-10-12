@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Erro na preparação da consulta: " . $conn->error;
     }
+    
 
     // Feche a conexão com o banco de dados
     $conn->close();
