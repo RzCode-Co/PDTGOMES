@@ -178,32 +178,8 @@ $conn->close();
                 <label>Preço:</label>
                 <input type="number" name="preco[]"><br>
 
-                <div id="forma_pagamento">
-                    <label for="forma_pagamento">Forma de Pagamento:</label>
-                    <select name="forma_pagamento" id="forma_pagamento">
-                        <option value="dinheiro">Dinheiro</option>
-                        <option value="cartao">Cartão de Crédito</option>
-                        <option value="cartao_debito">Cartão de Débito</option>
-                        <option value="pix">Pix</option>
-                        <option value="Parcelado">Parcelado</option>
-                    </select>
-                </div>
-                <div id="parcelas" style="display: none;">
-                        <label for="numero_parcelas">Número de Parcelas: 
-                            <select name="numero_parcelas" id="numero_parcelas">
-                                <option value="1">1x</option>
-                                <option value="2">2x</option>
-                                <option value="3">3x</option>
-                                <option value="4">4x</option>
-                                <option value="5">5x</option>
-                                <option value="6">6x</option>
-                                <!-- Adicione mais opções conforme necessário -->
-                            </select>
-                        </label>
-                    </div>
-
                 <label for="pagamento_previo">Produtos Pagos Antes da OS?</label>
-                <input type="checkbox" name="pagamento_previo" id="pagamento_previo">
+                <input type="checkbox" name="pagamento_previo" id="pagamento_previo" value="1">
 
                 <h2>Serviços Prestados</h2>
                 <label>Nome do Serviço:</label>
@@ -214,6 +190,28 @@ $conn->close();
             
                 <label>Valor do Serviço:</label>
                 <input type="number" name="valor_servico[]"><br>
+
+                <label for="forma_pagamento">Forma de Pagamento:</label>
+                <select name="forma_pagamento" id="forma_pagamento"onchange="mostrarParcelas()">
+                    <option value="dinheiro">Dinheiro</option>
+                    <option value="cartao">Cartão de Crédito</option>
+                    <option value="cartao_debito">Cartão de Débito</option>
+                    <option value="pix">Pix</option>
+                    <option value="Parcelado">Parcelado</option>
+                </select>
+                <div id="parcelas" style="display: none;">
+                    <label for="numero_parcelas">Número de Parcelas: 
+                        <select name="numero_parcelas" id="numero_parcelas">
+                            <option value="1">1x</option>
+                            <option value="2">2x</option>
+                            <option value="3">3x</option>
+                            <option value="4">4x</option>
+                            <option value="5">5x</option>
+                            <option value="6">6x</option>
+                            <!-- Adicione mais opções conforme necessário -->
+                        </select>
+                    </label>
+                </div>
                 
                 <h2>Observações</h2>
                 <label>Observações:</label>
@@ -318,7 +316,17 @@ $conn->close();
         </div>
 
     </body>
-    <script>   
+    <script>
+        function mostrarParcelas() {
+            var formaPagamento = document.getElementById("forma_pagamento");
+            var parcelasDiv = document.getElementById("parcelas");
+    
+            if (formaPagamento.value === "Parcelado") {
+                parcelasDiv.style.display = "block";
+            } else {
+                parcelasDiv.style.display = "none";
+            }
+        }
         function mostrarCriarOrdem() {
             document.getElementById("criar-ordem").style.display = "block";
             document.getElementById("consultar-ordens").style.display = "none";
@@ -343,16 +351,6 @@ $conn->close();
             document.getElementById("consultar-ordens").style.display = "none";
             document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "block";
-        }
-        function mostrarParcelas() {
-            var formaPagamento = document.getElementById("forma_pagamento");
-            var parcelasDiv = document.getElementById("parcelas");
-    
-            if (formaPagamento.value === "Parcelado") {
-                parcelasDiv.style.display = "block";
-            } else {
-                parcelasDiv.style.display = "none";
-            }
         }
     </script>
 </html>

@@ -48,13 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'preco_produto' => $preco_produto,
                     'subtotal_produto' => $subtotal_produto
                 ];
-
+                
+            if (isset($_POST["pagamento_previo"]) && $_POST["pagamento_previo"] == "1") {
+                $pagamento_previo  = true; // Checkbox marcado, definir como TRUE
+            } else {
+                $pagamento_previo  = false; // Checkbox não marcado, definir como FALSE
                 // Atualizar a quantidade disponível no estoque
                 $quantidade_disponivel -= $quantidade;
-
                 // Atualizar a quantidade disponível no estoque
                 $sql = "UPDATE estoque SET quantidade = $quantidade_disponivel WHERE id = '$codigo_produto' AND nome = '$produto_nome' AND referencia = '$referencia'";
                 $conn->query($sql);
+            }
             } else {
                 echo "Quantidade insuficiente em estoque para o produto $codigo_produto - $produto_nome - $referencia.";
                 exit; // Sai do script em caso de quantidade insuficiente
@@ -68,6 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $servico_nome = $_POST["servico_nome"][$i];
         $tecnico_responsavel = $_POST["tecnico_responsavel"][$i];
         $valor_servico = $_POST["valor_servico"][$i];
+        $forma_pagamento = $_POST["forma_pagamento"];
+        $numero_parcelas = ($forma_pagamento === "Parcelado") ? $_POST["numero_parcelas"] : null;
 
         // Calcular o preço total dos serviços
         $preco_total_servicos += $valor_servico;
@@ -76,7 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $servicos[] = [
             'servico_nome' => $servico_nome,
             'tecnico_responsavel' => $tecnico_responsavel,
-            'valor_servico' => $valor_servico
+            'valor_servico' => $valor_servico,
+            'forma_pagamento' => $forma_pagamento,
+            'numero_parcelas' => $numero_parcelas
         ];
     }
 
@@ -86,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor_debito = NULL;
     // Inserir os dados na tabela ordem_servico
     $status = "Em andamento";
-    $sql = "INSERT INTO ordem_servico (cliente_nome, veiculo_nome, veiculo_placa, data_abertura, preco_total_produtos, preco_total_servicos, preco_total_geral, observacoes_vendedor) VALUES ('$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', $preco_total_produtos, $preco_total_servicos, $preco_total_geral, '$observacoes_vendedor')";
+    $sql = "INSERT INTO ordem_servico (cliente_nome, veiculo_nome, veiculo_placa, data_abertura, preco_total_produtos, preco_total_servicos, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo) VALUES ('$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', $preco_total_produtos, $preco_total_servicos, $preco_total_geral, '$observacoes_vendedor','$forma_pagamento','$numero_parcelas', '$pagamento_previo')";
 
     if ($conn->query($sql) === TRUE) {
         // Obter o ID da ordem de serviço inserida
@@ -134,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Ordem de serviço não encontrada.";
     }
     $status = "Em andamento";
-    $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor, status) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor', '$status')";
+    $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo, status) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor','$forma_pagamento','$numero_parcelas','$pagamento_previo', '$status')";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Ordem de Serviços criada com sucesso!');</script>";
