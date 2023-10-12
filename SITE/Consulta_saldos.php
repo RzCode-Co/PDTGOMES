@@ -1,6 +1,10 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
+// Inicialize as variáveis $totalVenda e $totalDebito com 0
+$totalVenda = 0;
+$totalDebito = 0;
+
 // Função para obter o nome do mês em português
 function obterNomeMes($ano, $mes) {
     setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
@@ -54,6 +58,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Processar e armazenar os resultados no array $historico
         while ($row = $result->fetch_assoc()) {
             $vendas[] = $row;
+
+            // Calcule os totais de vendas e débitos
+            $totalVenda += $row["valor_venda"];
+            $totalDebito += $row["valor_debito"];
         }
     }
 $sql = "SELECT * FROM vendas";
@@ -135,6 +143,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Financeiro</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
     <style>
         body {
@@ -347,6 +356,39 @@ $conn->close();
             ?>
         </table>
     </div>
+    <canvas id="graficoVendas" width="400" height="200"></canvas>
+    <script>
+        var ctx = document.getElementById('graficoVendas').getContext('2d');
+
+        // Use os totais calculados no PHP para criar o gráfico
+        var totalVenda = <?php echo $totalVenda ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
+        var totalDebito = <?php echo $totalDebito ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
+        var lucro = totalVenda - totalDebito;
+
+        var data = {
+            labels: ['Ganhos', 'Gastos', 'Lucro'],
+            datasets: [{
+                data: [totalVenda, totalDebito, lucro],
+                backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)'],
+                borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
+                borderWidth: 1
+            }]
+        };
+
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    </script>
 </body>
 <script>
     function mostrarHistorico() {
