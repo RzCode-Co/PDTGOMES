@@ -107,11 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome_arquivo"]) && iss
             <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
         </ul>
     </div>
-
     <div id="conteudo">
-        <h1>Lista de Arquivos para Download</h1>
-        <div id="lista_arquivos">
-            <!-- Lista não ordenada para as informações -->
+        <div id="lista_arquivos" style="display: block">
             <ul>
                 <?php foreach ($files as $file) { ?>
                     <li>

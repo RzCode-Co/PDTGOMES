@@ -84,6 +84,7 @@
         <div id="botoes-debitos">
             <button onclick="mostrarRegistrarDebito()">Registrar Débito</button>
             <button onclick="mostrarCancelarDebito()">Cancelar Débito</button>
+            <button onclick="mostrarBaixarDebitos()">Baixar Débitos</button>
         </div>
         <div id="registrar-debito" style="display: none;">
             <form enctype="multipart/form-data" action="processar_debito.php" method="post">
@@ -141,13 +142,29 @@
                 <input type="submit" value="Cancelar Débito">
             </form>
         </div>
+        <div id="baixar-debitos" style="display: none">
+            <form action="download.php" method="post">
+                <label for="nome_arquivo">Nome do Arquivo:</label>
+                <input type="text" name="nome_arquivo" id="nome_arquivo" required>
+                <label for="data_debito">Data:</label>
+                <input type="date" name="data_debito" id="data_debito" required>
+                <input type="submit" value="Pesquisar">
+            </form>
+        </div>
     </body>
     <script>
+        function mostrarBaixarDebitos(){
+            document.getElementById("baixar-debitos").style.display = "block";
+            document.getElementById("registrar-debito").style.display = "none";
+            document.getElementById("cancelar-debito").style.display = "none";
+        }
         function mostrarRegistrarDebito() {
+            document.getElementById("baixar-debitos").style.display = "none";
             document.getElementById("registrar-debito").style.display = "block";
             document.getElementById("cancelar-debito").style.display = "none";
         }
         function mostrarCancelarDebito() {
+            document.getElementById("baixar-debitos").style.display = "none";
             document.getElementById("registrar-debito").style.display = "none";
             document.getElementById("cancelar-debito").style.display = "block";
         }
