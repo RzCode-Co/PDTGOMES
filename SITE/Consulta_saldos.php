@@ -315,44 +315,44 @@ $conn->close();
         </div>
         <input type="submit" value="Consultar">
     </form>
-    <table>
-        <tr>
-            <th>Índice</th>
-            <th>Valor da Venda</th>
-            <th>Valor do Serviço</th>
-            <th>Preço Total Geral</th>
-            <th>Valor do Débito</th>
-            <th>Data da Venda</th>
-        </tr>
-        <?php
-        $indice = 1;
-        foreach ($vendas as $venda) {
-            echo "<tr>";
-            echo "<td>" . $indice . "</td>";
-            echo "<td>" . $venda["valor_venda"] . "</td>";
-            echo "<td>" . $venda["valor_servico"] . "</td>";
-            echo "<td>" . $venda["preco_total_geral"] . "</td>";
-            echo "<td>" . $venda["valor_debito"] . "</td>";
-            echo "<td>" . $venda["data_venda"] . "</td>";
-            echo "</tr>";
-            $indice++;
-        }
-        ?>
-    </table>
+    <div id="tabelaGastos">
+        <table>
+            <tr>
+                <th>Índice</th>
+                <th>Valor da Venda</th>
+                <th>Valor do Serviço</th>
+                <th>Preço Total Geral</th>
+                <th>Valor do Débito</th>
+                <th>Data da Venda</th>
+            </tr>
+            <?php
+            $indice = 1;
+            foreach ($vendas as $venda) {
+                echo "<tr>";
+                echo "<td>" . $indice . "</td>";
+                echo "<td>" . $venda["valor_venda"] . "</td>";
+                echo "<td>" . $venda["valor_servico"] . "</td>";
+                echo "<td>" . $venda["preco_total_geral"] . "</td>";
+                echo "<td>" . $venda["valor_debito"] . "</td>";
+                echo "<td>" . $venda["data_venda"] . "</td>";
+                echo "</tr>";
+                $indice++;
+            }
+            ?>
+        </table>
+    </div>
 </body>
 <script>
     function mostrarHistorico() {
-        var tabelaGastos = document.getElementById("tabela-gastos");
-        tabelaGastos.style.display = "none";
         document.getElementById("historico-de-vendas").style.display = "block";
         document.getElementById("contas-a-receber").style.display = "none";
+        document.getElementById("tabelaGastos").style.display = "none";
     }
 
     function mostrarContas() {
-        var tabelaGastos = document.getElementById("tabela-gastos");
-        tabelaGastos.style.display = "none";
         document.getElementById("historico-de-vendas").style.display = "none";
         document.getElementById("contas-a-receber").style.display = "block";
+        document.getElementById("tabelaGastos").style.display = "none";
     }
 
     function mostrarIntervaloDeTempo() {
