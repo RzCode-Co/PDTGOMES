@@ -84,10 +84,10 @@ if ($result->num_rows > 0) {
                     echo "<tr>";
                     echo "<td>{$servico['servico_nome']}</td>";
                     echo "<td>{$servico['tecnico_responsavel']}</td>";
-                    echo "<td>{$servico['preco_total_servico']}</td>";
+                    echo "<td>{$servico['valor_servico']}</td>";
                     echo "</tr>";
                 }
-            }
+            }   
 
             echo "</table>";
 

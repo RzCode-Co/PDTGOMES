@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
     if ($_POST["cpf_cnpj"] == "CPF") {
         $CPF = $_POST["CPF"];
-        $CNPJ = 0; // Defina CNPJ como nulo
+        $CNPJ = null; // Defina CNPJ como nulo
     } elseif ($_POST["cpf_cnpj"] == "CNPJ") {
         $CNPJ = $_POST["CNPJ"];
-        $CPF = 0; // Defina CPF como nulo
+        $CPF = null; // Defina CPF como nulo
     } else {
         // Trate o caso em que nenhum dos campos foi escolhido
         echo '<script>
@@ -35,10 +35,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $garantia_produto = $_POST["garantia_produto"];
 
     // Consulta SQL para verificar se o produto existe com base no nome e outros critérios
-    $verificar_produto_sql = "SELECT id, quantidade FROM estoque WHERE nome = '$nome_peca' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
-
-    $result = $conn->query($verificar_produto_sql);
-
+    $verificar_produto_sql = "SELECT id, quantidade FROM estoque WHERE nome = ? AND referencia = ? AND marca = ? AND aplicacao = ? AND ano = ?";
+    
+    $stmt = $conn->prepare($verificar_produto_sql);
+    $stmt->bind_param("sssss", $nome_peca, $referencia, $marca, $aplicacao, $ano);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
     if ($result->num_rows > 0) {
         // O produto existe e atende aos critérios
 
@@ -48,45 +51,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Verificar se a quantidade é suficiente
         if ($quantidade > 0) {
             // Consulta SQL para inserir a venda na tabela "vendas"
-            $sql = "INSERT INTO vendas (nome_comprador, nome_peca, marca, ano, referencia, aplicacao, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, numero_parcelas, valor_venda, funcionario_vendedor, garantia_produto) VALUES ('$nome_comprador', '$nome_peca', '$marca', '$ano', '$referencia', '$aplicacao', '$quantidade', '$cpf_cnpj', '$CPF', '$CNPJ', '$forma_pagamento', '$numero_parcelas', '$valor_venda', '$funcionario_vendedor', '$garantia_produto')";
-
-            // Executar a consulta de inserção
-            if ($conn->query($sql) === TRUE) {
+            $sql = "INSERT INTO vendas (nome_comprador, nome_peca, marca, ano, referencia, aplicacao, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, numero_parcelas, valor_venda, funcionario_vendedor, garantia_produto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssssdssdss", $nome_comprador, $nome_peca, $marca, $ano, $referencia, $aplicacao, $quantidade, $cpf_cnpj, $CPF, $CNPJ, $forma_pagamento, $numero_parcelas, $valor_venda, $funcionario_vendedor, $garantia_produto);
+            if ($stmt->execute()) {
                 // Obtém o ID da venda recém-inserida
-                $venda_id = $conn->insert_id;
-
+                $venda_id = $stmt->insert_id;
+    
                 // Consulta SQL para atualizar a quantidade no estoque
-                $update_sql = "UPDATE estoque SET quantidade = quantidade - '$quantidade' WHERE id = '" . $row["id"] . "'";
-
-                // Executar a consulta de atualização
-                if ($conn->query($update_sql) === TRUE) {
-                    $dataVenda = NULL;
+                $update_sql = "UPDATE estoque SET quantidade = quantidade - ? WHERE id = ?";
+                
+                $stmt = $conn->prepare($update_sql);
+                $stmt->bind_param("ss", $quantidade, $row["id"]);
+                if ($stmt->execute()) {
+                    $dataVenda = null;
                     // Insira a notificação no banco de dados de notificações
-                    $sql_notificacao = "INSERT INTO notificacoes (mensagem, data) VALUES ('$funcionario_vendedor realizou uma venda de um(a) $nome_peca no valor de $valor_venda em $dataVenda', NOW())";
-
-                    if ($conn->query($sql_notificacao) === TRUE) {
-                        $valor_servico = NULL;
-                        $preco_total_geral = NULL;
-                        $valor_debito = NULL;
+                    $mensagem_notificacao = "$funcionario_vendedor realizou uma venda de um(a) $nome_peca no valor de $valor_venda em $dataVenda";
+                    $sql_notificacao = "INSERT INTO notificacoes (mensagem, data) VALUES (?, NOW())";
+                    
+                    $stmt = $conn->prepare($sql_notificacao);
+                    $stmt->bind_param("s", $mensagem_notificacao);
+                    if ($stmt->execute()) {
+                        $valor_servico = null;
+                        $preco_total_geral = null;
+                        $valor_debito = null;
                         // Consulta SQL para inserir valores na tabela "valores"
-                        $sql_valores = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES ('$venda_id', '$dataVenda', '$valor_venda', '$valor_servico', '$preco_total_geral', '$valor_debito')";
-
-                        if ($conn->query($sql_valores) === TRUE) {
+                        $sql_valores = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES (?, ?, ?, ?, ?, ?)";
+                        
+                        $stmt = $conn->prepare($sql_valores);
+                        $stmt->bind_param("ssssss", $venda_id, $dataVenda, $valor_venda, $valor_servico, $preco_total_geral, $valor_debito);
+                        if ($stmt->execute()) {
                             echo '<script>
                                     alert("Venda registrada com sucesso! Quantidade no estoque atualizada.");
                                     window.location.href = "Venda.html";
                                   </script>';
                         } else {
-                            echo "Erro ao atualizar valores de venda: " . $conn->error;
+                            echo "Erro ao atualizar valores de venda: " . $stmt->error;
                         }
                     } else {
-                        echo "Erro ao criar notificação de venda: " . $conn->error;
+                        echo "Erro ao criar notificação de venda: " . $stmt->error;
                     }
                 } else {
-                    echo "Erro ao atualizar a quantidade no estoque: " . $conn->error;
+                    echo "Erro ao atualizar a quantidade no estoque: " . $stmt->error;
                 }
             } else {
-                echo "Erro ao registrar a venda: " . $conn->error;
+                echo "Erro ao registrar a venda: " . $stmt->error;
             }
         } else {
             // A quantidade é insuficiente, exiba um alerta e redirecione para a página venda.html com uma mensagem de erro

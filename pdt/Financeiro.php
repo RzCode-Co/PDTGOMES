@@ -251,7 +251,7 @@ $conn->close();
                 <li><a href="inicio.php">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
                 <li><a href="Financeiro.php">Financeiro</a></li>
-                <li><a href="Debitos.html">Debitos</a></li>
+                <li><a href="Debitos.php">Debitos</a></li>
                 <li><a href="Notificações.php">Notificações</a></li>
                 <li><a href="estoque.html">Estoque</a></li>
                 <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>

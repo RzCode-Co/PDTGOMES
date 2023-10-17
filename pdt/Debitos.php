@@ -2,7 +2,7 @@
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <title>Download</title>
+        <title>Debitos</title>
     </head>
     <style>
         body {
@@ -81,13 +81,92 @@
                 <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
-        <h1>Baixar Arquivo</h1>
-        <form action="download.php" method="post">
-            <label for="nome_arquivo">Nome do Arquivo:</label>
-            <input type="text" name="nome_arquivo" id="nome_arquivo" required>
-            <label for="data_debito">Data:</label>
-            <input type="date" name="data_debito" id="data_debito" required>
-            <input type="submit" value="Pesquisar">
-        </form>
+        <div id="botoes-debitos">
+            <button onclick="mostrarRegistrarDebito()">Registrar Débito</button>
+            <button onclick="mostrarCancelarDebito()">Cancelar Débito</button>
+            <button onclick="mostrarBaixarDebitos()">Baixar Débitos</button>
+        </div>
+        <div id="registrar-debito" style="display: none;">
+            <form enctype="multipart/form-data" action="processar_debito.php" method="post">
+
+                <label>Data: <input type="date" name="data_debito"></label>
+
+                <br>
+
+                <label>Nome: <input type="text" name="nome"></label>
+
+                <br>    
+
+                <label>Valor: <input type="number" name="valor_debito"></label>
+
+                <br>
+
+                <label>Tipo: <input type="text" name="tipo"></label>
+
+                <br>
+                
+                <label>Descrição: <input type="text" name="descricao"></label>
+
+                <br>
+
+                <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
+
+                <br>
+
+                <input type="submit" value="Registrar Custo">
+            </form>
+        </div>
+        <div id="cancelar-debito" style="display: none;">
+            <form enctype="multipart/form-data" action="cancelar_debito.php" method="post">
+
+                <label>Data: <input type="date" name="data_debito"></label>
+
+                <br>
+
+                <label>Nome: <input type="text" name="nome"></label>
+
+                <br>    
+
+                <label>Valor: <input type="number" name="valor_debito"></label>
+
+                <br>
+
+                <label>Tipo: <input type="text" name="tipo"></label>
+
+                <br>
+
+                <label>Descrição: <input type="text" name="descricao"></label>
+
+                <br>
+
+                <input type="submit" value="Cancelar Débito">
+            </form>
+        </div>
+        <div id="baixar-debitos" style="display: none">
+            <form action="download.php" method="post">
+                <label for="nome_arquivo">Nome do Arquivo:</label>
+                <input type="text" name="nome_arquivo" id="nome_arquivo" required>
+                <label for="data_debito">Data:</label>
+                <input type="date" name="data_debito" id="data_debito" required>
+                <input type="submit" value="Pesquisar">
+            </form>
+        </div>
     </body>
+    <script>
+        function mostrarBaixarDebitos(){
+            document.getElementById("baixar-debitos").style.display = "block";
+            document.getElementById("registrar-debito").style.display = "none";
+            document.getElementById("cancelar-debito").style.display = "none";
+        }
+        function mostrarRegistrarDebito() {
+            document.getElementById("baixar-debitos").style.display = "none";
+            document.getElementById("registrar-debito").style.display = "block";
+            document.getElementById("cancelar-debito").style.display = "none";
+        }
+        function mostrarCancelarDebito() {
+            document.getElementById("baixar-debitos").style.display = "none";
+            document.getElementById("registrar-debito").style.display = "none";
+            document.getElementById("cancelar-debito").style.display = "block";
+        }
+    </script>
 </html>

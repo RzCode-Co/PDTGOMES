@@ -3,6 +3,22 @@ require_once "config.php"; // Arquivo de configuração do banco de dados
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cliente_nome = $_POST["cliente_nome"];
+    $cpf_cnpj = $_POST["cpf_cnpj"];
+    // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
+    if ($_POST["cpf_cnpj"] == "CPF") {
+        $CPF = $_POST["CPF"];
+        $CNPJ = 0; // Defina CNPJ como nulo
+    } elseif ($_POST["cpf_cnpj"] == "CNPJ") {
+        $CNPJ = $_POST["CNPJ"];
+        $CPF = 0; // Defina CPF como nulo
+    } else {
+        // Trate o caso em que nenhum dos campos foi escolhido
+        echo '<script>
+            alert("Escolha CPF ou CNPJ.");
+            window.location.href = "Criação OS.php";
+        </script>';
+        exit; // Saia do script
+    }
     $veiculo_nome = $_POST["veiculo_nome"];
     $veiculo_placa = $_POST["veiculo_placa"];
     $data_abertura = $_POST["data_abertura"];
@@ -94,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor_debito = NULL;
     // Inserir os dados na tabela ordem_servico
     $status = "Em andamento";
-    $sql = "INSERT INTO ordem_servico (cliente_nome, veiculo_nome, veiculo_placa, data_abertura, preco_total_produtos, preco_total_servicos, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo) VALUES ('$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', $preco_total_produtos, $preco_total_servicos, $preco_total_geral, '$observacoes_vendedor','$forma_pagamento','$numero_parcelas', '$pagamento_previo')";
+    $sql = "INSERT INTO ordem_servico (cliente_nome, cpf_cnpj, CPF, CNPJ, veiculo_nome, veiculo_placa, data_abertura, preco_total_produtos, preco_total_servicos, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo) VALUES ('$cliente_nome', '$cpf_cnpj','$CPF', '$CNPJ', '$veiculo_nome', '$veiculo_placa', '$data_abertura', $preco_total_produtos, $preco_total_servicos, $preco_total_geral, '$observacoes_vendedor','$forma_pagamento','$numero_parcelas', '$pagamento_previo')";
 
     if ($conn->query($sql) === TRUE) {
         // Obter o ID da ordem de serviço inserida
@@ -142,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Ordem de serviço não encontrada.";
     }
     $status = "Em andamento";
-    $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo, status) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor','$forma_pagamento','$numero_parcelas','$pagamento_previo', '$status')";
+    $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, cpf_cnpj, CPF, CNPJ, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo, status) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$cpf_cnpj', '$CPF', '$CNPJ', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor','$forma_pagamento','$numero_parcelas','$pagamento_previo', '$status')";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Ordem de Serviços criada com sucesso!');</script>";
