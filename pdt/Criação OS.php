@@ -145,8 +145,22 @@ $conn->close();
             <h2>Criar Nova Ordem de Serviço</h2>
             <form method="POST" action="processar_os.php">
                 <label>Nome do Cliente:</label>
-                <input type="text" name="cliente_nome" required><br><br>
-
+                <input type="text" name="cliente_nome" required><br>
+                <label>CPF/CNPJ:
+                    <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
+                        <option value="">Selecione...</option>
+                        <option value="CPF">CPF</option>
+                        <option value="CNPJ">CNPJ</option>
+                    </select>
+                    <br>
+                </label>
+                <div id="CPF" style="display: none;">
+                    <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+                </div>
+            
+                <div id="CNPJ" style="display: none;">
+                    <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+                </div>
                 <label>Nome do Veículo:</label>
                 <input type="text" name="veiculo_nome" required><br>
 
@@ -317,6 +331,22 @@ $conn->close();
 
     </body>
     <script>
+        function mostrarCampo() {
+            var selecao = document.getElementById("cpf_cnpj");
+            var CPF = document.getElementById("CPF");
+            var CNPJ = document.getElementById("CNPJ");
+
+            if (selecao.value === "CPF") {
+                CPF.style.display = "block";
+                CNPJ.style.display = "none";
+            } else if (selecao.value === "CNPJ") {
+                CPF.style.display = "none";
+                CNPJ.style.display = "block";
+            } else {
+                CPF.style.display = "none";
+                CNPJ.style.display = "none";
+            }
+        }
         function mostrarParcelas() {
             var formaPagamento = document.getElementById("forma_pagamento");
             var parcelasDiv = document.getElementById("parcelas");
