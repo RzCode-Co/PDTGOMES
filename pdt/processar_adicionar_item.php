@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
         // Executar a atualização
         if ($update_stmt->execute()) {
             echo '<script>alert("Quantidade adicionada ao estoque com sucesso!");</script>';
-            echo '<script>window.location.href = "Estoque.html";</script>';
+            echo '<script>window.location.href = "Estoque.php";</script>';
             $dataVenda = date("d-m-Y");
             
             // Insira a notificação no banco de dados de notificações
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
             }
         } else {
             echo '<script>alert("Erro ao atualizar a quantidade: ' . $update_stmt->error . '");</script>';
-            echo '<script>window.location.href = "Estoque.html";</script>';
+            echo '<script>window.location.href = "Estoque.php";</script>';
         }
     } else {
         // Inserir um novo registro no estoque
@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
         // Executar a inserção
         if ($inserir_stmt->execute()) {
             echo '<script>alert("Item adicionado ao estoque com sucesso!");</script>';
-            echo '<script>window.location.href = "Estoque.html";</script>';
+            echo '<script>window.location.href = "Estoque.php";</script>';
             $dataVenda = date("d-m-Y");
             
             // Insira a notificação no banco de dados de notificações
@@ -118,7 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
             }
         } else {
             echo '<script>alert("Erro ao adicionar o item: ' . $inserir_stmt->error . '");</script>';
-            echo '<script>window.location.href = "Estoque.html";</script>';
+            echo '<script>window.location.href = "Estoque.php";</script>';
         }
     }
 

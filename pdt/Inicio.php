@@ -215,12 +215,12 @@
         
                                 echo "</table>";
 
-                                // Exiba a paginação
-                                echo "<div class='pagination'>";
-                                for ($i = 1; $i <= $numPaginas; $i++) {
-                                    echo "<a href='Inicio.php?page=$i'>$i</a>";
-                                }
-                                echo "</div>";
+                                    // Exiba a paginação
+                                    echo "<div class='pagination'>";
+                                    for ($i = 1; $i <= $numPaginas; $i++) {
+                                        echo "<a href='Inicio.php?page=$i'>$i</a>";
+                                    }
+                                    echo "</div>";
                             } else {
                                 echo "Nenhum resultado encontrado.";
                             }
