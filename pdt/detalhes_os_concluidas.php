@@ -117,16 +117,24 @@ if ($result->num_rows > 0) {
                 echo "</table>";
             }
 
-            $pagamentoPrevio = isset($_GET['pagamento_previo']) && $_GET['pagamento_previo'] === 'on';
-            if ($pagamentoPrevio) {
-                // A checkbox foi marcada, o produto já foi pago
-                $formaPagamento = $_GET['forma_pagamento']; // Recupere a forma de pagamento
-                echo "Produtos já foram pagos previamente no caixa. Forma de pagamento: $formaPagamento";
+            $sql = "SELECT pagamento_previo, forma_pagamento FROM ordem_servico WHERE id = $ordem_servico_id"; // Substitua "1" pelo ID do produto desejado.
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $pagamentoPrevio = $row['pagamento_previo'];
+                $formaPagamento = $row['forma_pagamento'];
+
+                if ($pagamentoPrevio === '1') {
+                    // A checkbox foi marcada, o produto já foi pago
+                    echo "Produtos já foram pagos previamente no caixa.<br> Forma de pagamento: $formaPagamento";
+                } else {
+                    // A checkbox não foi marcada, os produtos devem ser pagos no caixa
+                    echo "Produtos devem ser pagos no caixa.";
+                }
             } else {
-                // A checkbox não foi marcada, os produtos devem ser pagos no caixa
-                echo "Produtos devem ser pagos no caixa.";
+                echo "Produto não encontrado no banco de dados.";
             }
-                
 
             // Exiba as observações
             echo "<h3>Observações do Vendedor</h3>";
