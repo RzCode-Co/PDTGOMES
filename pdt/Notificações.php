@@ -121,12 +121,32 @@ if ($result->num_rows > 0) {
     $row_total = $result_total->fetch_assoc();
     $total_notificacoes = $row_total['total'];
     $total_paginas = ceil($total_notificacoes / $notificacoes_por_pagina);
-
+    
+    // Define o número máximo de links a serem exibidos na paginação
+    $max_links_paginacao = 5;
+    
+    // Calcula o número inicial e final de links a serem exibidos
+    $pagina_inicial = max(1, $pagina_atual - floor($max_links_paginacao / 2));
+    $pagina_final = min($total_paginas, $pagina_inicial + $max_links_paginacao - 1);
+    
     // Exibe os links da paginação
     echo "<div class='paginacao'>";
-    for ($i = 1; $i <= $total_paginas; $i++) {
-        echo "<a href='Notificações.php?pagina=$i'>$i</a>";
+    if ($pagina_atual > 1) {
+        echo "<a href='Notificações.php?pagina=" . ($pagina_atual - 1) . "'>&laquo;</a>";
     }
+    
+    for ($i = $pagina_inicial; $i <= $pagina_final; $i++) {
+        if ($i == $pagina_atual) {
+            echo "<strong>$i</strong>";
+        } else {
+            echo "<a href='Notificações.php?pagina=$i'>$i</a>";
+        }
+    }
+    
+    if ($pagina_atual < $total_paginas) {
+        echo "<a href='Notificações.php?pagina=" . ($pagina_atual + 1) . "'>&raquo;</a>";
+    }
+    
     echo "</div>";
 }
 
