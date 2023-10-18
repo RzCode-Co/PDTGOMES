@@ -112,6 +112,7 @@
                     <label>Valor de Varejo: <input type="float" name="valor_varejo"></label><br>
                     <label>Valor de Atacado: <input type="float" name="valor_atacado"></label><br>
                     <label>Local: <input type="text" name="local"></label><br>
+                    <label>Imagem do Produto: <input type="file" name="imagem" accept="image/*"></label><br>
                     <input type="submit" value="Adicionar">
                 </form>
             </div>    
@@ -144,26 +145,16 @@
             <div id="resultado_busca_geral" style="display: none;">
                 <h1>Consulta Geral de Itens no Estoque</h1>
                 <table>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Quantidade</th>
-                        <th>Preço de Varejo</th>
-                        <th>Preço de Atacado</th>
-                        <th>Ano</th>
-                        <th>Marca</th>
-                        <th>Referência</th>
-                        <th>Aplicação</th>
-                    </tr>
                     <?php
             require_once "config.php"; // Inclua seu arquivo de configuração do banco de dados aqui
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (isset($_POST["nome"])) {
-                    $nome_produto = $_POST["nome"];
-                    $referencia = $_POST["referencia"];
-                    $marca = $_POST["marca"];
-                    $aplicacao = $_POST["aplicacao"];
-                    $ano = $_POST["ano"];
+                    $nome_produto = strtoupper($_POST["nome"]);
+                    $referencia = strtoupper($_POST["referencia"]);
+                    $marca = strtoupper($_POST["marca"]);
+                    $aplicacao = strtoupper($_POST["aplicacao"]);
+                    $ano = strtoupper($_POST["ano"]);
             
                     $sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
             

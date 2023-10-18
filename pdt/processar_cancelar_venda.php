@@ -4,13 +4,13 @@ require_once "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recupere os dados do formulário
-    $nome_comprador = $_POST["nome_comprador"];
-    $nome_peca = $_POST["nome_peca"];
-    $marca = $_POST["marca"];
-    $ano = $_POST["ano"];
-    $referencia = $_POST["referencia"];
-    $aplicacao = $_POST["aplicacao"];
-    $cpf_cnpj = $_POST["cpf_cnpj2"];
+    $nome_comprador = ($_POST["nome_comprador"]);
+    $nome_peca = ($_POST["nome_peca"]);
+    $marca = ($_POST["marca"]);
+    $ano = ($_POST["ano"]);
+    $referencia = ($_POST["referencia"]);
+    $aplicacao = ($_POST["aplicacao"]);
+    $cpf_cnpj = ($_POST["cpf_cnpj2"]);
 
     // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
     if ($_POST["cpf_cnpj2"] == "CPF2") {

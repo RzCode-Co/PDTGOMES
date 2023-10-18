@@ -30,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $forma_pagamento = $_POST["forma_pagamento"];
     $numero_parcelas = ($forma_pagamento === "Parcelado") ? $_POST["numero_parcelas"] : null;
-    $valor_venda = $_POST["valor_venda"];
-    $funcionario_vendedor = $_POST["funcionario_vendedor"];
-    $garantia_produto = $_POST["garantia_produto"];
+    $valor_venda = strtoupper($_POST["valor_venda"]);
+    $funcionario_vendedor = strtoupper($_POST["funcionario_vendedor"]);
+    $garantia_produto = strtoupper($_POST["garantia_produto"]);
 
     // Consulta SQL para verificar se o produto existe com base no nome e outros critérios
     $verificar_produto_sql = "SELECT id, quantidade FROM estoque WHERE nome = ? AND referencia = ? AND marca = ? AND aplicacao = ? AND ano = ?";

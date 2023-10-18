@@ -96,11 +96,11 @@
 
             if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 // Coletar os critérios da pesquisa da página de início.html
-                $nome = isset($_POST["nome"]) ? $_POST["nome"] : "";
-                $referencia = isset($_POST["referencia"]) ? $_POST["referencia"] : "";
-                $marca = isset($_POST["marca"]) ? $_POST["marca"] : "";
-                $aplicacao = isset($_POST["aplicacao"]) ? $_POST["aplicacao"] : "";
-                $ano = isset($_POST["ano"]) ? $_POST["ano"] : "";
+                $nome = strtoupper(isset($_POST["nome"]) ? $_POST["nome"] : "");
+                $referencia = strtoupper(isset($_POST["referencia"]) ? $_POST["referencia"] : "");
+                $marca = strtoupper(isset($_POST["marca"]) ? $_POST["marca"] : "");
+                $aplicacao = strtoupper(isset($_POST["aplicacao"]) ? $_POST["aplicacao"] : "");
+                $ano = strtoupper(isset($_POST["ano"]) ? $_POST["ano"] : "");
         
                 // Inicialize um array de parâmetros para a declaração preparada
                 $params = array();

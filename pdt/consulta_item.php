@@ -1,11 +1,11 @@
 <?php
 require_once "config.php"; // arquivo de config do bd
 
-$nome_produto = $_POST["nome"];
-$referencia = $_POST["referencia"];
-$marca = $_POST["marca"];
-$aplicacao = $_POST["aplicacao"];
-$ano = $_POST["ano"];
+$nome_produto = strtoupper($_POST["nome"]);
+$referencia = strtoupper($_POST["referencia"]);
+$marca = strtoupper($_POST["marca"]);
+$aplicacao = strtoupper($_POST["aplicacao"]);
+$ano = strtoupper($_POST["ano"]);
 
 $sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
 

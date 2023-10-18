@@ -2,8 +2,8 @@
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $cliente_nome = $_POST["cliente_nome"];
-    $cpf_cnpj = $_POST["cpf_cnpj"];
+    $cliente_nome = strtoupper($_POST["cliente_nome"]);
+    $cpf_cnpj = strtoupper($_POST["cpf_cnpj"]);
     // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
     if ($_POST["cpf_cnpj"] == "CPF") {
         $CPF = $_POST["CPF"];
@@ -19,10 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </script>';
         exit; // Saia do script
     }
-    $veiculo_nome = $_POST["veiculo_nome"];
-    $veiculo_placa = $_POST["veiculo_placa"];
-    $data_abertura = $_POST["data_abertura"];
-    $observacoes_vendedor = $_POST["observacoes_vendedor"];
+    $veiculo_nome = strtoupper($_POST["veiculo_nome"]);
+    $veiculo_placa = strtoupper($_POST["veiculo_placa"]);
+    $data_abertura = strtoupper($_POST["data_abertura"]);
+    $observacoes_vendedor = strtoupper($_POST["observacoes_vendedor"]);
 
     // Inicialize os totais para produtos e serviços
     $preco_total_produtos = 0;
@@ -31,12 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Processar os produtos vendidos
     $produtos = [];
     for ($i = 0; $i < count($_POST["codigo_produto"]); $i++) {
-        $codigo_produto = $_POST["codigo_produto"][$i];
-        $produto_nome = $_POST["produto"][$i];
-        $referencia = $_POST["referencia"][$i];
-        $tipo = $_POST["tipo"][$i];
-        $quantidade = $_POST["quantidade"][$i];
-        $preco_produto = $_POST["preco"][$i];
+        $codigo_produto = strtoupper($_POST["codigo_produto"][$i]);
+        $produto_nome = strtoupper($_POST["produto"][$i]);
+        $referencia = strtoupper($_POST["referencia"][$i]);
+        $tipo = strtoupper($_POST["tipo"][$i]);
+        $quantidade = strtoupper($_POST["quantidade"][$i]);
+        $preco_produto = strtoupper($_POST["preco"][$i]);
 
         // Consulta SQL para obter dados do estoque para o produto atual
         $sql = "SELECT quantidade, valor_varejo, valor_atacado FROM estoque WHERE id = '$codigo_produto' AND nome = '$produto_nome' AND referencia = '$referencia'";
@@ -85,10 +85,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Processar os serviços prestados
     $servicos = [];
     for ($i = 0; $i < count($_POST["servico_nome"]); $i++) {
-        $servico_nome = $_POST["servico_nome"][$i];
-        $tecnico_responsavel = $_POST["tecnico_responsavel"][$i];
-        $valor_servico = $_POST["valor_servico"][$i];
-        $forma_pagamento = $_POST["forma_pagamento"];
+        $servico_nome = strtoupper($_POST["servico_nome"][$i]);
+        $tecnico_responsavel = strtoupper($_POST["tecnico_responsavel"][$i]);
+        $valor_servico = strtoupper($_POST["valor_servico"][$i]);
+        $forma_pagamento = strtoupper($_POST["forma_pagamento"]);
         $numero_parcelas = ($forma_pagamento === "Parcelado") ? $_POST["numero_parcelas"] : null;
 
         // Calcular o preço total dos serviços

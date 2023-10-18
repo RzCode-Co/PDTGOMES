@@ -1,18 +1,39 @@
 <?php
 require_once "config.php";
 
+// Verifique se um arquivo de imagem foi enviado
+if (isset($_FILES["imagem"]) && $_FILES["imagem"]["error"] == 0) {
+    // O arquivo foi enviado com sucesso.
+    $nome_temporario = $_FILES["imagem"]["tmp_name"];
+    $nome_arquivo = $_FILES["imagem"]["name"];
+    // Verifique se não houve erros durante o upload
+    if ($imagem['error'] === 0) {
+        $caminho_imagem = 'C:\xampp\htdocs\imagens' . $imagem['name']; 
+
+        // Mova o arquivo para o diretório de destino
+        if (move_uploaded_file($nome_temporario, $diretorio_destino . $nome_arquivo)) {
+            echo "A imagem foi salva com sucesso no servidor local.";
+        } else {
+            echo "Erro ao salvar a imagem no servidor local.";
+        }
+        }
+    } else {
+        echo 'Erro durante o upload da imagem.';
+    }
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POST["quantidade"])) {
     // Obtenha os valores do formulário
-    $nome = $_POST["nome"];
-    $referencia = $_POST["referencia"];
-    $marca = $_POST["marca"];
-    $aplicacao = $_POST["aplicacao"];
-    $ano = $_POST["ano"];
-    $quantidade = $_POST["quantidade"];
-    $valor_custo = $_POST["valor_custo"];
-    $valor_varejo = $_POST["valor_varejo"];
-    $valor_atacado = $_POST["valor_atacado"];
-    $local = $_POST["local"];
+    $nome = strtoupper($_POST["nome"]);
+    $referencia = strtoupper($_POST["referencia"]);
+    $marca = strtoupper($_POST["marca"]);
+    $aplicacao = strtoupper($_POST["aplicacao"]);
+    $ano = strtoupper($_POST["ano"]);
+    $quantidade = strtoupper($_POST["quantidade"]);
+    $valor_custo = strtoupper($_POST["valor_custo"]);
+    $valor_varejo = strtoupper($_POST["valor_varejo"]);
+    $valor_atacado = strtoupper($_POST["valor_atacado"]);
+    $local = strtoupper($_POST["local"]);
 
     // Consulta SQL para verificar se o item já existe
     $verifica_sql = "SELECT * FROM estoque WHERE nome = ? AND referencia = ? AND marca = ? AND aplicacao = ? AND ano = ? AND valor_varejo = ? AND valor_atacado = ? AND valor_custo = ?";

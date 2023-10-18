@@ -13,11 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Move o arquivo enviado para o diretório de destino
         if (move_uploaded_file($_FILES["arquivo"]["tmp_name"], $caminhoCompleto)) {
             // Dados do formulário
-            $data_debito = $_POST["data_debito"];
-            $nome = $_POST["nome"];
-            $valor_debito = $_POST["valor_debito"];
-            $tipo = $_POST["tipo"];
-            $descricao = $_POST["descricao"];
+            $data_debito = strtoupper($_POST["data_debito"]);
+            $nome = strtoupper($_POST["nome"]);
+            $valor_debito = strtoupper($_POST["valor_debito"]);
+            $tipo = strtoupper($_POST["tipo"]);
+            $descricao = strtoupper($_POST["descricao"]);
 
             // Consulta SQL para inserir os dados na tabela "debitos"
             $sql = "INSERT INTO debitos (data_debito, nome, valor_debito, tipo, descricao, arquivo) VALUES ('$data_debito', '$nome', '$valor_debito', '$tipo', '$descricao', '$caminhoCompleto')";

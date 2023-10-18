@@ -3,10 +3,10 @@ require_once "config.php";
 // Verifique se o formulário foi enviado para cancelar débito
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtenha os dados do formulário
-    $data_debito = $_POST["data_debito"];
-    $nome = $_POST["nome"];
-    $tipo = $_POST["tipo"];
-    $descricao = $_POST["descricao"];
+    $data_debito = strtoupper($_POST["data_debito"]);
+    $nome = strtoupper($_POST["nome"]);
+    $tipo = strtoupper($_POST["tipo"]);
+    $descricao = strtoupper($_POST["descricao"]);
 
     // Consulta SQL para verificar se o débito existe e obter o valor_debito
     $sql_verifica_debito = "SELECT d.id, d.valor_debito, v.id AS id_op FROM debitos d

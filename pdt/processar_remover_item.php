@@ -2,12 +2,12 @@
 require_once "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["referencia"]) && isset($_POST["aplicacao"]) && isset($_POST["marca"]) && isset($_POST["ano"]) && isset($_POST["nome"]) && isset($_POST["quantidade"])) {
-    $nome = $_POST["nome"];
-    $referencia = $_POST["referencia"];
-    $marca = $_POST["marca"];
-    $aplicacao = $_POST["aplicacao"];
-    $ano = $_POST["ano"];
-    $quantidade = $_POST["quantidade"];
+    $nome = strtoupper($_POST["nome"]);
+    $referencia = strtoupper($_POST["referencia"]);
+    $marca = strtoupper($_POST["marca"]);
+    $aplicacao = strtoupper($_POST["aplicacao"]);
+    $ano = strtoupper($_POST["ano"]);
+    $quantidade = strtoupper($_POST["quantidade"]);
 
     // Verifica se o item existe no estoque com base nos critérios
     $verifica_sql = "SELECT * FROM estoque WHERE nome = '$nome' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
