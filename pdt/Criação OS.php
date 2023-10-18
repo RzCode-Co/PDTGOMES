@@ -1,42 +1,42 @@
 <?php
-require_once "config.php"; // Arquivo de configuração do banco de dados
+    require_once "config.php"; // Arquivo de configuração do banco de dados
 
-// Defina o número máximo de registros por página
-$registrosPorPagina = 5;
+    // Defina o número máximo de registros por página
+    $registrosPorPagina = 5;
 
-// Recupere o número da página atual a partir da consulta GET
-if (isset($_GET['pagina'])) {
-    $paginaAtual = $_GET['pagina'];
-} else {
-    $paginaAtual = 1;
-}
-
-// Calcule o deslocamento a partir da página atual
-$deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
-
-// Prepare a consulta SQL com LIMIT e OFFSET para a página atual
-$sql = "SELECT * FROM ordem_servico_completa LIMIT $registrosPorPagina OFFSET $deslocamento";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-
-    while ($row = $result->fetch_assoc()) {
-        // Armazena cada linha no array de detalhes da ordem de serviço
-        $os_details[] = $row;
+    // Recupere o número da página atual a partir da consulta GET
+    if (isset($_GET['pagina'])) {
+        $paginaAtual = $_GET['pagina'];
+    } else {
+        $paginaAtual = 1;
     }
-} else {
-    echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
-}
 
-// Calcular o número total de páginas com base no total de registros
-$sqlTotalRegistros = "SELECT COUNT(*) AS total FROM ordem_servico_completa";
-$resultTotalRegistros = $conn->query($sqlTotalRegistros);
-$totalRegistros = $resultTotalRegistros->fetch_assoc()['total'];
-$totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+    // Calcule o deslocamento a partir da página atual
+    $deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
 
-// Fechar a conexão
-$conn->close();
+    // Prepare a consulta SQL com LIMIT e OFFSET para a página atual
+    $sql = "SELECT * FROM ordem_servico_completa LIMIT $registrosPorPagina OFFSET $deslocamento";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+
+        while ($row = $result->fetch_assoc()) {
+            // Armazena cada linha no array de detalhes da ordem de serviço
+            $os_details[] = $row;
+        }
+    } else {
+        echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
+    }
+
+    // Calcular o número total de páginas com base no total de registros
+    $sqlTotalRegistros = "SELECT COUNT(*) AS total FROM ordem_servico_completa";
+    $resultTotalRegistros = $conn->query($sqlTotalRegistros);
+    $totalRegistros = $resultTotalRegistros->fetch_assoc()['total'];
+    $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+
+    // Fechar a conexão
+    $conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -108,6 +108,28 @@ $conn->close();
         }
         th {
             background-color: black;
+        }
+        .paginacao {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .paginacao a, .paginacao span {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .paginacao span {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .paginacao a:hover {
+            background-color: #0056b3;
         }
     </style>
     <body>
@@ -275,57 +297,89 @@ $conn->close();
                         echo "</table>";
                     }
                 }
-
-                 // Exibir links de paginação
+            ?>
+            <div class="paginacao">
+                <?php
+                // Exibir links de paginação
                 if ($totalPaginas > 1) {
-                    echo "<div class='paginacao'>";
+                    // Link para a página anterior
                     if ($paginaAtual > 1) {
                         echo "<a href='?pagina=" . ($paginaAtual - 1) . "'>Página anterior</a>";
                     }
+
+                    // Links para as páginas intermediárias
+                    $quantidadeLinks = 5; // Quantidade de links visíveis
+                    $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
+                    $fim = min($totalPaginas, $paginaAtual + floor($quantidadeLinks / 2));
+
+                    for ($i = $inicio; $i <= $fim; $i++) {
+                        if ($paginaAtual == $i) {
+                            echo "<span>$i</span>";
+                        } else {
+                            echo "<a href='?pagina=$i'>$i</a>";
+                        }
+                    }
+
+                    // Link para a próxima página
                     if ($paginaAtual < $totalPaginas) {
                         echo "<a href='?pagina=" . ($paginaAtual + 1) . "'>Próxima página</a>";
                     }
-                    echo "</div>";
                 }
-
-            ?>
+                ?>
+            </div>
             <a href="detalhes_os_em_andamento.php">Detalhes</a>
         </div>
 
         <div id="ordens-concluidas" style="display: none;">
-            <h2>Ordens Concluidas</h2>
+            <h2>Ordens Concluídas</h2>
             <?php
-                if (!empty($os_details)) {
-                    foreach ($os_details as $os) {
-                        if ($os['status'] != 'Concluída') {
-                            // Ignorar ordens com status diferente de "Concluída"
-                            continue;
-                        }                
-                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-                        echo "<table>";
-                        echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
-                        echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
-                        echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
-                        echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
-                        echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
-                        echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
-                        echo "</table>";
+            if (!empty($os_details)) {
+                foreach ($os_details as $os) {
+                    if ($os['status'] != 'Concluída') {
+                        // Ignorar ordens com status diferente de "Concluída"
+                        continue;
                     }
+                    echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                    echo "<table>";
+                    echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
+                    echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
+                    echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
+                    echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
+                    echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
+                    echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
+                    echo "</table>";
                 }
-
-                 // Exibir links de paginação
+            }
+            ?>
+            <div class="paginacao">
+                <?php
+                // Exibir links de paginação
                 if ($totalPaginas > 1) {
-                    echo "<div class='paginacao'>";
+                    // Link para a página anterior
                     if ($paginaAtual > 1) {
                         echo "<a href='?pagina=" . ($paginaAtual - 1) . "'>Página anterior</a>";
                     }
+
+                    // Links para as páginas intermediárias
+                    $quantidadeLinks = 5; // Quantidade de links visíveis
+                    $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
+                    $fim = min($totalPaginas, $paginaAtual + floor($quantidadeLinks / 2));
+
+                    for ($i = $inicio; $i <= $fim; $i++) {
+                        if ($paginaAtual == $i) {
+                            echo "<span>$i</span>";
+                        } else {
+                            echo "<a href='?pagina=$i'>$i</a>";
+                        }
+                    }
+
+                    // Link para a próxima página
                     if ($paginaAtual < $totalPaginas) {
                         echo "<a href='?pagina=" . ($paginaAtual + 1) . "'>Próxima página</a>";
                     }
-                    echo "</div>";
                 }
-
-            ?>
+                ?>
+            </div>
             <a href="detalhes_os_concluidas.php">Detalhes</a>
         </div>
 

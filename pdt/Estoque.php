@@ -141,8 +141,8 @@
                 </form>
             </div>
 
-            <div id="resultado_busca" style="display: none;">
-                <h1>Consulta de Itens no Estoque</h1>
+            <div id="resultado_busca_geral" style="display: none;">
+                <h1>Consulta Geral de Itens no Estoque</h1>
                 <table>
                     <tr>
                         <th>Nome</th>
@@ -195,7 +195,7 @@
             }
             ?>
 
-            <div id="resultado_busca" style="display: none;">
+            <div id="resultado_busca_geral" style="display: none;">
                 <h1>Consulta de Itens no Estoque</h1>
                 <table>
                     <tr>
@@ -229,19 +229,25 @@
                         echo "</tr>";
                     }
                     ?>
-                </table>
+                    </table>
 
-                <!-- Adicione um link para a páginação -->
-                <div id="pagination">
-                    <?php
-                    $totalItems = count($consulta); // Total de itens na consulta
-                    $totalPages = ceil($totalItems / $itemsPerPage);
-                    
-                    for ($i = 1; $i <= $totalPages; $i++) {
-                        echo '<a href="Estoque.php?page=' . $i . '">' . $i . '</a> ';
-                    }
-                    ?>
-                </div>
+                    <!-- Adicione um link para a paginação -->
+                    <div id="pagination">
+                        <?php
+                        $totalItems = count($consulta); // Total de itens na consulta
+                        $totalPages = ceil($totalItems / $itemsPerPage);
+
+                        // Limita o número de páginas a serem exibidas na paginação
+                        $maxVisiblePages = 5;
+                        
+                        $startPage = max(1, $page - floor($maxVisiblePages / 2));
+                        $endPage = min($totalPages, $startPage + $maxVisiblePages - 1);
+                        
+                        for ($i = $startPage; $i <= $endPage; $i++) {
+                            echo '<a href="Estoque.php?page=' . $i . '">' . $i . '</a> ';
+                        }
+                        ?>
+                    </div>
             </div>
         </div>
     </body>
@@ -250,25 +256,25 @@
         document.getElementById("adicionar-item").style.display = "block";
         document.getElementById("remover-item").style.display = "none";
         document.getElementById("consultar-item").style.display = "none";
-        document.getElementById("resultado_busca").style.display = "none";
+        document.getElementById("resultado_busca_geral").style.display = "none";
         }
         function mostrarRemoverItem() {
             document.getElementById("adicionar-item").style.display = "none";
             document.getElementById("remover-item").style.display = "block";
             document.getElementById("consultar-item").style.display = "none";
-            document.getElementById("resultado_busca").style.display = "none";
+            document.getElementById("resultado_busca_geral").style.display = "none";
         }
         function mostrarConsultarItem() {
             document.getElementById("adicionar-item").style.display = "none";
             document.getElementById("remover-item").style.display = "none";
             document.getElementById("consultar-item").style.display = "block";
-            document.getElementById("resultado_busca").style.display = "none";
+            document.getElementById("resultado_busca_geral").style.display = "none";
         }
         function mostrarConsultarTodosItens() {
             document.getElementById("adicionar-item").style.display = "none";
             document.getElementById("remover-item").style.display = "none";
             document.getElementById("consultar-item").style.display = "none";
-            document.getElementById("resultado_busca").style.display = "block";
+            document.getElementById("resultado_busca_geral").style.display = "block";
         }
     </script>
 </html>

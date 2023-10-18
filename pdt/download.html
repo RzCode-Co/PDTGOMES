@@ -1,30 +1,8 @@
-<?php
-require_once "config.php"; // arquivo de config do bd
-
-$nome_produto = $_POST["nome"];
-$referencia = $_POST["referencia"];
-$marca = $_POST["marca"];
-$aplicacao = $_POST["aplicacao"];
-$ano = $_POST["ano"];
-
-$sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
-
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $consulta[] = $row;
-    }
-} else {
-    echo "Produto não encontrado.";
-}
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
         <meta charset="UTF-8">
-        <title>Financeiro</title>
+        <title>Download</title>
     </head>
     <style>
         body {
@@ -103,34 +81,13 @@ if ($result->num_rows > 0) {
                 <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
-        <div id="resultado_busca">
-        <h1>Consulta de Item</h1>
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>Quantidade</th>
-                <th>Preço de Varejo</th>
-                <th>Preço de Atacado</th>
-                <th>Ano</th>
-                <th>Marca</th>
-                <th>Referência</th>
-                <th>Aplicação</th>
-            </tr>
-            <?php
-            foreach ($consulta as $pesquisa) {
-                echo "<tr>";
-                echo "<td>" . $pesquisa["nome"] . "</td>";
-                echo "<td>" . $pesquisa["quantidade"] . "</td>";
-                echo "<td>" . $pesquisa["valor_varejo"] . "</td>";
-                echo "<td>" . $pesquisa["valor_atacado"] . "</td>";
-                echo "<td>" . $pesquisa["ano"] . "</td>";
-                echo "<td>" . $pesquisa["marca"] . "</td>";
-                echo "<td>" . $pesquisa["referencia"] . "</td>";
-                echo "<td>" . $pesquisa["aplicacao"] . "</td>";
-                echo "</tr>";
-            }
-            ?>
-        </table>
-        </div>
+        <h1>Baixar Arquivo</h1>
+        <form action="download.php" method="post">
+            <label for="nome_arquivo">Nome do Arquivo:</label>
+            <input type="text" name="nome_arquivo" id="nome_arquivo" required>
+            <label for="data_debito">Data:</label>
+            <input type="date" name="data_debito" id="data_debito" required>
+            <input type="submit" value="Pesquisar">
+        </form>
     </body>
 </html>

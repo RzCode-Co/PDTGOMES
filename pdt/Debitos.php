@@ -1,29 +1,3 @@
-<?php
-// Conexão com o banco de dados (use suas configurações)
-require_once "config.php";
-
-$files = []; // Array para armazenar os resultados
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome_arquivo"]) && isset($_POST["data_debito"])) {
-    // Obtenha o nome do arquivo e a data do formulário POST
-    $nome_arquivo = $_POST["nome_arquivo"];
-    $data_debito = $_POST["data_debito"];
-
-    // Consulta SQL para obter os arquivos correspondentes ao nome e à data
-    $sql = "SELECT id, arquivo, nome, data_debito FROM debitos WHERE nome = '$nome_arquivo' AND data_debito = '$data_debito'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $files[] = $row; // Adicione o resultado ao array $files
-        }
-    }
-
-    // Feche a conexão com o banco de dados
-    $conn->close();
-}
-$formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utilizado
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
@@ -101,9 +75,9 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
                 <li><a href="inicio.php">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
                 <li><a href="Financeiro.php">Financeiro</a></li>
-                <li><a href="Debitos.html">Debitos</a></li>
+                <li><a href="Debitos.php">Debitos</a></li>
                 <li><a href="Notificações.php">Notificações</a></li>
-                <li><a href="estoque.html">Estoque</a></li>
+                <li><a href="Estoque.php">Estoque</a></li>
                 <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
@@ -169,7 +143,7 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
             </form>
         </div>
         <div id="baixar-debitos" style="display: none">
-            <form action="debitos.php" method="post">
+            <form action="download.php" method="post">
                 <label for="nome_arquivo">Nome do Arquivo:</label>
                 <input type="text" name="nome_arquivo" id="nome_arquivo" required>
                 <label for="data_debito">Data:</label>
@@ -177,39 +151,22 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
                 <input type="submit" value="Pesquisar">
             </form>
         </div>
-        <div id="lista-arquivos" style="display: <?php echo $formularioUtilizado ? 'block' : 'none'; ?>">
-            <!-- Se o formulário não foi utilizado, exibe a lista de arquivos -->
-            <ul>
-                <?php foreach ($files as $file) { ?>
-                    <li>
-                        <strong>Nome do Arquivo:</strong> <?php echo $file["nome"]; ?><br>
-                        <strong>Data de Débito:</strong> <?php echo $file["data_debito"]; ?><br>
-                        <a href="<?php echo $file["arquivo"]; ?>" download>
-                            <button>Download</button>
-                        </a>
-                    </li>
-                <?php } ?>
-            </ul>
-        </div>
     </body>
     <script>
         function mostrarBaixarDebitos(){
             document.getElementById("baixar-debitos").style.display = "block";
             document.getElementById("registrar-debito").style.display = "none";
             document.getElementById("cancelar-debito").style.display = "none";
-            document.getElementById("lista-arquivos").style.display = "none";
         }
         function mostrarRegistrarDebito() {
             document.getElementById("baixar-debitos").style.display = "none";
             document.getElementById("registrar-debito").style.display = "block";
             document.getElementById("cancelar-debito").style.display = "none";
-            document.getElementById("lista-arquivos").style.display = "none";
         }
         function mostrarCancelarDebito() {
             document.getElementById("baixar-debitos").style.display = "none";
             document.getElementById("registrar-debito").style.display = "none";
             document.getElementById("cancelar-debito").style.display = "block";
-            document.getElementById("lista-arquivos").style.display = "none";
         }
     </script>
 </html>
