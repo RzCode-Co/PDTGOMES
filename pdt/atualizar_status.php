@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Execute a instrução preparada
         if ($stmt->execute()) {
             // Redirecione de volta à página de detalhes da ordem de serviço
-            header("Location: detalhes_os.php");
+            header("Location: detalhes_os_em_andamento.php");
             exit();
         } else {
             echo "Erro ao executar a consulta: " . $stmt->error;
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 } else {
     // Se o formulário não foi submetido, redirecione para a página de origem
-    header("Location: detalhes_os.php");
+    header("Location: detalhes_os_em_andamento.php");
     exit();
 }
 ?>

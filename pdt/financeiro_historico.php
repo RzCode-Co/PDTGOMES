@@ -259,7 +259,7 @@ $conn->close();
             </ul>
         </div>
 
-        <div id="historico-de-vendas"style="display: none;">
+        <div id="historico-de-vendas">
             <h1>Historico de vendas</h1>
             <table>
             <?php
@@ -315,16 +315,16 @@ $conn->close();
                     $lastPage = min($totalPages, $firstPage + $displayedPages - 1);
 
                     for ($i = $firstPage; $i <= $lastPage; $i++) {
-                        echo '<a href="financeiro.php?page=' . $i . '">' . $i . '</a> ';
+                        echo '<a href="financeiro_historico.php?page=' . $i . '">' . $i . '</a> ';
                         
                     }
 
                     if ($lastPage < $totalPages) {
-                        echo '<a href="financeiro.php?page=' . ($lastPage + 1) . '">...</a> ';
+                        echo '<a href="financeiro_estoque.php?page=' . ($lastPage + 1) . '">...</a> ';
                     }
 
                     if ($currentPage < $totalPages - floor($displayedPages / 2)) {
-                        echo '<a href="financeiro.php?page=' . $totalPages . '">' . $totalPages . '</a> ';
+                        echo '<a href="financeiro_estoque.php?page=' . $totalPages . '">' . $totalPages . '</a> ';
                     }
                 }
 
@@ -581,14 +581,6 @@ $conn->close();
             document.location.href = "financeiro_historico.php";
         }
 
-        function mostrarContas() {
-            document.getElementById("historico-de-vendas").style.display = "none";
-            document.getElementById("contas-a-receber").style.display = "block";
-            document.getElementById("tabelaGastos").style.display = "none";
-            document.getElementById("grafico-saldos").style.display = "none";
-            document.getElementById("grafico-vendas").style.display = "none";
-            document.getElementById("valores").style.display = "none";
-        }
         function mostrarContasAReceber() {
             document.getElementById("historico-de-vendas").style.display = "block";
             document.getElementById("contas-a-receber").style.display = "none";

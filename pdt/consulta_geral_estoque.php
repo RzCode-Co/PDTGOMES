@@ -95,7 +95,7 @@
             <button onclick="mostrarAdicionarItem()">Adicionar Item</button>
             <button onclick="mostrarRemoverItem()">Remover Item</button>
             <button onclick="mostrarConsultarItem()">Consultar Item</button>
-            <button onclick="window.location.href='consulta_geral_estoque.php'">Consultar Todos os Itens</button>
+            <button onclick="mostrarConsultarTodosItens()">Consultar Todos os Itens</button>
         </div>
         <div id="conteudo">
 
@@ -141,6 +141,105 @@
                     <input type="submit" value="Pesquisar">
                 </form>
             </div>
+
+            <div id="resultado_busca_geral">
+                <h1>Consulta Geral de Itens no Estoque</h1>
+                <table>
+                    <?php
+                        require_once "config.php"; // Inclua seu arquivo de configuração do banco de dados aqui
+
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            if (isset($_POST["nome"])) {
+                                $nome_produto = strtoupper($_POST["nome"]);
+                                $referencia = strtoupper($_POST["referencia"]);
+                                $marca = strtoupper($_POST["marca"]);
+                                $aplicacao = strtoupper($_POST["aplicacao"]);
+                                $ano = strtoupper($_POST["ano"]);
+                        
+                                $sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
+                        
+                                $result = $conn->query($sql);
+                        
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        $consulta[] = $row;
+                                    }
+                                } else {
+                                    echo "Produto não encontrado.";
+                                }
+                            }
+                        }
+                        
+                        // Consulta SQL para selecionar todos os produtos da tabela "estoque"
+                        $sql = "SELECT * FROM estoque";
+                        
+                        $result = $conn->query($sql);
+                        
+                        // Inicialize um array para armazenar os resultados da consulta
+                        $consulta = [];
+                        
+                        if ($result->num_rows > 0) {
+                            // Armazene os resultados da consulta no array $consulta
+                            while ($row = $result->fetch_assoc()) {
+                                $consulta[] = $row;
+                            }
+                        }
+                    ?>
+
+            <div id="resultado_busca_geral">
+                <table>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Quantidade</th>
+                        <th>Preço de Varejo</th>
+                        <th>Preço de Atacado</th>
+                        <th>Ano</th>
+                        <th>Marca</th>
+                        <th>Referência</th>
+                        <th>Aplicação</th>
+                    </tr>
+                    <?php
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $itemsPerPage = 10; // Número de itens por página
+                    $startIndex = ($page - 1) * $itemsPerPage;
+                    $endIndex = $startIndex + $itemsPerPage;
+
+                    // Exibir os itens da página atual
+                    for ($i = $startIndex; $i < $endIndex && $i < count($consulta); $i++) {
+                        $item = $consulta[$i];
+                        echo "<tr>";
+                        echo "<td>" . $item["nome"] . "</td>";
+                        echo "<td>" . $item["quantidade"] . "</td>";
+                        echo "<td>" . $item["valor_varejo"] . "</td>";
+                        echo "<td>" . $item["valor_atacado"] . "</td>";
+                        echo "<td>" . $item["ano"] . "</td>";
+                        echo "<td>" . $item["marca"] . "</td>";
+                        echo "<td>" . $item["referencia"] . "</td>";
+                        echo "<td>" . $item["aplicacao"] . "</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                    </table>
+
+                    <!-- Adicione um link para a paginação -->
+                    <div id="pagination">
+                        <?php
+                        $totalItems = count($consulta); // Total de itens na consulta
+                        $totalPages = ceil($totalItems / $itemsPerPage);
+
+                        // Limita o número de páginas a serem exibidas na paginação
+                        $maxVisiblePages = 5;
+                        
+                        $startPage = max(1, $page - floor($maxVisiblePages / 2));
+                        $endPage = min($totalPages, $startPage + $maxVisiblePages - 1);
+                        
+                        for ($i = $startPage; $i <= $endPage; $i++) {
+                            echo '<a href="consulta_geral_estoque.php?page=' . $i . '">' . $i . '</a> ';
+                        }
+                        ?>
+                    </div>
+            </div>
+        </div>
     </body>
     <script>
         function mostrarAdicionarItem() {

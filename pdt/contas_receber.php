@@ -332,7 +332,7 @@ $conn->close();
             ?>
             </table>
         </div>
-        <div id="contas-a-receber"style="display: none;">
+        <div id="contas-a-receber">
             <h1>Contas a Receber</h1>
             <table>
                 <?php
@@ -372,7 +372,7 @@ $conn->close();
                     $totalPages = ceil($totalItems / $itemsPerPage);
 
                     for ($i = 1; $i <= $totalPages; $i++) {
-                        echo '<a href="financeiro.php?page=' . $i . '">' . $i . '</a> ';
+                        echo '<a href="contas_receber.php?page=' . $i . '">' . $i . '</a> ';
                     }
 
                     echo '</div>';
@@ -581,14 +581,6 @@ $conn->close();
             document.location.href = "financeiro_historico.php";
         }
 
-        function mostrarContas() {
-            document.getElementById("historico-de-vendas").style.display = "none";
-            document.getElementById("contas-a-receber").style.display = "block";
-            document.getElementById("tabelaGastos").style.display = "none";
-            document.getElementById("grafico-saldos").style.display = "none";
-            document.getElementById("grafico-vendas").style.display = "none";
-            document.getElementById("valores").style.display = "none";
-        }
         function mostrarContasAReceber() {
             document.getElementById("historico-de-vendas").style.display = "block";
             document.getElementById("contas-a-receber").style.display = "none";

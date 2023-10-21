@@ -423,6 +423,7 @@
             document.getElementById("consultar-ordens").style.display = "block";
             document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "none";
+            document.location.href = "consultar_ordens_servico.php";
         }
         function mostrarOrdensConcluidas() {
             document.getElementById("criar-ordem").style.display = "none";
