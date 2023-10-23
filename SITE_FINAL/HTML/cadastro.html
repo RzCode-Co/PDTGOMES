@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paulo de Tasso</title>
+
+    <!-- Link do CSS -->
+    <link rel="stylesheet" href="../CSS/cadastro.css">
+
+</head>
+
+<body>
+    
+    <!-- conteiner -->
+    <div class="conteiner">
+
+        <div class="card">
+
+            <!-- cadastro -->
+            <div class="cadastro">
+                <h1>Cadastro PDT</h1>
+            </div>
+
+            <!-- Nome -->
+            <div class="label-float">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" placeholder="">
+            </div>
+
+            <!-- Email -->
+            <div class="label-float">
+                <label for="email">E-mail:</label>
+                <input type="text" id="email" placeholder="">
+            </div>
+
+            <!-- Senha -->
+            <div class="label-float">
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" placeholder="">
+            </div>
+
+            <!-- confirmar Senha -->
+            <div class="label-float">
+                <label for="confirm_senha">Confirmar Senha:</label>
+                <input type="password" id="confirm_senha" placeholder="">
+            </div>
+
+            <!-- Cargo -->
+            <div class="label-float">
+                <label for="cargo">Cargo:</label>
+                <select name="cargo" id="cargo" onchange="mostrarCampo()">
+                    <option value="">Selecione...</option>
+                    <option value="admin">ADMIN</option>
+                    <option value="vendedor">VENDEDOR</option>
+                    <option value="estagio">ESTAGIÁRIO</option>
+                </select>
+            </div>
+
+            <!-- Botão "Entrar" -->
+            <div class="justify-center">
+                <a href="../HTML/pagina_incial.html"></a><button type="submit">Cadastrar</button>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- logo circular -->
+    <div class="logo_circular">
+        <img src="../CSS/img/Logo Circular verde.svg" alt="logo da empresa" class="logo" width="100px">
+    </div>
+
+
+</body>
+
+</html>
