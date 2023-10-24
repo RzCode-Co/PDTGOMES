@@ -216,9 +216,16 @@ $conn->close();
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/Financeiro.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Carteira</span>
+                    <span class="txt_link">Históricos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
                 </a>
             </li>
 

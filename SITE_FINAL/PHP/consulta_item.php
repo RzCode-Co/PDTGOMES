@@ -1,22 +1,29 @@
 <?php
 require_once "config.php"; // arquivo de config do bd
 
-$nome_produto = $_POST["nome"];
-$referencia = $_POST["referencia"];
-$marca = $_POST["marca"];
-$aplicacao = $_POST["aplicacao"];
-$ano = $_POST["ano"];
+$nome_produto = strtoupper($_POST["nome"]);
+$referencia = strtoupper($_POST["referencia"]);
+$marca = strtoupper($_POST["marca"]);
+$aplicacao = strtoupper($_POST["aplicacao"]);
+$ano = strtoupper($_POST["ano"]);
 
 $sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
 
 $result = $conn->query($sql);
 
+$consulta = array(); // Inicialize a variável $consulta como um array vazio
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $consulta[] = $row;
     }
-} else {
-    echo "Produto não encontrado.";
+}
+
+if (empty($consulta)) {
+    echo '<script>
+    alert("Produto não encontrado!");
+    window.location.href = "../PHP/estoque.php";
+  </script>';
 }
 ?>
 
@@ -66,16 +73,23 @@ if ($result->num_rows > 0) {
 
 
             <li class="item_menu">
-                <a href="#">
+                <a href="../PHP/Graficos.php">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
                     <span class="txt_link">Gráficos</span>
                 </a>
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/Financeiro.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Carteira</span>
+                    <span class="txt_link">Históricos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
                 </a>
             </li>
 

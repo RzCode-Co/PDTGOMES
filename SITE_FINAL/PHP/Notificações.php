@@ -18,7 +18,7 @@ if (isset($_POST['apagar_notificacoes'])) {
     // Código para apagar todas as notificações
     $sql = "DELETE FROM notificacoes";
     if ($conn->query($sql) === TRUE) {
-        
+
     } else {
         echo "Erro ao apagar notificações: " . $conn->error;
     }
@@ -69,16 +69,23 @@ if (isset($_POST['apagar_notificacoes'])) {
             </li>
 
             <li class="item_menu">
-                <a href="#">
+                <a href="../PHP/Graficos.php">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
                     <span class="txt_link">Gráficos</span>
                 </a>
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/Financeiro.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Carteira</span>
+                    <span class="txt_link">Históricos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
                 </a>
             </li>
 
