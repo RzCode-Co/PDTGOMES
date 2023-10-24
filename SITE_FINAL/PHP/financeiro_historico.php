@@ -259,7 +259,7 @@ $conn->close();
             </ul>
         </div>
 
-        <div id="historico-de-vendas">
+        <div id="historico-de-vendas" style="display: none;">
             <h1>Historico de vendas</h1>
             <table>
             <?php
@@ -380,18 +380,22 @@ $conn->close();
             </table>
         </div>
 
-        <button onclick="mostrarHistoricoDeVendas()">Mostrar Histórico de Vendas</button>
-        <button onclick="mostrarContasAReceber()">Mostrar Contas a Receber</button>
+        <button id="botao-historico" onclick="mostrarHistoricoDeVendas()">Mostrar Histórico de Vendas</button>
+        <button id="botao-contas" onclick="mostrarContasAReceber()">Mostrar Contas a Receber</button>
     </body>
     <script>
         function mostrarHistoricoDeVendas() {
             document.getElementById("historico-de-vendas").style.display = "block";
             document.getElementById("contas-a-receber").style.display = "none";
+            document.getElementById("botao-contas").style.display = "none";
+            document.getElementById("botao-historico").style.display = "none";
         }
 
         function mostrarContasAReceber() {
             document.getElementById("historico-de-vendas").style.display = "none";
             document.getElementById("contas-a-receber").style.display = "block";
+            document.getElementById("botao-contas").style.display = "none";
+            document.getElementById("botao-historico").style.display = "none";
         }
     </script>
 </html>
