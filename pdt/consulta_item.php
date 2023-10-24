@@ -11,11 +11,15 @@ $sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$re
 
 $result = $conn->query($sql);
 
+$consulta = array(); // Inicialize a variável $consulta como um array vazio
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $consulta[] = $row;
     }
-} else {
+}
+
+if (empty($consulta)) {
     echo "Produto não encontrado.";
 }
 ?>
