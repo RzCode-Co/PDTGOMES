@@ -249,13 +249,13 @@ $conn->close();
         <!-- Seu menu lateral -->
         <div id="menu-lateral">
             <ul>
-                <li><a href="inicio.php">Inicio</a></li>
+                <li><a href="../PHP/inicio.php">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
-                <li><a href="Financeiro.php">Financeiro</a></li>
-                <li><a href="Debitos.php">Debitos</a></li>
-                <li><a href="Notificações.php">Notificações</a></li>
-                <li><a href="Estoque.php">Estoque</a></li>
-                <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
+                <li><a href="Financeiro.html">Financeiro</a></li>
+                <li><a href="../PHP/Debitos.php">Debitos</a></li>
+                <li><a href="../PHP/Notificações.php">Notificações</a></li>
+                <li><a href="../PHP/Estoque.php">Estoque</a></li>
+                <li><a href="../PHP/Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
 
@@ -320,11 +320,11 @@ $conn->close();
                     }
 
                     if ($lastPage < $totalPages) {
-                        echo '<a href="financeiro_estoque.php?page=' . ($lastPage + 1) . '">...</a> ';
+                        echo '<a href="financeiro_historico.php?page=' . ($lastPage + 1) . '">...</a> ';
                     }
 
                     if ($currentPage < $totalPages - floor($displayedPages / 2)) {
-                        echo '<a href="financeiro_estoque.php?page=' . $totalPages . '">' . $totalPages . '</a> ';
+                        echo '<a href="financeiro_historico.php?page=' . $totalPages . '">' . $totalPages . '</a> ';
                     }
                 }
 
@@ -372,7 +372,7 @@ $conn->close();
                     $totalPages = ceil($totalItems / $itemsPerPage);
 
                     for ($i = 1; $i <= $totalPages; $i++) {
-                        echo '<a href="financeiro.php?page=' . $i . '">' . $i . '</a> ';
+                        echo '<a href="financeiro_historico.php?page=' . $i . '">' . $i . '</a> ';
                     }
 
                     echo '</div>';
@@ -382,237 +382,16 @@ $conn->close();
 
         <button onclick="mostrarHistoricoDeVendas()">Mostrar Histórico de Vendas</button>
         <button onclick="mostrarContasAReceber()">Mostrar Contas a Receber</button>
-        <button onclick="mostrarSaldos()">Mostrar Saldos e Débitos</button>
-        <button onclick="mostrarGastos()">Mostrar gastos</button>
-        <form method="post" action="Financeiro.php">
-            <label>Consultar Saldos e Débitos por:
-                <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()">
-                    <option value="" selected disabled>Escolha uma opção</option>
-                    <option value="Dias">Dias</option>
-                    <option value="Semana">Semana</option>
-                    <option value="Mes">Mês</option>
-                    <option value="Ano">Ano</option>
-                </select>
-            </label>
-
-            <!-- Div para escolher intervalo de tempo -->
-            <div id="intervalo-de-tempo" style="display: none;">
-                <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
-                <select name="intervalo-saldos" id="intervalo-saldos">
-                    <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($dias_disponiveis as $dia) {
-                        echo "<option value='$dia'>$dia</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <!-- Div para escolher o mês (para a opção "Mês") -->
-            <div id="mes-selecionado" style="display: none;">
-                <label for="mes">Escolha o mês:</label>
-                <select name="mes" id="mes">
-                    <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($meses_disponiveis as $mes) {
-                        $valor_mes = $mes['valor'];
-                        $nome_mes = $mes['nome'];
-                        echo "<option value='$valor_mes'>$nome_mes</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <div id="ano-selecionado" style="display: none;">
-                <label for="ano">Escolha o ano:</label>
-                <select name="ano" id="ano">
-                    <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($anos_disponiveis as $ano) {
-                        echo "<option value='$ano'>$ano</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <input type="submit" value="Consultar">
-        </form>
-                <!-- Tabela para mostrar os valores -->
-        <div id="valores" style="display: none;">
-            <h1>Valores Financeiros</h1>
-            <table>
-                <tr>
-                    <th>Total Ganho</th>
-                    <th>Total Gasto</th>
-                    <th>Total Lucro</th>
-                </tr>
-                <tr>
-                    <td><?php echo $valores_saldos['total_ganho']; ?></td>
-                    <td><?php echo $valores_saldos['total_gasto']; ?></td>
-                    <td><?php echo $valores_saldos['total_lucro']; ?></td>
-                </tr>
-            </table>
-        </div>
-        <div id="tabelaGastos" style="display: none;">
-        <table>
-            <tr>
-                <th>Índice</th>
-                <th>Valor da Venda</th>
-                <th>Valor do Serviço</th>
-                <th>Preço Total Geral</th>
-                <th>Valor do Débito</th>
-                <th>Data da Venda</th>
-            </tr>
-            <?php
-            $indice = 1;
-            foreach ($vendas as $venda) {
-                echo "<tr>";
-                echo "<td>" . $indice . "</td>";
-                echo "<td>" . $venda["valor_venda"] . "</td>";
-                echo "<td>" . $venda["valor_servico"] . "</td>";
-                echo "<td>" . $venda["preco_total_geral"] . "</td>";
-                echo "<td>" . $venda["valor_debito"] . "</td>";
-                echo "<td>" . $venda["data_venda"] . "</td>";
-                echo "</tr>";
-                $indice++;
-            }
-            ?>
-        </table>
-    </div>
-        <div id="grafico-saldos" style="display: none;">
-            <canvas id="grafico" width="200" height="60"></canvas>
-                <script>
-                    // Acesse o contexto do canvas
-                    var ctx = document.getElementById("grafico").getContext("2d");
-
-                    // Variáveis do PHP para o gráfico
-                    var totalGanho = <?php echo $total_ganho; ?>;
-                    var totalGasto = <?php echo $total_gasto; ?>;
-                    var totalLucro = <?php echo $total_lucro; ?>;
-
-                    // Crie um gráfico em barra
-                    var grafico = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ["Total Ganho", "Total Gasto", "Total Lucro"],
-                            datasets: [{
-                                label: 'Valores',
-                                data: [totalGanho, totalGasto, totalLucro],
-                                backgroundColor: [
-                                    'rgba(75, 192, 192, 0.6)',
-                                    'rgba(255, 99, 132, 0.6)',
-                                    'rgba(54, 162, 235, 0.6)',
-                                ],
-                                borderColor: [
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                ],
-                                borderWidth: 2
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                </script>
-        </div>
-        <div id="grafico-vendas" style="display: block;">
-            <canvas id="graficoVendas" width="400" height="200"></canvas>
-                <script>
-                    var ctx = document.getElementById('graficoVendas').getContext('2d');
-
-                    // Use os totais calculados no PHP para criar o gráfico
-                    var preco_total_geral = <?php echo $preco_total_geral ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
-                    var totalDebito = <?php echo $totalDebito ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
-                    var lucro = preco_total_geral - totalDebito;
-
-                    var data = {
-                        labels: ['Ganhos', 'Gastos', 'Lucro'],
-                        datasets: [{
-                            data: [preco_total_geral, totalDebito, lucro],
-                            backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)'],
-                            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
-                            borderWidth: 1
-                        }]
-                    };
-
-                    var options = {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    };
-
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: data,
-                        options: options
-                    });
-                </script>
-            </div>
     </body>
     <script>
-        function mostrarGastos() {
-            document.getElementById("historico-de-vendas").style.display = "none";
-            document.getElementById("contas-a-receber").style.display = "none";
-            document.getElementById("tabelaGastos").style.display = "block";
-            document.getElementById("grafico-saldos").style.display = "none";
-            document.getElementById("grafico-vendas").style.display = "block";
-            document.getElementById("valores").style.display = "none";
-        }
-        function mostrarSaldos() {
-            document.getElementById("historico-de-vendas").style.display = "none";
-            document.getElementById("contas-a-receber").style.display = "none";
-            document.getElementById("tabelaGastos").style.display = "none";
-            document.getElementById("grafico-saldos").style.display = "block";
-            document.getElementById("grafico-vendas").style.display = "none";
-            document.getElementById("valores").style.display = "block";
-        }
         function mostrarHistoricoDeVendas() {
             document.getElementById("historico-de-vendas").style.display = "block";
             document.getElementById("contas-a-receber").style.display = "none";
-            document.getElementById("tabelaGastos").style.display = "none";
-            document.getElementById("grafico-saldos").style.display = "none";
-            document.getElementById("grafico-vendas").style.display = "none";
-            document.getElementById("valores").style.display = "none";
-            document.location.href = "financeiro_historico.php";
         }
 
         function mostrarContasAReceber() {
-            document.getElementById("historico-de-vendas").style.display = "block";
-            document.getElementById("contas-a-receber").style.display = "none";
-            document.getElementById("tabelaGastos").style.display = "none";
-            document.getElementById("grafico-saldos").style.display = "none";
-            document.getElementById("grafico-vendas").style.display = "none";
-            document.getElementById("valores").style.display = "none";
-            document.location.href = "contas_receber.php";
-        }
-        function mostrarIntervaloDeTempo() {
-            var selectSaldos = document.getElementById("saldos");
-            var intervaloDeTempo = document.getElementById("intervalo-de-tempo");
-            var mesSelecionado = document.getElementById("mes-selecionado");
-            var anoSelecionado = document.getElementById("ano-selecionado");
-
-            if (selectSaldos.value === "Dias") {
-                intervaloDeTempo.style.display = "block";
-                mesSelecionado.style.display = "none";
-                anoSelecionado.style.display = "none";
-            } else if (selectSaldos.value === "Semana") {
-                intervaloDeTempo.style.display = "none";
-                mesSelecionado.style.display = "none";
-                anoSelecionado.style.display = "none";
-            } else if (selectSaldos.value === "Mes") {
-                intervaloDeTempo.style.display = "none";
-                mesSelecionado.style.display = "block";
-                anoSelecionado.style.display = "none";
-            } else if (selectSaldos.value === "Ano") {
-                intervaloDeTempo.style.display = "none";
-                mesSelecionado.style.display = "none";
-                anoSelecionado.style.display = "block";
-            }
+            document.getElementById("historico-de-vendas").style.display = "none";
+            document.getElementById("contas-a-receber").style.display = "block";
         }
     </script>
 </html>
