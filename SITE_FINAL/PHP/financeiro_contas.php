@@ -101,78 +101,51 @@ $conn->close();
                 <li><a href="../PHP/Criação OS.php">Criação/Consulta de OS</a></li>
             </ul>
         </div>
-
-        <div id="historico-de-vendas">
-            <h1>Historico de vendas</h1>
+        <div id="contas-a-receber">
+            <h1>Contas a Receber</h1>
             <table>
-            <?php
-                // Defina o número de itens por página
-                $itemsPerPage = 10;
+                <?php
+                    // Defina o número de itens por página
+                    $itemsPerPage = 10;
 
-                // Obtenha a página atual a partir dos parâmetros da URL
-                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    // Obtenha a página atual a partir dos parâmetros da URL
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-                // Calcule o índice de início e fim para os itens da página atual
-                $startIndex = ($page - 1) * $itemsPerPage;
-                $endIndex = $startIndex + $itemsPerPage;
+                    // Calcule o índice de início e fim para os itens da página atual
+                    $startIndex = ($page - 1) * $itemsPerPage;
+                    $endIndex = $startIndex + $itemsPerPage;
 
-                // Crie a tabela para exibir os itens da página atual (histórico de vendas)
-                echo '<table>';
-                echo '<tr>
-                        <th>Funcionário</th>
-                        <th>Comprador</th>
-                        <th>Peça</th>
-                        <th>Forma de Pagamento</th>
-                        <th>Valor</th>
-                        <th>Quantidade</th>
-                    </tr>';
+                    // Crie a tabela para exibir os itens da página atual (contas a receber)
+                    echo '<table>';
+                    echo '<tr>
+                            <th>Comprador</th>
+                            <th>Número de Parcelas</th>
+                            <th>Data de Venda</th>
+                        </tr>';
 
-                $displayedCount = 0; // Contador para controlar a exibição dos itens
-
-                foreach ($historico as $venda) {
-                    if ($displayedCount >= $startIndex && $displayedCount < $endIndex) {
-                        echo '<tr>';
-                        echo '<td>' . $venda['funcionario_vendedor'] . '</td>';
-                        echo '<td>' . $venda['nome_comprador'] . '</td>';
-                        echo '<td>' . $venda['nome_peca'] . '</td>';
-                        echo '<td>' . $venda['forma_pagamento'] . '</td>';
-                        echo '<td>' . $venda['valor_venda'] . '</td>';
-                        echo '<td>' . $venda['quantidade'] . '</td>';
-                        echo '</tr>';
-                    }
-                    $displayedCount++;
-                }
-
-                echo '</table>';
-
-                // Adicione os links de paginação
-                echo '<div id="pagination">';
-                $totalItems = count($historico);
-                $totalPages = ceil($totalItems / $itemsPerPage);
-
-                $displayedPages = 5; // Número de páginas a serem exibidas na páginação
-
-                if ($totalPages > 1) {
-                    $currentPage = $page;
-                    $firstPage = max(1, $currentPage - floor($displayedPages / 2));
-                    $lastPage = min($totalPages, $firstPage + $displayedPages - 1);
-
-                    for ($i = $firstPage; $i <= $lastPage; $i++) {
-                        echo '<a href="financeiro_historico.php?page=' . $i . '">' . $i . '</a> ';
-                        
+                    foreach ($historico as $conta) {
+                        if ($conta["numero_parcelas"] > 0) {
+                            echo '<tr>';
+                            echo '<td>' . $conta['nome_comprador'] . '</td>';
+                            echo '<td>' . $conta['numero_parcelas'] . 'x</td>';
+                            echo '<td>' . $conta['data_venda'] . '</td>';
+                            echo '</tr>';
+                        }
                     }
 
-                    if ($lastPage < $totalPages) {
-                        echo '<a href="financeiro_historico.php?page=' . ($lastPage + 1) . '">...</a> ';
+                    echo '</table>';
+
+                    // Adicione os links de paginação
+                    echo '<div id="pagination">';
+                    $totalItems = count($historico);
+                    $totalPages = ceil($totalItems / $itemsPerPage);
+
+                    for ($i = 1; $i <= $totalPages; $i++) {
+                        echo '<a href="financeiro_contas.php?page=' . $i . '">' . $i . '</a> ';
                     }
 
-                    if ($currentPage < $totalPages - floor($displayedPages / 2)) {
-                        echo '<a href="financeiro_historico.php?page=' . $totalPages . '">' . $totalPages . '</a> ';
-                    }
-                }
-
-                echo '</div>';
-            ?>
+                    echo '</div>';
+                    ?>
             </table>
         </div>
     </body>
