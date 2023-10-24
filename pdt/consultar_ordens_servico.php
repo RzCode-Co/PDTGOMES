@@ -1,49 +1,59 @@
 <?php
-    require_once "config.php"; // Arquivo de configuração do banco de dados
+require_once "config.php"; // Arquivo de configuração do banco de dados
 
-    // Consulta SQL para recuperar as ordens de serviço em andamento
-    $sql = "SELECT * FROM ordem_servico_completa WHERE status = 'Em Andamento'";
-    $result = $conn->query($sql);
+$registrosPorPagina = 5; // Defina a quantidade de registros por página
 
+if (isset($_GET['pagina'])) {
+    $paginaAtual = (int)$_GET['pagina'];
+} else {
+    $paginaAtual = 1;
+}
+
+$os_details = array(); // Inicialize um array para armazenar os detalhes da ordem de serviço
+
+$ordemServicoID = 0; // Defina um valor padrão
+
+if (isset($_GET['ordem_servico_id'])) {
+    $ordemServicoID = (int)$_GET['ordem_servico_id'];
+}
+
+// Consulta SQL preparada para recuperar a ordem de serviço com o ID especificado
+$sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $ordemServicoID);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result) {
     if ($result->num_rows > 0) {
-        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-
         while ($row = $result->fetch_assoc()) {
-            // Armazena cada OS em andamento no array de detalhes da ordem de serviço
+            // Armazena a ordem de serviço com o ID especificado
             $os_details[] = $row;
         }
     } else {
-        echo "<p>Nenhuma Ordem de Serviço em andamento encontrada.</p>";
+        echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
     }
+} else {
+    echo "Erro na consulta SQL: " . $conn->error;
+}
 
-    // Se houver menos de 5 OS em andamento, exiba todas em uma página
-    $registrosPorPagina = min(5, count($os_details));
+$totalRegistros = count($os_details);
+$totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
-    // Calcule o total de páginas com base na quantidade de registros e na quantidade de registros por página
-    $totalPaginas = ceil(count($os_details) / $registrosPorPagina);
+// Verifique se a página atual está dentro dos limites
+$paginaAtual = max(1, min($paginaAtual, $totalPaginas));
 
-    // Recupere o número da página atual a partir da consulta GET
-    if (isset($_GET['pagina'])) {
-        $paginaAtual = $_GET['pagina'];
-    } else {
-        $paginaAtual = 1;
-    }
+// Calcule o deslocamento a partir da página atual
+$deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
 
-    // Verifique se a página atual está dentro dos limites
-    $paginaAtual = max(1, min($paginaAtual, $totalPaginas));
+// Exiba as OS em andamento da página atual
+$inicio = $deslocamento;
+$fim = min($deslocamento + $registrosPorPagina, $totalRegistros);
 
-    // Calcule o deslocamento a partir da página atual
-    $deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
-
-    // Exiba as OS em andamento da página atual
-    $inicio = $deslocamento;
-    $fim = min($deslocamento + $registrosPorPagina, count($os_details));
-
-    // Exiba as OS em andamento da página atual
-    for ($i = $inicio; $i < $fim; $i++) {
-        $os = $os_details[$i];
-    }
-
+// Exiba as OS em andamento da página atual
+for ($i = $inicio; $i < $fim; $i++) {
+    $os = $os_details[$i];
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -281,7 +291,7 @@
         <div id="consultar-ordens">
             <!-- Conteúdo para consultar ordens de serviço existentes -->
             <h2>Consultar Ordens de Serviço</h2>
-            <form method="GET">
+            <form method="GET" onsubmit="return validarPesquisa()">
                 <label>Pesquisar por ID da Ordem de Serviço:</label>
                 <input type="number" name="ordem_servico_id">
                 <input type="submit" value="Pesquisar">
@@ -290,24 +300,30 @@
                 require_once "config.php"; // Arquivo de configuração do banco de dados
 
                 // Verifique se o campo de pesquisa está preenchido
-                if (isset($_GET['ordem_servico_id'])) {
+                if (isset($_GET['ordem_servico_id'])) 
                     $ordemServicoID = $_GET['ordem_servico_id'];
     
                     // Consulta SQL para recuperar a ordem de serviço com o ID especificado
                     $sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = $ordemServicoID";
                     $result = $conn->query($sql);
     
-                    if ($result->num_rows > 0) {
-                        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-    
-                        while ($row = $result->fetch_assoc()) {
-                            // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
-                            $os_details[] = $row;
-                        }
-                    } else {
-                        echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
+
+                if ($result->num_rows > 0) {
+                    $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+
+                    while ($row = $result->fetch_assoc()) {
+                        // Armazena cada OS em andamento no array de detalhes da ordem de serviço
+                        $os_details[] = $row;
                     }
-                } 
+
+                    // Calcule o total de páginas com base na quantidade de registros e na quantidade de registros por página
+                    $totalPaginas = ceil(count($os_details) / $registrosPorPagina);
+                } else {
+                    echo "<p>Nenhuma Ordem de Serviço em andamento encontrada.</p>";
+                    // Defina $totalPaginas como 1 ou outro valor padrão, já que não há registros a serem paginados
+                    $totalPaginas = 1;
+                }
+
 
                 if (!empty($os_details)) {
                     foreach ($os_details as $os) {
@@ -421,5 +437,17 @@
             document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "block";
         }
+        function validarPesquisa() {
+            var campoPesquisa = document.querySelector("input[name='ordem_servico_id']");
+            
+            if (campoPesquisa.value === "") {
+                alert("Preencha o campo de pesquisa antes de realizar a busca.");
+                return false; // Impede o envio do formulário
+            }
+
+            // Se o campo estiver preenchido, permite o envio do formulário
+            return true;
+        }
+
     </script>
 </html>

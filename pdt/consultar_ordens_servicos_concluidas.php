@@ -274,7 +274,7 @@
 
         <div id="ordens-concluidas">
             <h2>Ordens Concluídas</h2>
-            <form method="GET">
+            <form method="GET" onsubmit="return validarPesquisa()">
                 <label>Pesquisar por ID da Ordem de Serviço:</label>
                 <input type="number" name="ordem_servico_id">
                 <input type="submit" value="Pesquisar">
@@ -409,6 +409,17 @@
             document.getElementById("consultar-ordens").style.display = "none";
             document.getElementById("ordens-concluidas").style.display = "none";
             document.getElementById("cancelar-ordem").style.display = "block";
+        }
+        function validarPesquisa() {
+            var campoPesquisa = document.querySelector("input[name='ordem_servico_id']");
+            
+            if (campoPesquisa.value === "") {
+                alert("Preencha o campo de pesquisa antes de realizar a busca.");
+                return false; // Impede o envio do formulário
+            }
+
+            // Se o campo estiver preenchido, permite o envio do formulário
+            return true;
         }
     </script>
 </html>

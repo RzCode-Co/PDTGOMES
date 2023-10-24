@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 if ($conn->query($delete_valores_sql) === TRUE) {
                                     echo '<script>
                                             alert("Ordem de Serviço cancelada com sucesso!");
-                                            window.location.href = "pagina_de_redirecionamento.html";
+                                            window.location.href = "Criação OS.php";
                                         </script>';
                                 } else {
                                     echo "Erro ao excluir a linha na tabela valores: " . $conn->error;
