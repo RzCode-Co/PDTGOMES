@@ -6,65 +6,70 @@
     </head>
     <style>
         body {
-            background-color: gray; /* Define o fundo cinza */
-            color: yellow; /* Define a cor do texto como amarelo */
+            background-color: gray;
+            color: yellow;
         }
         
         #conteudo {
-            margin: 20px; /* Adiciona margem para separar o conteúdo do cabeçalho e do menu lateral */
+            margin: 20px;
         }
         
-        /* Estilização básica para o cabeçalho */
         #cabecalho {
-            background-color: black; /* Cor de fundo do cabeçalho (pode ajustar conforme desejado) */
-            color: white; /* Cor do texto no cabeçalho (pode ajustar conforme desejado) */
-            padding: 10px; /* Espaçamento interno no cabeçalho */
-            display: flex; /* Para alinhar os elementos do cabeçalho na horizontal */
-            justify-content: space-between; /* Distribui os elementos horizontalmente */
+            background-color: black;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
         }
         
         #usuario-info {
-            display: flex; /* Alinha os elementos do usuário na horizontal */
-            align-items: center; /* Centraliza verticalmente os elementos do usuário */
+            display: flex;
+            align-items: center;
         }
         
         #icone-notificacoes {
             /* Adicione estilos para o ícone de notificações, como tamanho, margem, etc. */
         }
         
-        /* Estilização para o menu lateral */
         #menu-lateral {
-            background-color: black; /* Cor de fundo do menu (pode ajustar conforme desejado) */
+            background-color: black;
         }
         
         #menu-lateral ul {
-            list-style-type: none; /* Remove marcadores de lista */
-            padding: 0; /* Remove o preenchimento padrão da lista */
+            list-style-type: none;
+            padding: 0;
         }
         
         #menu-lateral ul li {
-            margin: 0; /* Remove a margem padrão dos itens da lista */
+            margin: 0;
         }
         
         #menu-lateral ul li a {
-            display: block; /* Transforma os links em blocos para preencher o espaço disponível */
-            padding: 10px 20px; /* Espaçamento interno nos links */
-            color: white; /* Cor do texto dos links */
-            text-decoration: none; /* Remove sublinhado dos links */
+            display: block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
         }
         
         #menu-lateral ul li a:hover {
-            background-color: gray; /* Cor de fundo quando o mouse passa por cima */
-        }
-        #pagination {
-            margin: 20px 0;
+            background-color: gray;
         }
 
-        #pagination a {
+        .paginacao {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .paginacao a {
             padding: 5px 10px;
-            background-color: lightgray;
+            background-color: black;
+            color: white;
             text-decoration: none;
-            margin-right: 5px;
+            margin: 5px;
+        }
+        
+        .paginacao a:hover {
+            background-color: gray;
         }
     </style>
     <body>
@@ -85,6 +90,7 @@
                 <li><a href="inicio.php">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
                 <li><a href="Financeiro.php">Financeiro</a></li>
+                <li><a href="Graficos.php">Gráficos</a></li>
                 <li><a href="Debitos.php">Debitos</a></li>
                 <li><a href="Notificações.php">Notificações</a></li>
                 <li><a href="Estoque.php">Estoque</a></li>
@@ -146,8 +152,7 @@
                 <h1>Consulta Geral de Itens no Estoque</h1>
                 <table>
                     <?php
-                        require_once "config.php"; // Inclua seu arquivo de configuração do banco de dados aqui
-
+                        require_once "config.php"; 
                         if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             if (isset($_POST["nome"])) {
                                 $nome_produto = strtoupper($_POST["nome"]);
@@ -186,39 +191,39 @@
                         }
                     ?>
 
-            <div id="resultado_busca_geral">
-                <table>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Quantidade</th>
-                        <th>Preço de Varejo</th>
-                        <th>Preço de Atacado</th>
-                        <th>Ano</th>
-                        <th>Marca</th>
-                        <th>Referência</th>
-                        <th>Aplicação</th>
-                    </tr>
-                    <?php
-                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                    $itemsPerPage = 10; // Número de itens por página
-                    $startIndex = ($page - 1) * $itemsPerPage;
-                    $endIndex = $startIndex + $itemsPerPage;
+                <div id="resultado_busca_geral">
+                    <table>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Quantidade</th>
+                            <th>Preço de Varejo</th>
+                            <th>Preço de Atacado</th>
+                            <th>Ano</th>
+                            <th>Marca</th>
+                            <th>Referência</th>
+                            <th>Aplicação</th>
+                        </tr>
+                        <?php
+                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                        $itemsPerPage = 10; // Número de itens por página
+                        $startIndex = ($page - 1) * $itemsPerPage;
+                        $endIndex = $startIndex + $itemsPerPage;
 
-                    // Exibir os itens da página atual
-                    for ($i = $startIndex; $i < $endIndex && $i < count($consulta); $i++) {
-                        $item = $consulta[$i];
-                        echo "<tr>";
-                        echo "<td>" . $item["nome"] . "</td>";
-                        echo "<td>" . $item["quantidade"] . "</td>";
-                        echo "<td>" . $item["valor_varejo"] . "</td>";
-                        echo "<td>" . $item["valor_atacado"] . "</td>";
-                        echo "<td>" . $item["ano"] . "</td>";
-                        echo "<td>" . $item["marca"] . "</td>";
-                        echo "<td>" . $item["referencia"] . "</td>";
-                        echo "<td>" . $item["aplicacao"] . "</td>";
-                        echo "</tr>";
-                    }
-                    ?>
+                        // Exibir os itens da página atual
+                        for ($i = $startIndex; $i < $endIndex && $i < count($consulta); $i++) {
+                            $item = $consulta[$i];
+                            echo "<tr>";
+                            echo "<td>" . $item["nome"] . "</td>";
+                            echo "<td>" . $item["quantidade"] . "</td>";
+                            echo "<td>" . $item["valor_varejo"] . "</td>";
+                            echo "<td>" . $item["valor_atacado"] . "</td>";
+                            echo "<td>" . $item["ano"] . "</td>";
+                            echo "<td>" . $item["marca"] . "</td>";
+                            echo "<td>" . $item["referencia"] . "</td>";
+                            echo "<td>" . $item["aplicacao"] . "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
                     </table>
 
                     <!-- Adicione um link para a paginação -->
@@ -229,16 +234,29 @@
 
                         // Limita o número de páginas a serem exibidas na paginação
                         $maxVisiblePages = 5;
-                        
+
                         $startPage = max(1, $page - floor($maxVisiblePages / 2));
                         $endPage = min($totalPages, $startPage + $maxVisiblePages - 1);
-                        
+
+                        if ($page > 1) {
+                            echo '<a href="consulta_geral_estoque.php?page=' . ($page - 1) . '">&laquo;</a> ';
+                        }
+
                         for ($i = $startPage; $i <= $endPage; $i++) {
-                            echo '<a href="consulta_geral_estoque.php?page=' . $i . '">' . $i . '</a> ';
+                            if ($i == $page) {
+                                echo '<strong>' . $i . '</strong> ';
+                            } else {
+                                echo '<a href="consulta_geral_estoque.php?page=' . $i . '">' . $i . '</a> ';
+                            }
+                        }
+
+                        if ($page < $totalPages) {
+                            echo '<a href="consulta_geral_estoque.php?page=' . ($page + 1) . '">&raquo;</a> ';
                         }
                         ?>
                     </div>
-            </div>
+                </div>
+
         </div>
     </body>
     <script>

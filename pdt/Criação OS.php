@@ -150,6 +150,7 @@
                 <li><a href="inicio.php">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
                 <li><a href="Financeiro.php">Financeiro</a></li>
+                <li><a href="Graficos.php">Gráficos</a></li>
                 <li><a href="Debitos.php">Debitos</a></li>
                 <li><a href="Notificações.php">Notificações</a></li>
                 <li><a href="Estoque.php">Estoque</a></li>
@@ -276,112 +277,9 @@
             </form>
         </div>
         
-        <div id="consultar-ordens" style="display: none;">
-            <!-- Conteúdo para consultar ordens de serviço existentes -->
-            <h2>Consultar Ordens de Serviço</h2>
-            <?php
-                if (!empty($os_details)) {
-                    foreach ($os_details as $os) {
-                        if ($os['status'] == 'Concluída') {
-                            // Não exiba ordens concluídas aqui
-                            continue;
-                        }
-                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-                        echo "<table>";
-                        echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
-                        echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
-                        echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
-                        echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
-                        echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
-                        echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
-                        echo "</table>";
-                    }
-                }
-            ?>
-            <div class="paginacao">
-                <?php
-                // Exibir links de paginação
-                if ($totalPaginas > 1) {
-                    // Link para a página anterior
-                    if ($paginaAtual > 1) {
-                        echo "<a href='?pagina=" . ($paginaAtual - 1) . "'>Página anterior</a>";
-                    }
+        <div id="consultar-ordens"></div>
 
-                    // Links para as páginas intermediárias
-                    $quantidadeLinks = 5; // Quantidade de links visíveis
-                    $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
-                    $fim = min($totalPaginas, $paginaAtual + floor($quantidadeLinks / 2));
-
-                    for ($i = $inicio; $i <= $fim; $i++) {
-                        if ($paginaAtual == $i) {
-                            echo "<span>$i</span>";
-                        } else {
-                            echo "<a href='?pagina=$i'>$i</a>";
-                        }
-                    }
-
-                    // Link para a próxima página
-                    if ($paginaAtual < $totalPaginas) {
-                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "'>Próxima página</a>";
-                    }
-                }
-                ?>
-            </div>
-            <a href="detalhes_os_em_andamento.php">Detalhes</a>
-        </div>
-
-        <div id="ordens-concluidas" style="display: none;">
-            <h2>Ordens Concluídas</h2>
-            <?php
-            if (!empty($os_details)) {
-                foreach ($os_details as $os) {
-                    if ($os['status'] != 'Concluída') {
-                        // Ignorar ordens com status diferente de "Concluída"
-                        continue;
-                    }
-                    echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-                    echo "<table>";
-                    echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
-                    echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
-                    echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
-                    echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
-                    echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
-                    echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
-                    echo "</table>";
-                }
-            }
-            ?>
-            <div class="paginacao">
-                <?php
-                // Exibir links de paginação
-                if ($totalPaginas > 1) {
-                    // Link para a página anterior
-                    if ($paginaAtual > 1) {
-                        echo "<a href='?pagina=" . ($paginaAtual - 1) . "'>Página anterior</a>";
-                    }
-
-                    // Links para as páginas intermediárias
-                    $quantidadeLinks = 5; // Quantidade de links visíveis
-                    $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
-                    $fim = min($totalPaginas, $paginaAtual + floor($quantidadeLinks / 2));
-
-                    for ($i = $inicio; $i <= $fim; $i++) {
-                        if ($paginaAtual == $i) {
-                            echo "<span>$i</span>";
-                        } else {
-                            echo "<a href='?pagina=$i'>$i</a>";
-                        }
-                    }
-
-                    // Link para a próxima página
-                    if ($paginaAtual < $totalPaginas) {
-                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "'>Próxima página</a>";
-                    }
-                }
-                ?>
-            </div>
-            <a href="detalhes_os_concluidas.php">Detalhes</a>
-        </div>
+        <div id="ordens-concluidas"></div>
 
     </body>
     <script>
@@ -430,6 +328,7 @@
             document.getElementById("consultar-ordens").style.display = "none";
             document.getElementById("ordens-concluidas").style.display = "block";
             document.getElementById("cancelar-ordem").style.display = "none";
+            document.location.href = "consultar_ordens_servicos_concluidas.php";
         }
         function mostrarCancelarOrdem() {
             document.getElementById("criar-ordem").style.display = "none";

@@ -85,6 +85,7 @@
                 <li><a href="inicio.php">Inicio</a></li>
                 <li><a href="Venda.html">Venda</a></li>
                 <li><a href="Financeiro.php">Financeiro</a></li>
+                <li><a href="Graficos.php">Gráficos</a></li>
                 <li><a href="Debitos.php">Debitos</a></li>
                 <li><a href="Notificações.php">Notificações</a></li>
                 <li><a href="Estoque.php">Estoque</a></li>

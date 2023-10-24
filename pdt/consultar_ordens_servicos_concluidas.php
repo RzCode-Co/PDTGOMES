@@ -1,26 +1,8 @@
 <?php
     require_once "config.php"; // Arquivo de configuração do banco de dados
 
-    // Consulta SQL para recuperar as ordens de serviço em andamento
-    $sql = "SELECT * FROM ordem_servico_completa WHERE status = 'Em Andamento'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-
-        while ($row = $result->fetch_assoc()) {
-            // Armazena cada OS em andamento no array de detalhes da ordem de serviço
-            $os_details[] = $row;
-        }
-    } else {
-        echo "<p>Nenhuma Ordem de Serviço em andamento encontrada.</p>";
-    }
-
-    // Se houver menos de 5 OS em andamento, exiba todas em uma página
-    $registrosPorPagina = min(5, count($os_details));
-
-    // Calcule o total de páginas com base na quantidade de registros e na quantidade de registros por página
-    $totalPaginas = ceil(count($os_details) / $registrosPorPagina);
+    // Defina o número máximo de registros por página
+    $registrosPorPagina = 5;
 
     // Recupere o número da página atual a partir da consulta GET
     if (isset($_GET['pagina'])) {
@@ -29,21 +11,31 @@
         $paginaAtual = 1;
     }
 
-    // Verifique se a página atual está dentro dos limites
-    $paginaAtual = max(1, min($paginaAtual, $totalPaginas));
-
     // Calcule o deslocamento a partir da página atual
     $deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
 
-    // Exiba as OS em andamento da página atual
-    $inicio = $deslocamento;
-    $fim = min($deslocamento + $registrosPorPagina, count($os_details));
+    // Consulta SQL para recuperar as ordens de serviço concluídas com base no deslocamento
+    $sqlConcluidas = "SELECT * FROM ordem_servico_completa WHERE status = 'Concluída' LIMIT $registrosPorPagina OFFSET $deslocamento";
+    $resultConcluidas = $conn->query($sqlConcluidas);
 
-    // Exiba as OS em andamento da página atual
-    for ($i = $inicio; $i < $fim; $i++) {
-        $os = $os_details[$i];
+    if ($resultConcluidas->num_rows > 0) {
+        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+
+        while ($row = $resultConcluidas->fetch_assoc()) {
+            // Armazena cada linha no array de detalhes da ordem de serviço
+            $os_details[] = $row;
+        }
+    } else {
+        echo "<p>Nenhuma Ordem de Serviço concluída encontrada.</p>";
     }
 
+    // Calcule o número total de registros para as ordens de serviço concluídas
+    $sqlTotalRegistrosConcluidas = "SELECT COUNT(*) AS total FROM ordem_servico_completa WHERE status = 'Concluída'";
+    $resultTotalRegistrosConcluidas = $conn->query($sqlTotalRegistrosConcluidas);
+    $totalRegistrosConcluidas = $resultTotalRegistrosConcluidas->fetch_assoc()['total'];
+
+    // Calcule o número total de páginas com base no total de registros das ordens de serviço concluídas
+    $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -278,9 +270,10 @@
             </form>
         </div>
         
-        <div id="consultar-ordens">
-            <!-- Conteúdo para consultar ordens de serviço existentes -->
-            <h2>Consultar Ordens de Serviço</h2>
+        <div id="consultar-ordens"></div>
+
+        <div id="ordens-concluidas">
+            <h2>Ordens Concluídas</h2>
             <form method="GET">
                 <label>Pesquisar por ID da Ordem de Serviço:</label>
                 <input type="number" name="ordem_servico_id">
@@ -292,14 +285,14 @@
                 // Verifique se o campo de pesquisa está preenchido
                 if (isset($_GET['ordem_servico_id'])) {
                     $ordemServicoID = $_GET['ordem_servico_id'];
-    
+
                     // Consulta SQL para recuperar a ordem de serviço com o ID especificado
                     $sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = $ordemServicoID";
                     $result = $conn->query($sql);
-    
+
                     if ($result->num_rows > 0) {
                         $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-    
+
                         while ($row = $result->fetch_assoc()) {
                             // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
                             $os_details[] = $row;
@@ -308,24 +301,23 @@
                         echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
                     }
                 } 
-
-                if (!empty($os_details)) {
-                    foreach ($os_details as $os) {
-                        if ($os['status'] == 'Concluída') {
-                            // Não exiba ordens concluídas aqui
-                            continue;
-                        }
-                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-                        echo "<table>";
-                        echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
-                        echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
-                        echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
-                        echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
-                        echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
-                        echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
-                        echo "</table>";
+            if (!empty($os_details)) {
+                foreach ($os_details as $os) {
+                    if ($os['status'] != 'Concluída') {
+                        // Ignorar ordens com status diferente de "Concluída"
+                        continue;
                     }
+                    echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                    echo "<table>";
+                    echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
+                    echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
+                    echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
+                    echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
+                    echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
+                    echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
+                    echo "</table>";
                 }
+            }
             ?>
             <div class="paginacao">
                 <?php
@@ -360,11 +352,8 @@
                 ?>
             </div>
 
-
-            <a href="detalhes_os_em_andamento.php">Detalhes</a>
+            <a href="detalhes_os_concluidas.php">Detalhes</a>
         </div>
-
-        <div id="ordens-concluidas"></div>
 
     </body>
     <script>
