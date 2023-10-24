@@ -111,12 +111,15 @@
     </nav>
 
     <button onclick="redirecionarParaFinanceiroHistorico()">Mostrar Histórico de Vendas</button>
-    <button onclick="redirecionarParaFinanceiroHistorico()">Mostrar Contas a Receber</button>
+    <button onclick="redirecionarParaFinanceiroContas()">Mostrar Contas a Receber</button>
     <button onclick="redirecionarParaGraficos()">Mostrar Gráficos de Saldos e Débitos</button>
 
     <script>
         function redirecionarParaFinanceiroHistorico() {
             window.location.href = "../PHP/financeiro_historico.php";
+        }
+        function redirecionarParaFinanceiroContas() {
+            window.location.href ="../PHP/financeiro_contas.php";
         }
 
         function redirecionarParaGraficos() {
