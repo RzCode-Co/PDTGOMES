@@ -104,13 +104,13 @@
                 // Inicialize as variáveis para armazenar os valores dos campos
                 $nome = $referencia = $marca = $aplicacao = $ano = "";
 
-                if ($_SERVER["REQUEST_METHOD"] === "POST") {
-                    $nome = strtoupper(isset($_POST["nome"]) ? $_POST["nome"] : "");
-                    $referencia = strtoupper(isset($_POST["referencia"]) ? $_POST["referencia"] : "");
-                    $marca = strtoupper(isset($_POST["marca"]) ? $_POST["marca"] : "");
-                    $aplicacao = strtoupper(isset($_POST["aplicacao"]) ? $_POST["aplicacao"] : "");
-                    $ano = strtoupper(isset($_POST["ano"]) ? $_POST["ano"] : "");
-                }
+                if ($_SERVER["REQUEST_METHOD"] === "GET") {
+                    $nome = isset($_GET['nome']) ? $_GET['nome'] : "";
+                    $referencia = isset($_GET['referencia']) ? $_GET['referencia'] : "";
+                    $marca = isset($_GET['marca']) ? $_GET['marca'] : "";
+                    $aplicacao = isset($_GET['aplicacao']) ? $_GET['aplicacao'] : "";
+                    $ano = isset($_GET['ano']) ? $_GET['ano'] : "";
+                }   
 
                 // Consulta SQL sem LIMIT
                 $sql = "SELECT * FROM estoque WHERE 1=1";
