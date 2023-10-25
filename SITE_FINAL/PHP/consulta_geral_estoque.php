@@ -44,23 +44,16 @@
 
 
                 <li class="item_menu">
-                    <a href="../PHP/Graficos.php">
+                    <a href="#">
                         <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
                         <span class="txt_link">Gráficos</span>
                     </a>
                 </li>
 
                 <li class="item_menu">
-                    <a href="../HTML/Financeiro.html">
+                    <a href="../PHP/Financeiro.php">
                         <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                        <span class="txt_link">Históricos</span>
-                    </a>
-                </li>
-
-                <li class="item_menu">
-                    <a href="../PHP/Criação OS.php">
-                        <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
-                        <span class="txt_link">O.S</span>
+                        <span class="txt_link">Carteira</span>
                     </a>
                 </li>
 
@@ -124,7 +117,7 @@
                 <a id="icone_voltar" href="../PHP/estoque.php"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
                 <h1>Consulta Geral de Itens</h1>
             </div>
-
+            
             <table>
                 <?php
                 require_once "config.php"; // Inclua seu arquivo de configuração do banco de dados aqui
@@ -197,6 +190,7 @@
                         echo "<td>" . $item["marca"] . "</td>";
                         echo "<td>" . $item["referencia"] . "</td>";
                         echo "<td>" . $item["aplicacao"] . "</td>";
+                        echo '<img src="' . $item["imagem"] . '">';
                         echo "</tr>";
                     }
                     ?>

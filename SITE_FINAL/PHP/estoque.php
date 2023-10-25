@@ -46,23 +46,16 @@
 
 
                 <li class="item_menu">
-                    <a href="../PHP/Graficos.php">
+                    <a href="#">
                         <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
                         <span class="txt_link">Gráficos</span>
                     </a>
                 </li>
 
                 <li class="item_menu">
-                    <a href="../HTML/Financeiro.html">
+                    <a href="../PHP/Financeiro.php">
                         <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                        <span class="txt_link">Históricos</span>
-                    </a>
-                </li>
-
-                <li class="item_menu">
-                    <a href="../PHP/Criação OS.php">
-                        <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
-                        <span class="txt_link">O.S</span>
+                        <span class="txt_link">Carteira</span>
                     </a>
                 </li>
 
@@ -131,8 +124,7 @@
 
                 <div id="adicionar-item" style="display: none;">
                     <h2>Adicionar Item ao Estoque</h2>
-                    <form class="form_estoque" action="../PHP/processar_adicionar_item.php" method="post"
-                        onchange="mostrarAdicionarItem()">
+                    <form enctype="multipart/form-data" class="form_estoque" action="../PHP/processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
                         <div class="section_one">
                             <label>Nome do Item: <input type="text" name="nome"></label><br>
                             <label>Referência: <input type="text" name="referencia"></label><br>
@@ -152,6 +144,8 @@
                             <label>Valor de Atacado: <input type="float" name="valor_atacado"></label><br>
                             <label>Local: <input type="text" name="local"></label><br>
                         </div>
+
+                        <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
 
                         <input type="submit" value="Adicionar">
                     </form>
