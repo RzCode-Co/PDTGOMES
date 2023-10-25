@@ -118,9 +118,13 @@
 
     </nav>
 
-    <button onclick="redirecionarParaFinanceiroHistorico()">Mostrar Histórico de Vendas</button>
-    <button onclick="redirecionarParaFinanceiroContas()">Mostrar Contas a Receber</button>
-    <button onclick="redirecionarParaGraficos()">Mostrar Gráficos de Saldos e Débitos</button>
+    <div id="container_financeiro">
+
+        <button onclick="redirecionarParaFinanceiroHistorico()" class="botao">Histórico de Vendas</button>
+        
+        <button onclick="redirecionarParaFinanceiroContas()" class="botao">Contas a Receber</button>
+        <button onclick="redirecionarParaGraficos()"class="botao" >Gráficos </button>
+    </div>
 
     <script>
         function redirecionarParaFinanceiroHistorico() {
