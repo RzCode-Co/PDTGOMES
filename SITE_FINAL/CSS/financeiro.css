@@ -1,3 +1,146 @@
+
+.container-grafico {
+    margin-left: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+}
+
+#titulo-financeiro {
+    text-align: center;
+    color: #09562f;
+    text-transform: uppercase;
+    padding-bottom: 20px;
+}
+
+
+.container-grafico form  {
+   display: flex;
+
+}
+/* Estilização dos inputs, selects e botoes */
+#titulo-financeiro {
+    text-align: center;
+    width: 100%;
+    
+}
+.botao-geral{
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 10px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+
+
+}
+
+.container-grafico form input {
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 10px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #033d20;
+    transition: 0.3s;
+    cursor: pointer;
+    
+ }
+
+ .container-grafico form input:hover {
+    color: #FFCC29;
+    transition: 0.3s;
+    cursor: pointer;
+    
+ }
+
+ #form-saldos-e-debitos select {
+    height: 30px;
+    margin: 0 10px;
+    font-weight: bold;
+    background-color: #ddd;
+    border-radius: 5px;
+    font-size: 11pt;
+    color: #636363;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+ }
+ 
+#mostrar-saldos-e-debitos:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#tabela-valores {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 30px;
+    position: relative;
+    top: 20px;
+
+}
+
+.centralização{
+    display: flex;
+    justify-content: center;
+}
+
+/* Icone de voltar e título */
+.titulo_icone{
+    display: flex;
+}
+
+/* icone voltar */
+#icone_voltar img{
+    justify-content: left;
+    height: 40px;
+}
+/* Consula item e Consulta Geral de Item */
+#resultado_busca{
+    background-color:rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#resultado_busca h1, .titulo_icone h1{
+    color: #09562F;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#resultado_busca th,  th{
+    margin-bottom: 5px;
+    padding: 10px;
+    color: #09562F;
+    font-size: 13pt;
+
+}
+
+#resultado_busca table,  table{
+    color: #03381d;
+}
+
+#resultado_busca td,  td{
+   
+    text-align: center;
+    font-size: 13pt;
+}
+
+
+
 #container_financeiro {
     display: flex;
     justify-content: left;
