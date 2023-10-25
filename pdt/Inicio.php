@@ -83,155 +83,41 @@
             </ul>
         </div>
         <div id="caixa-pesquisa">
-            <form action="Inicio.php" method="post">
+            <form action="resultado_inicio.php" method="post">
                 <label>Nome do Item: <input type="text" name="nome"></label><br>
                 <label>Referência: <input type="text" name="referencia"></label><br>
                 <label>Marca: <input type="text" name="marca"></label><br>
                 <label>Aplicação: <input type="text" name="aplicacao"></label><br>
                 <label>Ano: <input type="number" name="ano"></label><br>
-                <button id="btn-pesquisar">Pesquisar</button>
+                <button id="btn-pesquisar" disabled>Pesquisar</button>
             </form>
         </div>
-        <?php
-            require_once "config.php";
+        <script>
+        // Função para verificar se pelo menos um campo está preenchido
+        function verificarPreenchimento() {
+            var campos = document.querySelectorAll('input[type="text"], input[type="number"]');
+            var botaoPesquisar = document.getElementById('btn-pesquisar');
+            var preenchido = false;
 
-            if ($_SERVER["REQUEST_METHOD"] === "POST") {
-                // Coletar os critérios da pesquisa da página de início.html
-                $nome = strtoupper(isset($_POST["nome"]) ? $_POST["nome"] : "");
-                $referencia = strtoupper(isset($_POST["referencia"]) ? $_POST["referencia"] : "");
-                $marca = strtoupper(isset($_POST["marca"]) ? $_POST["marca"] : "");
-                $aplicacao = strtoupper(isset($_POST["aplicacao"]) ? $_POST["aplicacao"] : "");
-                $ano = strtoupper(isset($_POST["ano"]) ? $_POST["ano"] : "");
-        
-                // Inicialize um array de parâmetros para a declaração preparada
-                $params = array();
-        
-                // Construir a consulta SQL com base nos critérios preenchidos
-                $sql = "SELECT * FROM estoque WHERE 1=1"; // Começa com uma consulta verdadeira
-        
-                if (!empty($nome)) {
-                    $sql .= " AND nome LIKE ?";
-                    $params[] = "%$nome%";
-                }
-        
-                if (!empty($referencia)) {
-                    $sql .= " AND referencia LIKE ?";
-                    $params[] = "%$referencia%";
-                }
-        
-                if (!empty($marca)) {
-                    $sql .= " AND marca LIKE ?";
-                    $params[] = "%$marca%";
-                }
-        
-                if (!empty($aplicacao)) {
-                    $sql .= " AND aplicacao LIKE ?";
-                    $params[] = "%$aplicacao%";
-                }
-        
-                if (!empty($ano)) {
-                    $sql .= " AND ano = ?";
-                    $params[] = $ano;
-                }
-        
-                // Prepare a declaração SQL
-                $stmt = $conn->prepare($sql);
-        
-                // Verifique se a preparação da declaração foi bem-sucedida
-                if ($stmt) {
-                    // Vincule os parâmetros
-                    if (!empty($params)) {
-                        $types = str_repeat('s', count($params)); // Assume que todos os parâmetros são strings
-                        $stmt->bind_param($types, ...$params);
-                    }
-        
-                    // Execute a consulta SQL
-                    $stmt->execute();
-        
-                    // Obtenha os resultados
-                    $result = $stmt->get_result();
-        
-                    // Adicione a funcionalidade de paginação
-                    $itensPorPagina = 10;
-                    $totalItens = $result->num_rows;
-                    $numPaginas = ceil($totalItens / $itensPorPagina);
-        
-                    $paginaAtual = isset($_GET['page']) ? $_GET['page'] : 1;
-                    $offset = ($paginaAtual - 1) * $itensPorPagina;
-                    $result->data_seek($offset);
-        
-                    if ($result->num_rows > 0) {
-                        echo "<h2>Resultados da Pesquisa:</h2>";
-                        echo "<table>";
-                        echo "<tr><th>Nome</th><th>Referência</th><th>Marca</th><th>Aplicação</th><th>Ano</th></tr>";
-        
-                        for ($i = 0; $i < $itensPorPagina && $row = $result->fetch_assoc(); $i++) {
-                            echo "<tr>";
-                            echo "<td>" . $row["nome"] . "</td>";
-                            echo "<td>" . $row["referencia"] . "</td>";
-                            echo "<td>" . $row["marca"] . "</td>";
-                            echo "<td>" . $row["aplicacao"] . "</td>";
-                            echo "<td>" . $row["ano"] . "</td>";
-                            echo "</tr>";
-                        }
-        
-                        echo "</table>";
-        
-                        // Exiba a paginação
-                        echo "<div class='pagination'>";
-                        for ($i = 1; $i <= $numPaginas; $i++) {
-                            echo "<a href='Inicio.php?page=$i'>$i</a>";
-                        }
-                        echo "</div>";
-                    } else {
-                        echo "Nenhum resultado encontrado.";
-                    }
-        
-                    // Verifique se deseja listar itens similares
-                    if (!empty($_POST['nome']) && !empty($_POST['referencia']) && !empty($_POST['marca']) && !empty($_POST['aplicacao']) && !empty($_POST['ano'])) {
-                        // Se todos os campos estão preenchidos, pesquise produtos com nomes semelhantes
-                        $sqlSimilares = "SELECT * FROM estoque WHERE nome LIKE ?";
-                        $param = "%$nome";
-                        $stmtSimilares = $conn->prepare($sqlSimilares);
-        
-                        if ($stmtSimilares) {
-                            $stmtSimilares->bind_param("s", $param);
-                            $stmtSimilares->execute();
-                            $resultSimilares = $stmtSimilares->get_result();
-        
-                            if ($resultSimilares->num_rows > 0) {
-                                echo "<h2>Também temos essas opções:</h2>";
-                                echo "<table>";
-                                echo "<tr><th>Nome</th><th>Referência</th><th>Marca</th><th>Aplicação</th><th>Ano</th></tr>";
-        
-                                while ($rowSimilar = $resultSimilares->fetch_assoc()) {
-                                    echo "<tr>";
-                                    echo "<td>" . $rowSimilar["nome"] . "</td>";
-                                    echo "<td>" . $rowSimilar["referencia"] . "</td>";
-                                    echo "<td>" . $rowSimilar["marca"] . "</td>";
-                                    echo "<td>" . $rowSimilar["aplicacao"] . "</td>";
-                                    echo "<td>" . $rowSimilar["ano"] . "</td>";
-                                    echo "</tr>";
-                                }
-        
-                                echo "</table>";
-
-                                    // Exiba a paginação
-                                    echo "<div class='pagination'>";
-                                    for ($i = 1; $i <= $numPaginas; $i++) {
-                                        echo "<a href='Inicio.php?page=$i'>$i</a>";
-                                    }
-                                    echo "</div>";
-                            } else {
-                                echo "Nenhum resultado encontrado.";
-                            }
-
-                        }
-                    }
-                } else {
-                    echo "Erro na preparação da declaração SQL: " . $conn->error;
+            for (var i = 0; i < campos.length; i++) {
+                if (campos[i].value.trim() !== '') {
+                    preenchido = true;
+                    break;
                 }
             }
-        ?>
+
+            if (preenchido) {
+                botaoPesquisar.removeAttribute('disabled');
+            } else {
+                botaoPesquisar.setAttribute('disabled', 'disabled');
+            }
+        }
+
+        // Adicione um evento de entrada para os campos
+        var campos = document.querySelectorAll('input[type="text"], input[type="number"]');
+        for (var i = 0; i < campos.length; i++) {
+            campos[i].addEventListener('input', verificarPreenchimento);
+        }
+    </script>
     </body>
 </html>
