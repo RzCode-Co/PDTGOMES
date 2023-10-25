@@ -282,78 +282,84 @@ $conn->close();
         </ul>
 
     </nav>
-    <button onclick="mostrarSaldos()">Mostrar Saldos e Débitos</button>
-    <form method="post" action="Graficos.php">
-        <label>Consultar Saldos e Débitos por:
-            <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()">
-                <option value="" selected disabled>Escolha uma opção</option>
-                <option value="Dias">Dias</option>
-                <option value="Semana">Semana</option>
-                <option value="Mes">Mês</option>
-                <option value="Ano">Ano</option>
-            </select>
-        </label>
+    <div class="container-grafico">
+    <h1 id="titulo-financeiro">Valores Financeiros</h1>
+        <button onclick="mostrarSaldos()" class="botao-geral" id="mostrar-saldos-e-debitos">Mostrar Saldos e Débitos</button>
+        <form method="post" action="Graficos.php" id="form-saldos-e-debitos">
 
-        <!-- Div para escolher intervalo de tempo -->
-        <div id="intervalo-de-tempo" style="display: none;">
-            <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
-            <select name="intervalo-saldos" id="intervalo-saldos">
-                <?php
-                echo "<option value=''selected disabled>Escolha uma opção</option>";
-                foreach ($dias_disponiveis as $dia) {
-                    echo "<option value='$dia'>$dia</option>";
-                }
-                ?>
-            </select>
-        </div>
-        <!-- Div para escolher o mês (para a opção "Mês") -->
-        <div id="mes-selecionado" style="display: none;">
-            <label for="mes">Escolha o mês:</label>
-            <select name="mes" id="mes">
-                <?php
-                echo "<option value=''selected disabled>Escolha uma opção</option>";
-                foreach ($meses_disponiveis as $mes) {
-                    $valor_mes = $mes['valor'];
-                    $nome_mes = $mes['nome'];
-                    echo "<option value='$valor_mes'>$nome_mes</option>";
-                }
-                ?>
-            </select>
-        </div>
-        <div id="ano-selecionado" style="display: none;">
-            <label for="ano">Escolha o ano:</label>
-            <select name="ano" id="ano">
-                <?php
-                echo "<option value=''selected disabled>Escolha uma opção</option>";
-                foreach ($anos_disponiveis as $ano) {
-                    echo "<option value='$ano'>$ano</option>";
-                }
-                ?>
-            </select>
-        </div>
-        <input type="submit" value="Consultar">
-    </form>
+            <div class="botao-geral">
+                <label id="consultar-saldos-e-debitos">Consultar Saldos e Débitos por:
+                    <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()" required>
+                        <option value="" selected disabled>Escolha uma opção</option>
+                        <option value="Dias">Dias</option>
+                        <option value="Semana">Semana</option>
+                        <option value="Mes">Mês</option>
+                        <option value="Ano">Ano</option>
+                    </select>
+                </label>
+            </div>
+            <!-- Div para escolher intervalo de tempo -->
+            <div id="intervalo-de-tempo" class="botao-geral" style="display: none;">
+                <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
+                <select name="intervalo-saldos" id="intervalo-saldos">
+                    <?php
+                    echo "<option value=''selected disabled>Escolha uma opção</option>";
+                    foreach ($dias_disponiveis as $dia) {
+                        echo "<option value='$dia'>$dia</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <!-- Div para escolher o mês (para a opção "Mês") -->
+            <div id="mes-selecionado" class="botao-geral" style="display: none;">
+                <label for="mes">Escolha o mês:</label>
+                <select name="mes" id="mes">
+                    <?php
+                    echo "<option value=''selected disabled>Escolha uma opção</option>";
+                    foreach ($meses_disponiveis as $mes) {
+                        $valor_mes = $mes['valor'];
+                        $nome_mes = $mes['nome'];
+                        echo "<option value='$valor_mes'>$nome_mes</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <div id="ano-selecionado" class="botao-geral" style="display: none;">
+                <label for="ano">Escolha o ano:</label>
+                <select name="ano" id="ano">
+                    <?php
+                    echo "<option value=''selected disabled>Escolha uma opção</option>";
+                    foreach ($anos_disponiveis as $ano) {
+                        echo "<option value='$ano'>$ano</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <input type="submit" value="Consultar">
+        </form>
+    </div>
     <!-- Tabela para mostrar os valores -->
     <div id="valores" style="display: none;">
-        <h1>Valores Financeiros</h1>
-        <table>
-            <tr>
-                <th>Total Ganho</th>
-                <th>Total Gasto</th>
-                <th>Total Lucro</th>
-            </tr>
-            <tr>
-                <td>
-                    <?php echo $valores_saldos['total_ganho']; ?>
-                </td>
-                <td>
-                    <?php echo $valores_saldos['total_gasto']; ?>
-                </td>
-                <td>
-                    <?php echo $valores_saldos['total_lucro']; ?>
-                </td>
-            </tr>
-        </table>
+        <div id="tabela-valores">
+            <table>
+                <tr>
+                    <th>Total Ganho</th>
+                    <th>Total Gasto</th>
+                    <th>Total Lucro</th>
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $valores_saldos['total_ganho']; ?>
+                    </td>
+                    <td>
+                        <?php echo $valores_saldos['total_gasto']; ?>
+                    </td>
+                    <td>
+                        <?php echo $valores_saldos['total_lucro']; ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div id="tabelaGastos" style="display: none;">
         <table>
