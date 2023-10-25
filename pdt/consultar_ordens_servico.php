@@ -1,59 +1,41 @@
 <?php
-require_once "config.php"; // Arquivo de configuração do banco de dados
+    require_once "config.php"; // Arquivo de configuração do banco de dados
 
-$registrosPorPagina = 5; // Defina a quantidade de registros por página
+    // Defina o número máximo de registros por página
+    $registrosPorPagina = 5;
 
-if (isset($_GET['pagina'])) {
-    $paginaAtual = (int)$_GET['pagina'];
-} else {
-    $paginaAtual = 1;
-}
+    // Recupere o número da página atual a partir da consulta GET
+    if (isset($_GET['pagina'])) {
+        $paginaAtual = $_GET['pagina'];
+    } else {
+        $paginaAtual = 1;
+    }
 
-$os_details = array(); // Inicialize um array para armazenar os detalhes da ordem de serviço
+    // Calcule o deslocamento a partir da página atual
+    $deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
 
-$ordemServicoID = 0; // Defina um valor padrão
+    // Consulta SQL para recuperar as ordens de serviço concluídas com base no deslocamento
+    $sqlAndamento = "SELECT * FROM ordem_servico_completa WHERE status = 'Em andamento' LIMIT $registrosPorPagina OFFSET $deslocamento";
+    $resultAndamento = $conn->query($sqlAndamento);
 
-if (isset($_GET['ordem_servico_id'])) {
-    $ordemServicoID = (int)$_GET['ordem_servico_id'];
-}
+    if ($resultAndamento->num_rows > 0) {
+        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
 
-// Consulta SQL preparada para recuperar a ordem de serviço com o ID especificado
-$sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $ordemServicoID);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result) {
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            // Armazena a ordem de serviço com o ID especificado
+        while ($row = $resultAndamento->fetch_assoc()) {
+            // Armazena cada linha no array de detalhes da ordem de serviço
             $os_details[] = $row;
         }
     } else {
-        echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
+        echo "<p>Nenhuma Ordem de Serviço em andamento encontrada.</p>";
     }
-} else {
-    echo "Erro na consulta SQL: " . $conn->error;
-}
 
-$totalRegistros = count($os_details);
-$totalPaginas = ceil($totalRegistros / $registrosPorPagina);
+    // Calcule o número total de registros para as ordens de serviço concluídas
+    $sqlTotalRegistrosAndamento = "SELECT COUNT(*) AS total FROM ordem_servico_completa WHERE status = 'Em andamento'";
+    $resultTotalRegistrosAndamento = $conn->query($sqlTotalRegistrosAndamento);
+    $totalRegistrosAndamento = $resultTotalRegistrosAndamento->fetch_assoc()['total'];
 
-// Verifique se a página atual está dentro dos limites
-$paginaAtual = max(1, min($paginaAtual, $totalPaginas));
-
-// Calcule o deslocamento a partir da página atual
-$deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
-
-// Exiba as OS em andamento da página atual
-$inicio = $deslocamento;
-$fim = min($deslocamento + $registrosPorPagina, $totalRegistros);
-
-// Exiba as OS em andamento da página atual
-for ($i = $inicio; $i < $fim; $i++) {
-    $os = $os_details[$i];
-}
+    // Calcule o número total de páginas com base no total de registros das ordens de serviço concluídas
+    $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -288,10 +270,9 @@ for ($i = $inicio; $i < $fim; $i++) {
             </form>
         </div>
         
-        <div id="consultar-ordens">
-            <!-- Conteúdo para consultar ordens de serviço existentes -->
-            <h2>Consultar Ordens de Serviço</h2>
-            <form method="GET" onsubmit="return validarPesquisa()">
+        <div id="consultar-ordens"></div>
+        <h2>Ordens em andamento</h2>
+            <form method="GET">
                 <label>Pesquisar por ID da Ordem de Serviço:</label>
                 <input type="number" name="ordem_servico_id">
                 <input type="submit" value="Pesquisar">
@@ -299,49 +280,44 @@ for ($i = $inicio; $i < $fim; $i++) {
             <?php
                 require_once "config.php"; // Arquivo de configuração do banco de dados
 
+                // Defina uma variável padrão para ordem_servico_id
+                $ordemServicoID = "";
+
                 // Verifique se o campo de pesquisa está preenchido
-                if (isset($_GET['ordem_servico_id'])) 
+                if (isset($_GET['ordem_servico_id'])) {
                     $ordemServicoID = $_GET['ordem_servico_id'];
-    
                     // Consulta SQL para recuperar a ordem de serviço com o ID especificado
                     $sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = $ordemServicoID";
                     $result = $conn->query($sql);
-    
 
-                if ($result->num_rows > 0) {
-                    $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+                    if ($result->num_rows > 0) {
+                        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
 
-                    while ($row = $result->fetch_assoc()) {
-                        // Armazena cada OS em andamento no array de detalhes da ordem de serviço
-                        $os_details[] = $row;
+                        while ($row = $result->fetch_assoc()) {
+                            // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
+                            $os_details[] = $row;
+                        }
+                    } else {
+                        echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
                     }
-
-                    // Calcule o total de páginas com base na quantidade de registros e na quantidade de registros por página
-                    $totalPaginas = ceil(count($os_details) / $registrosPorPagina);
-                } else {
-                    echo "<p>Nenhuma Ordem de Serviço em andamento encontrada.</p>";
-                    // Defina $totalPaginas como 1 ou outro valor padrão, já que não há registros a serem paginados
-                    $totalPaginas = 1;
                 }
-
-
                 if (!empty($os_details)) {
                     foreach ($os_details as $os) {
                         if ($os['status'] == 'Concluída') {
                             // Não exiba ordens concluídas aqui
                             continue;
                         }
-                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-                        echo "<table>";
-                        echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
-                        echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
-                        echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
-                        echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
-                        echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
-                        echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
-                        echo "</table>";
-                    }
+                    echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                    echo "<table>";
+                    echo "<tr><th>ID</th><td>{$os['ordem_servico_id']}</td></tr>";
+                    echo "<tr><th>Cliente</th><td>{$os['cliente_nome']}</td></tr>";
+                    echo "<tr><th>Veículo</th><td>{$os['veiculo_nome']}</td></tr>";
+                    echo "<tr><th>Placa do Veículo</th><td>{$os['veiculo_placa']}</td></tr>";
+                    echo "<tr><th>Data de Abertura</th><td>{$os['data_abertura']}</td></tr>";
+                    echo "<tr><th>Status</th><td>{$os['status']}</td></tr>";
+                    echo "</table>";
                 }
+            }
             ?>
             <div class="paginacao">
                 <?php
@@ -376,11 +352,10 @@ for ($i = $inicio; $i < $fim; $i++) {
                 ?>
             </div>
 
-
             <a href="detalhes_os_em_andamento.php">Detalhes</a>
         </div>
 
-        <div id="ordens-concluidas"></div>
+        <div id="ordens-concluidas">
 
     </body>
     <script>
@@ -448,6 +423,5 @@ for ($i = $inicio; $i < $fim; $i++) {
             // Se o campo estiver preenchido, permite o envio do formulário
             return true;
         }
-
     </script>
 </html>

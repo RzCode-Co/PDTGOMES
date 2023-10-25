@@ -274,7 +274,7 @@
 
         <div id="ordens-concluidas">
             <h2>Ordens Concluídas</h2>
-            <form method="GET" onsubmit="return validarPesquisa()">
+            <form method="GET">
                 <label>Pesquisar por ID da Ordem de Serviço:</label>
                 <input type="number" name="ordem_servico_id">
                 <input type="submit" value="Pesquisar">
@@ -282,10 +282,12 @@
             <?php
                 require_once "config.php"; // Arquivo de configuração do banco de dados
 
+                // Defina uma variável padrão para ordem_servico_id
+                $ordemServicoID = "";
+
                 // Verifique se o campo de pesquisa está preenchido
                 if (isset($_GET['ordem_servico_id'])) {
                     $ordemServicoID = $_GET['ordem_servico_id'];
-
                     // Consulta SQL para recuperar a ordem de serviço com o ID especificado
                     $sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = $ordemServicoID";
                     $result = $conn->query($sql);
@@ -300,7 +302,7 @@
                     } else {
                         echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
                     }
-                } 
+                }
             if (!empty($os_details)) {
                 foreach ($os_details as $os) {
                     if ($os['status'] != 'Concluída') {

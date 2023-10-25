@@ -102,7 +102,7 @@
 
             <div id="adicionar-item" style="display: none;">
                 <h2>Adicionar Item ao Estoque</h2>
-                <form action="processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
+                <form action="processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()" enctype="multipart/form-data">
                     <label>Nome do Item: <input type="text" name="nome"></label><br>
                     <label>Referência: <input type="text" name="referencia"></label><br>
                     <label>Marca: <input type="text" name="marca"></label><br>
@@ -113,7 +113,7 @@
                     <label>Valor de Varejo: <input type="float" name="valor_varejo"></label><br>
                     <label>Valor de Atacado: <input type="float" name="valor_atacado"></label><br>
                     <label>Local: <input type="text" name="local"></label><br>
-                    <label>Imagem do Produto: <input type="file" name="imagem" accept="image/*"></label><br>
+                    <label>Imagem do Produto: <input type="file" name="imagem"></label><br>
                     <input type="submit" value="Adicionar">
                 </form>
             </div>    
