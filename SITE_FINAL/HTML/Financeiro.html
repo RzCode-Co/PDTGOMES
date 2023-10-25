@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../CSS/financeiro.css">
     <link rel="stylesheet" href="../CSS/pagina_inicial.css">
 </head>
-
 <body>
     <!-- Menu lateral -->
     <nav class="menu_lateral">
@@ -44,23 +43,16 @@
 
 
             <li class="item_menu">
-                <a href="../PHP/Graficos.php">
+                <a href="#">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
                     <span class="txt_link">Gráficos</span>
                 </a>
             </li>
 
             <li class="item_menu">
-                <a href="../HTMl/Financeiro.html">
+                <a href="../PHP/Financeiro.php">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Históricos</span>
-                </a>
-            </li>
-
-            <li class="item_menu">
-                <a href="../PHP/Criação OS.php">
-                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
-                    <span class="txt_link">O.S</span>
+                    <span class="txt_link">Carteira</span>
                 </a>
             </li>
 
@@ -118,20 +110,16 @@
 
     </nav>
 
-    <div id="container_financeiro">
-
-        <button onclick="redirecionarParaFinanceiroHistorico()" class="botao">Histórico de Vendas</button>
-        
-        <button onclick="redirecionarParaFinanceiroContas()" class="botao">Contas a Receber</button>
-        <button onclick="redirecionarParaGraficos()"class="botao" >Gráficos </button>
-    </div>
+    <button onclick="redirecionarParaFinanceiroHistorico()">Mostrar Histórico de Vendas</button>
+    <button onclick="redirecionarParaFinanceiroContas()">Mostrar Contas a Receber</button>
+    <button onclick="redirecionarParaGraficos()">Mostrar Gráficos de Saldos e Débitos</button>
 
     <script>
         function redirecionarParaFinanceiroHistorico() {
             window.location.href = "../PHP/financeiro_historico.php";
         }
         function redirecionarParaFinanceiroContas() {
-            window.location.href = "../PHP/financeiro_contas.php";
+            window.location.href ="../PHP/financeiro_contas.php";
         }
 
         function redirecionarParaGraficos() {
@@ -139,5 +127,4 @@
         }
     </script>
 </body>
-
 </html>
