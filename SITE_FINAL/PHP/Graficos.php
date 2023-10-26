@@ -75,6 +75,12 @@ if ($result_calcula_valores) {
             total_ganho = VALUES(total_ganho), 
             total_lucro = VALUES(total_lucro), 
             total_gasto = VALUES(total_gasto)";
+        
+        if ($conn->query($sql_insere_atualiza_saldos) === TRUE) {
+            echo "Valores de saldo inseridos/atualizados com sucesso.";
+        } else {
+            echo "Erro ao inserir/atualizar valores de saldo: " . $conn->error;
+        }
     } else {
         echo "Nenhum resultado encontrado na consulta para calcular valores.";
     }
@@ -347,6 +353,7 @@ $conn->close();
                     <th>Total Gasto</th>
                     <th>Total Lucro</th>
                 </tr>
+                
                 <tr>
                     <td>
                         <?php echo $valores_saldos['total_ganho']; ?>
@@ -361,6 +368,7 @@ $conn->close();
             </table>
         </div>
     </div>
+    
     <div id="tabelaGastos" style="display: none;">
         <table>
             <tr>
@@ -387,7 +395,9 @@ $conn->close();
             ?>
         </table>
     </div>
+
     <div id="grafico-saldos" style="display: none;">
+    
         <canvas id="grafico" width="200" height="60"></canvas>
         <script>
             // Acesse o contexto do canvas
@@ -470,7 +480,7 @@ $conn->close();
         document.getElementById("tabelaGastos").style.display = "block";
         document.getElementById("grafico-saldos").style.display = "none";
         document.getElementById("grafico-vendas").style.display = "block";
-        document.getElementById("valores").style.display = "none";
+        document.getElementById("valores").style.display = "block";
     }
     function mostrarSaldos() {
         document.getElementById("tabelaGastos").style.display = "none";
