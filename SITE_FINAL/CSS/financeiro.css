@@ -83,11 +83,29 @@
 #tabela-valores {
     display: flex;
     justify-content: center;
-    flex-direction: column;
-    padding: 30px;
+    padding: 20px;
     position: relative;
     top: 20px;
+    margin-bottom: 20px;
+}
 
+#tabela-valores tr{
+    color: #09562F;
+    display: flex;
+    padding-left: 80px;
+    width: 1300px;
+    justify-content: space-between;
+}
+
+#tabela-valores th, #tabela-valores td{
+    margin: 0 auto;
+}
+
+/* Gráficos */
+#grafico-saldos{
+    width: 1300px;
+    margin: 0 auto;
+    padding-left: 80px;
 }
 
 .centralização{
@@ -121,7 +139,7 @@
     margin-bottom: 20px;
 }
 
-#resultado_busca th,  th{
+#resultado_busca th{
     margin-bottom: 5px;
     padding: 10px;
     color: #09562F;
@@ -129,11 +147,11 @@
 
 }
 
-#resultado_busca table,  table{
+#resultado_busca table{
     color: #03381d;
 }
 
-#resultado_busca td,  td{
+#resultado_busca td{
    
     text-align: center;
     font-size: 13pt;
@@ -220,7 +238,7 @@
     height: 40px;
 }
 /* Consula item e Consulta Geral de Item */
-#historico_vendas, #contas-a-receber{
+#historico-de-vendas, #contas-a-receber{
     background-color:rgba(255, 255, 255, 0.5);
     border-radius: 20px;
     width: 60%;
@@ -228,14 +246,14 @@
     padding: 20px;
 }
 
-#historico_vendas h1, #contas-a-receber h1, .titulo_icone h1{
+#historico-de-vendas h1, #contas-a-receber h1, .titulo_icone h1{
     color: #09562F;
     margin: 0 auto;
     text-align: center;
     margin-bottom: 20px;
 }
 
-#historico_vendas th,#contas-a-receber th{
+#historico-de-vendas th,#contas-a-receber th{
     margin-bottom: 5px;
     padding: 30px;
     color: #09562F;
@@ -243,11 +261,11 @@
 
 }
 
-#historico_vendas table, #contas-a-receber table{
+#historico-de-vendas table, #contas-a-receber table{
     color: #03381d;
 }
 
-#historico_vendas td, #contas-a-receber td{
+#historico-de-vendas td, #contas-a-receber td{
     padding: 5px 10px;
     text-align: center;
     font-size: 13pt;
