@@ -1,340 +1,352 @@
 <?php
-    require_once "config.php"; // Arquivo de configuração do banco de dados
+require_once "config.php"; // Arquivo de configuração do banco de dados
 
-    // Defina o número máximo de registros por página
-    $registrosPorPagina = 5;
+// Defina o número máximo de registros por página
+$registrosPorPagina = 5;
 
-    // Recupere o número da página atual a partir da consulta GET
-    if (isset($_GET['pagina'])) {
-        $paginaAtual = $_GET['pagina'];
-    } else {
-        $paginaAtual = 1;
+// Recupere o número da página atual a partir da consulta GET
+if (isset($_GET['pagina'])) {
+    $paginaAtual = $_GET['pagina'];
+} else {
+    $paginaAtual = 1;
+}
+
+// Calcule o deslocamento a partir da página atual
+$deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
+
+// Prepare a consulta SQL com LIMIT e OFFSET para a página atual
+$sql = "SELECT * FROM ordem_servico_completa LIMIT $registrosPorPagina OFFSET $deslocamento";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+
+    while ($row = $result->fetch_assoc()) {
+        // Armazena cada linha no array de detalhes da ordem de serviço
+        $os_details[] = $row;
     }
+} else {
+    echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
+}
 
-    // Calcule o deslocamento a partir da página atual
-    $deslocamento = ($paginaAtual - 1) * $registrosPorPagina;
+// Calcular o número total de páginas com base no total de registros
+$sqlTotalRegistros = "SELECT COUNT(*) AS total FROM ordem_servico_completa";
+$resultTotalRegistros = $conn->query($sqlTotalRegistros);
+$totalRegistros = $resultTotalRegistros->fetch_assoc()['total'];
+$totalPaginas = ceil($totalRegistros / $registrosPorPagina);
 
-    // Prepare a consulta SQL com LIMIT e OFFSET para a página atual
-    $sql = "SELECT * FROM ordem_servico_completa LIMIT $registrosPorPagina OFFSET $deslocamento";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-
-        while ($row = $result->fetch_assoc()) {
-            // Armazena cada linha no array de detalhes da ordem de serviço
-            $os_details[] = $row;
-        }
-    } else {
-        echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
-    }
-
-    // Calcular o número total de páginas com base no total de registros
-    $sqlTotalRegistros = "SELECT COUNT(*) AS total FROM ordem_servico_completa";
-    $resultTotalRegistros = $conn->query($sqlTotalRegistros);
-    $totalRegistros = $resultTotalRegistros->fetch_assoc()['total'];
-    $totalPaginas = ceil($totalRegistros / $registrosPorPagina);
-
-    // Fechar a conexão
-    $conn->close();
+// Fechar a conexão
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <title>Criação/Consulta de OS</title>
-    </head>
-    <style>
-        body {
-            background-color: gray; /* Define o fundo cinza */
-            color: yellow; /* Define a cor do texto como amarelo */
-        }
-        
-        #conteudo {
-            margin: 20px; /* Adiciona margem para separar o conteúdo do cabeçalho e do menu lateral */
-        }
-        
-        /* Estilização básica para o cabeçalho */
-        #cabecalho {
-            background-color: black; /* Cor de fundo do cabeçalho (pode ajustar conforme desejado) */
-            color: white; /* Cor do texto no cabeçalho (pode ajustar conforme desejado) */
-            padding: 10px; /* Espaçamento interno no cabeçalho */
-            display: flex; /* Para alinhar os elementos do cabeçalho na horizontal */
-            justify-content: space-between; /* Distribui os elementos horizontalmente */
-        }
-        
-        #usuario-info {
-            display: flex; /* Alinha os elementos do usuário na horizontal */
-            align-items: center; /* Centraliza verticalmente os elementos do usuário */
-        }
-        
-        #icone-notificacoes {
-            /* Adicione estilos para o ícone de notificações, como tamanho, margem, etc. */
-        }
-        
-        /* Estilização para o menu lateral */
-        #menu-lateral {
-            background-color: black; /* Cor de fundo do menu (pode ajustar conforme desejado) */
-        }
-        
-        #menu-lateral ul {
-            list-style-type: none; /* Remove marcadores de lista */
-            padding: 0; /* Remove o preenchimento padrão da lista */
-        }
-        
-        #menu-lateral ul li {
-            margin: 0; /* Remove a margem padrão dos itens da lista */
-        }
-        
-        #menu-lateral ul li a {
-            display: block; /* Transforma os links em blocos para preencher o espaço disponível */
-            padding: 10px 20px; /* Espaçamento interno nos links */
-            color: white; /* Cor do texto dos links */
-            text-decoration: none; /* Remove sublinhado dos links */
-        }
-        
-        #menu-lateral ul li a:hover {
-            background-color: gray; /* Cor de fundo quando o mouse passa por cima */
-        }
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            margin: 20px auto;
-        }
-        th, td {
-            border: 1px solid #ccc;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: black;
-        }
-        .paginacao {
-            margin-top: 20px;
-            text-align: center;
-        }
 
-        .paginacao a, .paginacao span {
-            display: inline-block;
-            padding: 5px 10px;
-            margin: 0 5px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-        }
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../CSS/criacao-OS.css">
+    <link rel="stylesheet" href="../CSS/pagina_inicial.css">
 
-        .paginacao span {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
+    <title>Criação/Consulta de OS</title>
+</head>
 
-        .paginacao a:hover {
-            background-color: #0056b3;
-        }
-    </style>
-    <body>
-        <div id="cabecalho">
-            <div id="usuario-info">
-                <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
-                <p><?php echo $nomeUsuario; ?></p>
-                <p><?php echo $cargoUsuario; ?></p>
-            </div>
-            <!-- Ícone de notificações -->
-            <div id="icone-notificacoes">
-                <img src="caminho-para-o-icone.png" alt="Ícone de Notificações">
-            </div>
+<body>
+    <nav class="menu_lateral">
+
+        <!-- Barra MENU -->
+        <div class="btn_expandir">
+            <img src="../CSS/img/Três barras.svg" alt="menu" id="btn_exp">
         </div>
-        <!-- Seu menu lateral -->
-        <div id="menu-lateral">
-            <ul>
-                <li><a href="inicio.php">Inicio</a></li>
-                <li><a href="Venda.html">Venda</a></li>
-                <li><a href="Financeiro.php">Financeiro</a></li>
-                <li><a href="Graficos.php">Gráficos</a></li>
-                <li><a href="Debitos.php">Debitos</a></li>
-                <li><a href="Notificações.php">Notificações</a></li>
-                <li><a href="Estoque.php">Estoque</a></li>
-                <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
-            </ul>
-        </div>
-        <div id="botoes-os">
-            <button onclick="mostrarCriarOrdem()">Criar Ordem</button>
-            <button onclick="mostrarConsultarOrdens()">Consultar Ordens</button>
-            <button onclick="mostrarOrdensConcluidas()">Ordens Concluidas</button>
-            <button onclick="mostrarCancelarOrdem()">Cancelar Ordem</button>
-        </div>
-        <div id="criar-ordem" style="display: none;">
-            <!-- Conteúdo para criar uma nova ordem de serviço -->
-            <h2>Criar Nova Ordem de Serviço</h2>
-            <form method="POST" action="processar_os.php">
-                <label>Nome do Cliente:</label>
-                <input type="text" name="cliente_nome" required><br>
-                <label>CPF/CNPJ:
-                    <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
-                        <option value="">Selecione...</option>
-                        <option value="CPF">CPF</option>
-                        <option value="CNPJ">CNPJ</option>
-                    </select>
-                    <br>
-                </label>
-                <div id="CPF" style="display: none;">
-                    <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+
+        <!--  itens MENU LATERAL-->
+        <ul class="ul_menu_lateral">
+
+            <li class="item_menu ativo">
+                <a href="../HTML/pagina_incial.html">
+                    <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
+                    <span class="txt_link">Home</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Venda.html">
+                    <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
+                    <span class="txt_link">Vendas</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/estoque.php">
+                    <img class="icon" src="../CSS/img/Compras.svg" alt="icone compras">
+                    <span class="txt_link">Estoque</span>
+                </a>
+            </li>
+
+
+            <li class="item_menu">
+                <a href="#">
+                    <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
+                    <span class="txt_link">Gráficos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Financeiro.html">
+                    <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
+                    <span class="txt_link">Históricos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="#">
+                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
+                    <span class="txt_link">Perfil</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Notificações.php">
+                    <img class="icon" src="../CSS/img/Sino.svg" alt="logo">
+                    <span class="txt_link">Notificações</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- importando o JS para o Menu Lateral-->
+        <script src="../JS/menu.js"></script>
+
+    </nav>
+
+    <!-- Menu horizonatl -->
+    <nav class="menu_horizontal">
+        <ul>
+            <li id="logo_menu_horizontal"><a href="../HTML/pagina_incial.html"><img src="../CSS/img/Logo Horizontal.png"
+                        alt="logo da empresa"></a>
+            </li>
+
+            <li id="direita">
+
+                <!-- Perfil -->
+                <div class="image_container">
+                    <img src="../CSS/img/editar.png" alt="insira foto de perfil" id="img_photo">
                 </div>
-            
-                <div id="CNPJ" style="display: none;">
-                    <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+
+                <!-- Escolhendo Imagem -->
+                <input type="file" id="file_image" name="file_image" accept="image/*">
+
+                <script src="../JS/login_preview.js"></script>
+            </li>
+
+            <li id="direita">
+                <!-- Cargo e nome -->
+                <div class="cargo_nome">
+                    <h3>Cargo</h3>
+                    <p>Nome e Sobrenome</p>
                 </div>
-                <label>Nome do Veículo:</label>
-                <input type="text" name="veiculo_nome" required><br>
+            </li>
 
-                <label>Placa do Veículo:</label>
-                <input type="text" name="veiculo_placa" required><br>
+            <li id="direita"><a href="#"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
 
-                <label>Endereço do Cliente:</label>
-                <input type="text" name="endereco_cliente" required><br><br>
+        </ul>
+
+    </nav>
+
+
+    
+       <div class="container-os">
+
+            <div id="card-botoes-os">
+                <button onclick="mostrarCriarOrdem()" class="botao-os">Criar Ordem</button>
+                <button onclick="mostrarCancelarOrdem()" class="botao-os">Cancelar Ordem</button>
+                <button onclick="mostrarConsultarOrdens()" class="botao-os">Consultar Ordens</button>
+                <button onclick="mostrarOrdensConcluidas() " class="botao-os">Ordens Concluidas</button>
                 
-                <label>Data de Abertura:</label>
-                <input type="date" name="data_abertura" required><br><br>
+            </div>
 
-                <h2>Produtos Vendidos</h2>
-                <label>Código do Produto:</label>
-                <input type="number" name="codigo_produto[]"><br>
-
-                <label>Produto:</label>
-                <input type="text" name="produto[]"><br>
-
-                <label>Referência:</label>
-                <input type="text" name="referencia[]"><br>
-
-                <label>Tipo:</label>
-                <input type="text" name="tipo[]"><br>
-
-                <label>Quantidade:</label>
-                <input type="number" name="quantidade[]"><br>
-
-                <label>Preço:</label>
-                <input type="number" name="preco[]"><br>
-
-                <label for="pagamento_previo">Produtos Pagos Antes da OS?</label>
-                <input type="checkbox" name="pagamento_previo" id="pagamento_previo" value="1">
-
-                <h2>Serviços Prestados</h2>
-                <label>Nome do Serviço:</label>
-                <input type="text" name="servico_nome[]"><br>
+            <div class="card-ordens">
+                <div id="criar-ordem" style="display: none;">
+                    <!-- Conteúdo para criar uma nova ordem de serviço -->
+                    <h2>Criar Nova Ordem de Serviço</h2>
+                    <form method="POST" action="processar_os.php">
+                        <label>Nome do Cliente:</label>
+                        <input type="text" name="cliente_nome" required><br>
+                        <label>CPF/CNPJ:
+                            <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
+                                <option value="">Selecione...</option>
+                                <option value="CPF">CPF</option>
+                                <option value="CNPJ">CNPJ</option>
+                            </select>
+                            <br>
+                        </label>
+                        <div id="CPF" style="display: none;">
+                            <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+                        </div>
             
-                <label>Técnico Responsável:</label>
-                <input type="text" name="tecnico_responsavel[]"><br>
+                        <div id="CNPJ" style="display: none;">
+                            <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+                        </div>
+                        <label>Nome do Veículo:</label>
+                        <input type="text" name="veiculo_nome" required><br>
             
-                <label>Valor do Serviço:</label>
-                <input type="number" name="valor_servico[]"><br>
-
-                <label for="forma_pagamento">Forma de Pagamento:</label>
-                <select name="forma_pagamento" id="forma_pagamento"onchange="mostrarParcelas()">
-                    <option value="dinheiro">Dinheiro</option>
-                    <option value="cartao">Cartão de Crédito</option>
-                    <option value="cartao_debito">Cartão de Débito</option>
-                    <option value="pix">Pix</option>
-                    <option value="Parcelado">Parcelado</option>
-                </select>
-                <div id="parcelas" style="display: none;">
-                    <label for="numero_parcelas">Número de Parcelas: 
-                        <select name="numero_parcelas" id="numero_parcelas">
-                            <option value="1">1x</option>
-                            <option value="2">2x</option>
-                            <option value="3">3x</option>
-                            <option value="4">4x</option>
-                            <option value="5">5x</option>
-                            <option value="6">6x</option>
-                            <!-- Adicione mais opções conforme necessário -->
+                        <label>Placa do Veículo:</label>
+                        <input type="text" name="veiculo_placa" required><br>
+            
+                        <label>Endereço do Cliente:</label>
+                        <input type="text" name="endereco_cliente" required><br><br>
+            
+                        <label>Data de Abertura:</label>
+                        <input type="date" name="data_abertura" required><br><br>
+            
+                        <h2>Produtos Vendidos</h2>
+                        <label>Código do Produto:</label>
+                        <input type="number" name="codigo_produto[]"><br>
+            
+                        <label>Produto:</label>
+                        <input type="text" name="produto[]"><br>
+            
+                        <label>Referência:</label>
+                        <input type="text" name="referencia[]"><br>
+            
+                        <label>Tipo:</label>
+                        <input type="text" name="tipo[]"><br>
+            
+                        <label>Quantidade:</label>
+                        <input type="number" name="quantidade[]"><br>
+            
+                        <label>Preço:</label>
+                        <input type="number" name="preco[]"><br>
+            
+                        <label for="pagamento_previo">Produtos Pagos Antes da OS?</label>
+                        <input type="checkbox" name="pagamento_previo" id="pagamento_previo" value="1">
+            
+                        <h2>Serviços Prestados</h2>
+                        <label>Nome do Serviço:</label>
+                        <input type="text" name="servico_nome[]"><br>
+            
+                        <label>Técnico Responsável:</label>
+                        <input type="text" name="tecnico_responsavel[]"><br>
+            
+                        <label>Valor do Serviço:</label>
+                        <input type="number" name="valor_servico[]"><br>
+            
+                        <label for="forma_pagamento">Forma de Pagamento:</label>
+                        <select name="forma_pagamento" id="forma_pagamento" onchange="mostrarParcelas()">
+                            <option value="dinheiro">Dinheiro</option>
+                            <option value="cartao">Cartão de Crédito</option>
+                            <option value="cartao_debito">Cartão de Débito</option>
+                            <option value="pix">Pix</option>
+                            <option value="Parcelado">Parcelado</option>
                         </select>
-                    </label>
+                        <div id="parcelas" style="display: none;">
+                            <label for="numero_parcelas">Número de Parcelas:
+                                <select name="numero_parcelas" id="numero_parcelas">
+                                    <option value="1">1x</option>
+                                    <option value="2">2x</option>
+                                    <option value="3">3x</option>
+                                    <option value="4">4x</option>
+                                    <option value="5">5x</option>
+                                    <option value="6">6x</option>
+                                    <!-- Adicione mais opções conforme necessário -->
+                                </select>
+                            </label>
+                        </div>
+            
+                        <h2>Observações</h2>
+                        <label>Observações:</label>
+                        <textarea name="observacoes_vendedor" rows="4" cols="50"></textarea><br>
+            
+            
+                        <input type="submit" value="Cadastrar Ordem de Serviço">
+                    </form>
                 </div>
                 
-                <h2>Observações</h2>
-                <label>Observações:</label>
-                <textarea name="observacoes_vendedor" rows="4" cols="50"></textarea><br>
-
-                
-                <input type="submit" value="Cadastrar Ordem de Serviço">
-            </form>
-        </div>
-        <div id="cancelar-ordem" style="display: none;">
-            <h2>Cancelar Ordem de Serviço</h2>
-            <form method="POST" action="processar_os_devolucao.php">
-                <label>Numero da OS:</label>
-                <input type="int" name="ordem_servico_id" required><br><br>
-
-                <label>Deseja Estornar os Produto para o Estoque ?</label>
-                <select name="estornar_produtos" id="estornar_produtos" onchange="mostrarCampo()">
+                <div id="cancelar-ordem" style="display: none;">
+                    <h2>Cancelar Ordem de Serviço</h2>
+                    <form method="POST" action="processar_os_devolucao.php">
+                        <label>Numero da OS:</label>
+                        <input type="int" name="ordem_servico_id" required><br><br>
+            
+                        <label>Deseja Estornar os Produto para o Estoque ?</label>
+                        <select name="estornar_produtos" id="estornar_produtos" onchange="mostrarCampo()">
                             <option value="">Selecione...</option>
                             <option value="Sim">Sim</option>
                             <option value="Nao">Não</option>
-                </select>
-                
-                <br>
-
-                <input type="submit" value="Cancelar Ordem de Serviço">
-            </form>
-        </div>
-        
-        <div id="consultar-ordens"></div>
-
-        <div id="ordens-concluidas"></div>
-
-    </body>
-    <script>
-        function mostrarCampo() {
-            var selecao = document.getElementById("cpf_cnpj");
-            var CPF = document.getElementById("CPF");
-            var CNPJ = document.getElementById("CNPJ");
-
-            if (selecao.value === "CPF") {
-                CPF.style.display = "block";
-                CNPJ.style.display = "none";
-            } else if (selecao.value === "CNPJ") {
-                CPF.style.display = "none";
-                CNPJ.style.display = "block";
-            } else {
-                CPF.style.display = "none";
-                CNPJ.style.display = "none";
-            }
-        }
-        function mostrarParcelas() {
-            var formaPagamento = document.getElementById("forma_pagamento");
-            var parcelasDiv = document.getElementById("parcelas");
+                        </select>
+            
+                        <br>
+            
+                        <input type="submit" value="Cancelar Ordem de Serviço">
+                    </form>
+                </div>
+            
+                <div id="consultar-ordens"></div>
+            
+                <div id="ordens-concluidas"></div>
+            </div>
+       </div>
     
-            if (formaPagamento.value === "Parcelado") {
-                parcelasDiv.style.display = "block";
-            } else {
-                parcelasDiv.style.display = "none";
-            }
+
+</body>
+<script>
+    function mostrarCampo() {
+        var selecao = document.getElementById("cpf_cnpj");
+        var CPF = document.getElementById("CPF");
+        var CNPJ = document.getElementById("CNPJ");
+
+        if (selecao.value === "CPF") {
+            CPF.style.display = "block";
+            CNPJ.style.display = "none";
+        } else if (selecao.value === "CNPJ") {
+            CPF.style.display = "none";
+            CNPJ.style.display = "block";
+        } else {
+            CPF.style.display = "none";
+            CNPJ.style.display = "none";
         }
-        function mostrarCriarOrdem() {
-            document.getElementById("criar-ordem").style.display = "block";
-            document.getElementById("consultar-ordens").style.display = "none";
-            document.getElementById("ordens-concluidas").style.display = "none";
-            document.getElementById("cancelar-ordem").style.display = "none";
+    }
+    function mostrarParcelas() {
+        var formaPagamento = document.getElementById("forma_pagamento");
+        var parcelasDiv = document.getElementById("parcelas");
+
+        if (formaPagamento.value === "Parcelado") {
+            parcelasDiv.style.display = "block";
+        } else {
+            parcelasDiv.style.display = "none";
         }
-    
-        function mostrarConsultarOrdens() {
-            document.getElementById("criar-ordem").style.display = "none";
-            document.getElementById("consultar-ordens").style.display = "block";
-            document.getElementById("ordens-concluidas").style.display = "none";
-            document.getElementById("cancelar-ordem").style.display = "none";
-            document.location.href = "consultar_ordens_servico.php";
-        }
-        function mostrarOrdensConcluidas() {
-            document.getElementById("criar-ordem").style.display = "none";
-            document.getElementById("consultar-ordens").style.display = "none";
-            document.getElementById("ordens-concluidas").style.display = "block";
-            document.getElementById("cancelar-ordem").style.display = "none";
-            document.location.href = "consultar_ordens_servicos_concluidas.php";
-        }
-        function mostrarCancelarOrdem() {
-            document.getElementById("criar-ordem").style.display = "none";
-            document.getElementById("consultar-ordens").style.display = "none";
-            document.getElementById("ordens-concluidas").style.display = "none";
-            document.getElementById("cancelar-ordem").style.display = "block";
-        }
-    </script>
+    }
+    function mostrarCriarOrdem() {
+        document.getElementById("criar-ordem").style.display = "block";
+        document.getElementById("consultar-ordens").style.display = "none";
+        document.getElementById("ordens-concluidas").style.display = "none";
+        document.getElementById("cancelar-ordem").style.display = "none";
+    }
+
+    function mostrarConsultarOrdens() {
+        document.getElementById("criar-ordem").style.display = "none";
+        document.getElementById("consultar-ordens").style.display = "block";
+        document.getElementById("ordens-concluidas").style.display = "none";
+        document.getElementById("cancelar-ordem").style.display = "none";
+        document.location.href = "consultar_ordens_servico.php";
+    }
+    function mostrarOrdensConcluidas() {
+        document.getElementById("criar-ordem").style.display = "none";
+        document.getElementById("consultar-ordens").style.display = "none";
+        document.getElementById("ordens-concluidas").style.display = "block";
+        document.getElementById("cancelar-ordem").style.display = "none";
+        document.location.href = "consultar_ordens_servicos_concluidas.php";
+    }
+    function mostrarCancelarOrdem() {
+        document.getElementById("criar-ordem").style.display = "none";
+        document.getElementById("consultar-ordens").style.display = "none";
+        document.getElementById("ordens-concluidas").style.display = "none";
+        document.getElementById("cancelar-ordem").style.display = "block";
+    }
+</script>
+
 </html>
