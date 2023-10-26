@@ -18,9 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome_arquivo"]) && iss
             $files[] = $row; // Adicione o resultado ao array $files
         }
     }
-
-    // Feche a conexão com o banco de dados
-    $conn->close();
 }
 $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utilizado
 ?>
@@ -86,9 +83,9 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
     <body>
         <div id="cabecalho">
             <div id="usuario-info">
-                <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
-                <p><?php echo $nomeUsuario; ?></p>
-                <p><?php echo $cargoUsuario; ?></p>
+                <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">';?>
+                <?php echo '<p>' . $cargo . '</p>';?>
+                <?php echo '<p>' . $nome . '</p>';?>
             </div>
             <!-- Ícone de notificações -->
             <div id="icone-notificacoes">
