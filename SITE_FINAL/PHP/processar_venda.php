@@ -65,11 +65,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $sql_notificacao = "INSERT INTO notificacoes (mensagem, data) VALUES ('$funcionario_vendedor realizou uma venda de um(a) $nome_peca no valor de $valor_venda em $dataVenda', NOW())";
 
                     if ($conn->query($sql_notificacao) === TRUE) {
+                        $datavaluca = date("Y-m-d");
                         $valor_servico = NULL;
                         $preco_total_geral = NULL;
                         $valor_debito = NULL;
                         // Consulta SQL para inserir valores na tabela "valores"
-                        $sql_valores = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES ('$venda_id', '$dataVenda', '$valor_venda', '$valor_servico', '$preco_total_geral', '$valor_debito')";
+                        $sql_valores = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES ('$venda_id', '$datavaluca', '$valor_venda', '$valor_servico', '$preco_total_geral', '$valor_debito')";
 
                         if ($conn->query($sql_valores) === TRUE) {
                             echo '<script>
