@@ -1,0 +1,122 @@
+body {
+    background-color: gray; /* Define o fundo cinza */
+    color: green; /* Define a cor do texto como amarelo */
+}
+
+#conteudo {
+    margin: 20px; /* Adiciona margem para separar o conteúdo do cabeçalho e do menu lateral */
+}
+
+/* Estilização básica para o cabeçalho */
+#cabecalho {
+    background-color: black; /* Cor de fundo do cabeçalho (pode ajustar conforme desejado) */
+    color: white; /* Cor do texto no cabeçalho (pode ajustar conforme desejado) */
+    padding: 10px; /* Espaçamento interno no cabeçalho */
+    display: flex; /* Para alinhar os elementos do cabeçalho na horizontal */
+    justify-content: space-between; /* Distribui os elementos horizontalmente */
+}
+
+#usuario-info {
+    display: flex; /* Alinha os elementos do usuário na horizontal */
+    align-items: center; /* Centraliza verticalmente os elementos do usuário */
+}
+
+#icone-notificacoes {
+    /* Adicione estilos para o ícone de notificações, como tamanho, margem, etc. */
+}
+
+/* Estilização para o menu lateral */
+#menu-lateral {
+    background-color: black; /* Cor de fundo do menu (pode ajustar conforme desejado) */
+}
+
+#menu-lateral ul {
+    list-style-type: none; /* Remove marcadores de lista */
+    padding: 0; /* Remove o preenchimento padrão da lista */
+}
+
+#menu-lateral ul li {
+    margin: 0; /* Remove a margem padrão dos itens da lista */
+}
+
+#menu-lateral ul li a {
+    display: block; /* Transforma os links em blocos para preencher o espaço disponível */
+    padding: 10px 20px; /* Espaçamento interno nos links */
+    color: white; /* Cor do texto dos links */
+    text-decoration: none; /* Remove sublinhado dos links */
+}
+
+#menu-lateral ul li a:hover {
+    background-color: gray; /* Cor de fundo quando o mouse passa por cima */
+}
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 20px auto;
+}
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: black;
+}
+.paginacao {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.paginacao a, .paginacao span {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+}
+
+.paginacao span {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.paginacao a:hover {
+    background-color: #0056b3;
+}
+
+
+.botao-os {
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 5px;
+    width: 250px;
+    height: 50px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: block;
+}
+
+#card-botoes-os {
+    margin-top: 200px;
+    margin-left: 150px;
+}
+
+.botao-os:hover{
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+.container-os {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.card-ordens {
+    background-color: #fff;
+}
