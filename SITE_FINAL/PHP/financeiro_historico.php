@@ -138,84 +138,79 @@ $conn->close();
 
     </nav>
 
-    <div id="historico_vendas">
+    <div id="historico-de-vendas">
         <div class="titulo_icone">
-            <a id="icone_voltar" href="../HTML/financeiro.html"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
+            <a id="icone_voltar" href="../HTML/financeiro.html"><img src="../CSS/img/voltar.svg"
+                    alt="voltar página"></a>
             <h1>Histórico de Vendas</h1>
         </div>
-        <div class="centralização">
-            <table>
-                <?php
-                // Defina o número de itens por página
-                $itemsPerPage = 10;
+        <table>
+            <tr>
+                <th>Funcionário</th>
+                <th>Comprador</th>
+                <th>Peça</th>
+                <th>Forma de Pagamento</th>
+                <th>Valor</th>
+                <th>Quantidade</th>
+            </tr>
 
-                // Obtenha a página atual a partir dos parâmetros da URL
-                $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+            <?php
+            $itemsPerPage = 5;
 
-                // Calcule o índice de início e fim para os itens da página atual
-                $startIndex = ($page - 1) * $itemsPerPage;
-                $endIndex = $startIndex + $itemsPerPage;
+            // Obtenha a página atual a partir dos parâmetros da URL
+            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
-                // Crie a tabela para exibir os itens da página atual (histórico de vendas)
-                echo '<table>';
-                echo '<tr>
-                        <th>Funcionário</th>
-                        <th>Comprador</th>
-                        <th>Peça</th>
-                        <th>Forma de Pagamento</th>
-                        <th>Valor</th>
-                        <th>Quantidade</th>
-                    </tr>';
+            $totalItems = count($historico);
+            $totalPages = ceil($totalItems / $itemsPerPage);
 
-                $displayedCount = 0; // Contador para controlar a exibição dos itens
-                
-                foreach ($historico as $venda) {
-                    if ($displayedCount >= $startIndex && $displayedCount < $endIndex) {
-                        echo '<tr>';
-                        echo '<td>' . $venda['funcionario_vendedor'] . '</td>';
-                        echo '<td>' . $venda['nome_comprador'] . '</td>';
-                        echo '<td>' . $venda['nome_peca'] . '</td>';
-                        echo '<td>' . $venda['forma_pagamento'] . '</td>';
-                        echo '<td>' . $venda['valor_venda'] . '</td>';
-                        echo '<td>' . $venda['quantidade'] . '</td>';
-                        echo '</tr>';
-                    }
-                    $displayedCount++;
+            // Calcule o índice de início e fim para os itens da página atual
+            $startIndex = ($page - 1) * $itemsPerPage;
+            $endIndex = $startIndex + $itemsPerPage;
+
+            if ($endIndex > $totalItems) {
+                $endIndex = $totalItems;
+            }
+
+            for ($i = $startIndex; $i < $endIndex; $i++) {
+                $venda = $historico[$i];
+                echo '<tr>';
+                echo '<td>' . $venda['funcionario_vendedor'] . '</td>';
+                echo '<td>' . $venda['nome_comprador'] . '</td>';
+                echo '<td>' . $venda['nome_peca'] . '</td>';
+                echo '<td>' . $venda['forma_pagamento'] . '</td>';
+                echo '<td>' . $venda['valor_venda'] . '</td>';
+                echo '<td>' . $venda['quantidade'] . '</td>';
+                echo '</tr>';
+            }
+            ?>
+        </table>
+
+        <!-- Adicione os links de paginação abaixo da tabela -->
+        <div id="pagination">
+            <?php
+            if ($totalPages > 1) {
+                $currentPage = $page;
+
+                if ($currentPage > 1) {
+                    echo '<a href="financeiro_historico.php?page=1">&laquo;&laquo;</a>';
+                    echo '<a href="financeiro_historico.php?page=' . ($currentPage - 1) . '">&laquo;</a>';
                 }
 
-                echo '</table>';
-
-                echo '</div>';
-
-                // Adicione os links de paginação
-                echo '<div id="pagination">';
-                $totalItems = count($historico);
-                $totalPages = ceil($totalItems / $itemsPerPage);
-
-                $displayedPages = 5; // Número de páginas a serem exibidas na páginação
-                
-                if ($totalPages > 1) {
-                    $currentPage = $page;
-                    $firstPage = max(1, $currentPage - floor($displayedPages / 2));
-                    $lastPage = min($totalPages, $firstPage + $displayedPages - 1);
-
-                    for ($i = $firstPage; $i <= $lastPage; $i++) {
-                        echo '<a href="financeiro_historico.php?page=' . $i . '">' . $i . '</a> ';
-
-                    }
-
-                    if ($lastPage < $totalPages) {
-                        echo '<a href="financeiro_historico.php?page=' . ($lastPage + 1) . '">...</a> ';
-                    }
-
-                    if ($currentPage < $totalPages - floor($displayedPages / 2)) {
-                        echo '<a href="financeiro_historico.php?page=' . $totalPages . '">' . $totalPages . '</a> ';
+                // Mostrar até 5 links de página
+                for ($i = max(1, $currentPage - 2); $i <= min($currentPage + 2, $totalPages); $i++) {
+                    if ($i == $currentPage) {
+                        echo '<strong>' . $i . '</strong>';
+                    } else {
+                        echo '<a href="financeiro_historico.php?page=' . $i . '">' . $i . '</a>';
                     }
                 }
 
-                echo '</div>';
-                ?>
-            </table>
+                if ($currentPage < $totalPages) {
+                    echo '<a href="financeiro_historico.php?page=' . ($currentPage + 1) . '">&raquo;</a>';
+                    echo '<a href="financeiro_historico.php?page=' . $totalPages . '">&raquo;&raquo;</a>';
+                }
+            }
+            ?>
         </div>
 </body>
 
