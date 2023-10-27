@@ -142,29 +142,29 @@ if ($result->num_rows > 0) {
             <table>
 
                 <tr>
+                    <th>Foto</th>
                     <th>Nome</th>
-                    <th>Quantidade</th>
-                    <th>Preço de Varejo</th>
-                    <th>Preço de Atacado</th>
+                    <th>Preço Varejo</th>
+                    <th>Preço Atacado</th>
                     <th>Ano</th>
                     <th>Marca</th>
                     <th>Referência</th>
                     <th>Aplicação</th>
+                    <th>Quantidade</th>
                 </tr>
-
 
                 <?php
                 foreach ($consulta as $pesquisa) {
                     echo "<tr>";
+                    echo '<td><img id="img_width" width="100%" src="' . $pesquisa["imagem"] . '"></td>';
                     echo "<td>" . $pesquisa["nome"] . "</td>";
-                    echo "<td>" . $pesquisa["quantidade"] . "</td>";
                     echo "<td>" . $pesquisa["valor_varejo"] . "</td>";
                     echo "<td>" . $pesquisa["valor_atacado"] . "</td>";
                     echo "<td>" . $pesquisa["ano"] . "</td>";
                     echo "<td>" . $pesquisa["marca"] . "</td>";
                     echo "<td>" . $pesquisa["referencia"] . "</td>";
                     echo "<td>" . $pesquisa["aplicacao"] . "</td>";
-                    echo '<img src="' . $pesquisa["imagem"] . '">';
+                    echo "<td>" . $pesquisa["quantidade"] . "</td>";
                     echo "</tr>";
                 }
                 ?>
