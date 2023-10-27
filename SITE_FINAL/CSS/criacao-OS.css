@@ -104,6 +104,7 @@ th {
 #card-botoes-os {
     margin-top: 200px;
     margin-left: 150px;
+    position: sticky;
 }
 
 .botao-os:hover{
@@ -114,9 +115,199 @@ th {
 .container-os {
     display: flex;
     justify-content: space-between;
+}
+
+.card-ordem-prestados .card2-servico {
+    display: flex;
+    width: 400px;
+}
+.card-ordem-prestados label{
+    width: 100%;
+
+}
+
+.container-criar-ordem {
+    padding: 20px;
+}
+
+.card-ordem-serviços form .card2-servico {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+
+}
+
+
+.card-ordem-serviços form .card2-servico div {
+    margin-right: 5px;
+}
+
+.card2-servico div,
+.card-produtos1 div {
+    margin-right: 10px;
+}
+.card-produtos1 {
+    display: flex;
+}
+
+
+#pagamento_previo {
+    height: 20px;
+    width: 20px;
+    margin-left: 10px;
+    margin-top:0px ;
+    cursor: pointer;
+}
+  
+
+
+
+ 
+.card-produtos3 {
+    display: flex;
+}
+
+#cancelar-ordem input,
+#cancelar-ordem select{
+    width: 350px;
+}
+#criar-ordem,
+#cancelar-ordem {
+
+    background-color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    color: #09562F;
+    border-radius: 20px;
+    margin-top: 100px;
+    margin-right: 300px;
+    padding: 20px;
+
+    
+
     
 }
 
-.card-ordens {
-    background-color: #fff;
+.card-numero-os,
+.card-estornar{
+    width: 400x;
+
 }
+
+.estilizacao-h2 {
+    text-align: center;
+    text-transform: uppercase;
+    padding-bottom: 20px;
+    margin-top: 10px;
+}
+
+
+#cancelar-ordem  {
+    display: flex;
+    width: 400px;
+
+
+     
+}
+
+.card2-servico #data input {
+    width: 200px;
+    padding-left: 10px;
+}
+
+.card2-servico select,
+#placa-veiculo input{
+    margin-top: 10px;
+    height: 40px;
+    width: 200px;
+}
+
+#criar-ordem form input, 
+.card-ordem-produtos input, 
+.card-ordem-prestados input,
+#cancelar-ordem input,
+#cancelar-ordem select{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    height: 40px;
+    display: block;
+    background-color: #ddd;
+    border-radius: 5px;
+    font-size: 13pt;
+    color: #09562F;
+    outline: none;
+}
+
+
+
+
+
+#criar-ordem form select,
+.card-ordem-prestados select,
+#cancelar-ordem select{
+    display: block;
+    height: 40px;  
+    font-weight: bold;
+    background-color: #ddd;
+    border-radius: 5px;
+    font-size: 11pt;
+    color: #636363;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+#cancelar-ordem form .botao-ordem-cancelar{
+    margin: 0 auto;
+    background-color: #09562F;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 15pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 50px;
+    margin-top: 10px; 
+    width: 100%;
+    margin-top: 20px;
+
+}
+#cancelar-ordem form .botao-ordem-cancelar:hover{
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+.botao-ordens{
+    margin: 0 auto;
+    background-color: #09562F;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 15pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 50px;
+    margin-top: 10px; 
+    width: 80%;
+    margin-bottom: 20px;
+}
+.botao-ordens:hover{
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+.card-ordem-observacoes textarea {
+    background-color: #ddd;
+    resize:none;
+    height: 80%;
+    width: 100%;
+     display: flex;
+    justify-content: center;
+}
+
+.card-botao-ordem {
+
+    display: flex;
+    justify-content: center;
+}
+
