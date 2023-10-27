@@ -17,7 +17,7 @@
 #botoes-estoque {
     display: flex;
     justify-content: left;
-    flex-direction: column; 
+    flex-direction: column;
 }
 
 /* estilizando botões estoque */
@@ -55,14 +55,14 @@
     background-color: #fff;
     box-shadow: 3px 3px 1px 0px #00000050;
     color: #09562F;
-    height: 400px;
+    height: 500px;
     width: 700px;
     border-radius: 20px;
     padding: 20px;
 }
 
 /* Largura, Altura e posição Adicionar Item */
-#adicionar-item{
+#adicionar-item {
     height: 400px;
     width: 700px;
     margin-top: -60px;
@@ -70,18 +70,18 @@
 }
 
 /* Largura, Altura e posição Remover Item */
-#remover-item{
+#remover-item {
     height: 320px;
-    width: 700px; 
+    width: 700px;
     margin-top: -30px;
     margin-left: 150px;
 }
 
 
 /* Largura, Altura e posição Remover Item */
-#consultar-item{
+#consultar-item {
     height: 320px;
-    width: 700px; 
+    width: 700px;
     margin-top: -30px;
     margin-left: 150px;
 }
@@ -97,7 +97,36 @@
 /* Formulário de Estoque */
 .form_estoque .section_one,
 .section_two,
-.section_three{
+.section_three {
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilizando o input file e botão consultar */
+
+.section_four label {
+    background-color: #09562F;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15pt;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+.section_four label:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+.section_four input[type='file'] {
+    display: none;
+}
+
+.section_four {
     display: flex;
     justify-content: center;
 }
@@ -122,8 +151,7 @@
 }
 
 /* Botão estoque */
-.form_estoque input[type="submit"]{
-    margin: 0 auto;
+.form_estoque input[type="submit"] {
     background-color: #09562F;
     color: #fff;
     cursor: pointer;
@@ -132,7 +160,7 @@
     text-transform: uppercase;
     height: 50px;
     width: 250px;
-    margin-top: 10px;
+    margin: 0;
 }
 
 /* Botão estoque (Quando o mouse passar por cima*/
@@ -142,32 +170,40 @@
     transition: 0.3s;
 }
 
-#resultado_busca_geral{
+/* REMOVER */
+.remover, .pesquisa {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+#resultado_busca_geral {
     margin-top: -40px;
     margin-left: 100px;
-    background-color:rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     padding: 20px;
 }
 
-#resultado_busca_geral h1{
+#resultado_busca_geral h1 {
     color: #09562F;
     text-align: center;
     margin-bottom: 20px;
 }
 
-#resultado_busca_geral th{
+#resultado_busca_geral th {
     margin-bottom: 5px;
     font-size: 13pt;
 
 }
 
-#resultado_busca_geral table{
+#resultado_busca_geral table {
     width: 800px;
     color: #09562F;
 }
 
-#resultado_busca_geral td{
+#resultado_busca_geral td {
     text-align: center;
 }
 
@@ -181,7 +217,7 @@
 /* Paginação */
 #pagination a {
     padding: 5px 10px;
-    margin-right:5px;
+    margin-right: 5px;
     background-color: #03381d;
     color: #fafafa;
     border-radius: 5px;
@@ -189,12 +225,12 @@
 }
 
 /* Paginação */
-#pagination strong{
+#pagination strong {
     color: #09562F;
     padding: 5px 10px;
     border-radius: 20px;
     margin: 5px;
-    background-color:  #ddd;
+    background-color: #ddd;
 }
 
 /* Paginação */
@@ -202,56 +238,71 @@
     background-color: #117f48;
 }
 
-/* Consula item e Consulta Geral de Item */
-#resultado_busca, #resultado_busca_geral{
-    background-color:rgba(255, 255, 255, 0.5);
+/* Consulta item e Consulta Geral de Item */
+#resultado_busca,
+#resultado_busca_geral {
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 20px;
     width: 60%;
     margin: 0 auto;
     padding: 20px;
 }
 
-#resultado_busca_geral{
+#resultado_busca_geral {
     margin-top: 30px;
 }
 
-.centralização{
+.centralização {
     display: flex;
     justify-content: center;
 }
 
 /* Icone de voltar e título */
-.titulo_icone{
+.titulo_icone {
     display: flex;
 }
 
 /* icone voltar */
-#icone_voltar img{
+#icone_voltar img {
     justify-content: left;
     height: 40px;
 }
 
-#resultado_busca h1, .titulo_icone h1{
+#resultado_busca h1,
+.titulo_icone h1 {
     color: #09562F;
     margin: 0 auto;
     text-align: center;
     margin-bottom: 20px;
 }
 
-#resultado_busca th, #resultado_busca_geral th{
+#resultado_busca th,
+#resultado_busca_geral th {
     margin-bottom: 5px;
-    padding: 10px;
+    padding: 15px;
     color: #09562F;
     font-size: 13pt;
 
 }
 
-#resultado_busca table, #resultado_busca_geral table{
+#resultado_busca table,
+#resultado_busca_geral table {
     color: #03381d;
 }
 
-#resultado_busca td, #resultado_busca_geral td{
-    padding: 5px 10px;
+#resultado_busca td,
+#resultado_busca_geral td {
     text-align: center;
     font-size: 13pt;
+}
+
+/* Ajustando a foto */
+#img_width{
+    margin:10px;
+    max-width: 100%;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #09562F;
+    border-radius: 5px;
+    object-fit: cover;
 }
