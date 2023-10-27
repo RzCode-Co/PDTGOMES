@@ -76,9 +76,53 @@
     <body>
         <div id="cabecalho">
             <div id="usuario-info">
-                <img src="<?php echo $fotoUsuario; ?>" alt="Foto do Usuário">
-                <p><?php echo $nomeUsuario; ?></p>
-                <p><?php echo $cargoUsuario; ?></p>
+
+            <?php
+                require_once "config.php";
+
+                if (isset($_POST['clienteid'])) {
+                    $idUsuario = $_POST['clienteid'];
+
+                    // Agora você tem o ID do usuário e pode usá-lo para buscar informações adicionais no banco de dados
+                    $sql = "SELECT nome, cargo, arquivo FROM usuarios WHERE id = ?";
+                    
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $idUsuario);
+                    $stmt->execute();
+                    $stmt->bind_result($nome, $cargo, $arquivo);
+                    $stmt->fetch();
+                    $stmt->close();
+                    
+                    // Exiba as informações do usuário
+                    echo '<div id="cabecalho">';
+                    echo '<div id="usuario-info">';
+                    echo '<img src="' . $arquivo . '" alt="Foto do Usuário">';
+                    echo '<p>' . $nome . '</p>';
+                    echo '<br>';
+                    echo '<p>' . $cargo . '</p>';
+                    echo '</div>';
+                    echo '<div id="icone-notificacoes">';
+                    echo '<img src="caminho-para-o-icone.png" alt="Ícone de Notificações">';
+                    echo '</div>';
+                    echo '</div>';
+
+                    // Agora, você pode continuar com o restante do seu conteúdo da página
+                } else {
+                    if (isset($_GET['id'])) {
+                        $idUsuario = $_GET['id'];
+        
+                        // Agora você tem o ID do usuário e pode usá-lo para buscar informações adicionais no banco de dados
+                        $sql = "SELECT nome, cargo, arquivo FROM usuarios WHERE id = ?";
+        
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $idUsuario);
+                        $stmt->execute();
+                        $stmt->bind_result($nome, $cargo, $arquivo);
+                        $stmt->fetch();
+                        $stmt->close();
+                    }
+                }
+            ?>
             </div>
             <!-- Ícone de notificações -->
             <div id="icone-notificacoes">
@@ -88,14 +132,13 @@
         <!-- Seu menu lateral -->
         <div id="menu-lateral">
             <ul>
-                <li><a href="inicio.php">Inicio</a></li>
-                <li><a href="Venda.html">Venda</a></li>
-                <li><a href="Financeiro.php">Financeiro</a></li>
-                <li><a href="Graficos.php">Gráficos</a></li>
-                <li><a href="Debitos.php">Debitos</a></li>
-                <li><a href="Notificações.php">Notificações</a></li>
-                <li><a href="Estoque.php">Estoque</a></li>
-                <li><a href="Criação OS.php">Criação/Consulta de OS</a></li>
+                <li><a href="inicio.php?id=<?php echo $idUsuario; ?>&cargo=<?php echo $cargo ?>">Inicio</a></li>
+                <li><a href="Venda.php?id=<?php echo $idUsuario; ?>&cargo=<?php echo $cargo ?>">Venda</a></li>
+                <li><a href="Financeiro.php?id=<?php echo $idUsuario; ?>&cargo=<?php echo $cargo ?>">Financeiro</a></li>
+                <li><a href="Debitos.php?id=<?php echo $idUsuario; ?>&cargo=<?php echo $cargo ?>">Debitos</a></li>
+                <li><a href="Notificações.php?id=<?php echo $idUsuario; ?>&cargo=<?php echo $cargo ?>">Notificações</a></li>
+                <li><a href="Estoque.php?id=<?php echo $idUsuario; ?>&cargo=<?php echo $cargo ?>">Estoque</a></li>
+                <li><a href="Criação OS.php?id=<?php echo $idUsuario; ?>&cargo=<?php echo $cargo ?>">Criação/Consulta de OS</a></li>
             </ul>
         </div>
         <?php
@@ -162,12 +205,12 @@
 
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
+                        echo '<img src="' . $row["imagem"] . '">';
                         echo "<td>" . $row["nome"] . "</td>";
                         echo "<td>" . $row["referencia"] . "</td>";
                         echo "<td>" . $row["marca"] . "</td>";
                         echo "<td>" . $row["aplicacao"] . "</td>";
                         echo "<td>" . $row["ano"] . "</td>";
-                        echo '<img src="' . $row["imagem"] . '">';
                         echo "</tr>";
                     }
 
@@ -188,7 +231,7 @@
                             if ($paginaAtual == $i) {
                                 echo "<span class='pagina-atual'>$i</span>";
                             } else {
-                                echo "<a href='?page=$i' class='pagina'>$i</a>";
+                                echo "<a href='?page=$i&nome=$nome&referencia=$referencia&marca=$marca&aplicacao=$aplicacao&ano=$ano' class='pagina'>$i</a>";
                             }
                         }
 
@@ -204,8 +247,6 @@
                 }
                 
             ?>
-
-
         </div>
         </body>
 </html>
