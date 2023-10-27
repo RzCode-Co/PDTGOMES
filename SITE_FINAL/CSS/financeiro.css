@@ -7,11 +7,18 @@
 
 }
 
+.container_inline{
+    width: 100%;
+    height: 80px;
+    padding: 15px;
+    background-color:rgba(255, 255, 255, 0.5) ;
+    margin-bottom:20px;
+}
+
 #titulo-financeiro {
     text-align: center;
     color: #09562f;
     text-transform: uppercase;
-    padding-bottom: 20px;
 }
 
 
@@ -80,7 +87,7 @@
     cursor: pointer;
 }
 
-#tabela-valores {
+#tabela-valores, #tabela-valores2 {
     display: flex;
     justify-content: center;
     padding: 20px;
@@ -89,7 +96,7 @@
     margin-bottom: 20px;
 }
 
-#tabela-valores tr{
+#tabela-valores tr, #tabela-valores2 tr{
     color: #09562F;
     display: flex;
     padding-left: 80px;
@@ -97,12 +104,12 @@
     justify-content: space-between;
 }
 
-#tabela-valores th, #tabela-valores td{
+#tabela-valores th, #tabela-valores td, #tabela-valores2 th, #tabela-valores2 td{
     margin: 0 auto;
 }
 
 /* Gráficos */
-#grafico-saldos{
+#grafico-saldos, #grafico-vendas{
     width: 1300px;
     margin: 0 auto;
     padding-left: 80px;
