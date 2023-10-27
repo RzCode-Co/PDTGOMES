@@ -16,7 +16,7 @@
     <div class="conteiner">
 
         <div class="card">
-            <form enctype="multipart/form-data" action="../PHP/processar_cadastro.php" method="post">
+            <form enctype="multipart/form-data" action="../PHP/processar_cadastro_adm.php" method="post">
 
                 <!-- cadastro -->
                 <div class="cadastro">
@@ -33,6 +33,17 @@
                 <div class="label-float">
                     <label for="senha">Senha:</label>
                     <input type="password" id="senha" placeholder="" name="senha">
+                </div>
+
+                <!-- Cargo -->
+                <div class="label-float">
+                    <label for="cargo">Cargo:</label>
+                    <select name="cargo" id="cargo" onchange="mostrarVendedor()">
+                        <option value="">Selecione...</option>
+                        <option value="admin">ADMIN</option>
+                        <option value="vendedor">VENDEDOR</option>
+                        <option value="cliente">CLIENTE</option>
+                    </select>
                 </div>
                 <div id="cpf_cnpj2">
                     <label>CPF/CNPJ:
@@ -57,7 +68,7 @@
 
                 <!-- Botão "Entrar" -->
                 <div class="justify-center">
-                    <button type="submit">Cadastrar</button>
+                        <button type="submit">Cadastrar</button>
                 </div>
             </form>
 
@@ -88,6 +99,20 @@
             } else {
                 CPF.style.display = "none";
                 CNPJ.style.display = "none";
+            }
+        }
+        function mostrarVendedor(){
+            var selecao = document.getElementById("cargo");
+            if (selecao.value === "vendedor") {
+                document.getElementById("CPF").style.display = "block";
+                document.getElementById("CNPJ").style.display = "none";
+                document.getElementById("cpf_cnpj").style.display = "none";
+                document.getElementById("cpf_cnpj2").style.display = "none";
+            }else{
+                document.getElementById("cpf_cnpj").style.display = "block";
+                document.getElementById("CPF").style.display = "none";
+                document.getElementById("CNPJ").style.display = "none";
+                document.getElementById("cpf_cnpj2").style.display = "block";
             }
         }
 </script>
