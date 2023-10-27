@@ -164,11 +164,11 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
                 <h1>Consultar ordens</h1>
             </div>
 
-            <div id="pesquisa_id">
+            <div id="pesquisa_placa">
                 <form method="GET">
-                    <label>Pesquisar por ID:</label>
-                    <input type="number" name="ordem_servico_id">
-                    <input type="submit" value="Pesquisar">
+                    <label>Pesquisar por Placa do Veículo:</label>
+                    <input type="text" name="veiculo_placa">
+                    <input type="submit" value="Pesquisar" name="Pesquisa">
                 </form>
             </div>
 
@@ -176,14 +176,11 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
             <?php
             require_once "config.php"; // Arquivo de configuração do banco de dados
             
-            // Defina uma variável padrão para ordem_servico_id
-            $ordemServicoID = "";
-
             // Verifique se o campo de pesquisa está preenchido
-            if (isset($_GET['ordem_servico_id'])) {
-                $ordemServicoID = $_GET['ordem_servico_id'];
-                // Consulta SQL para recuperar a ordem de serviço com o ID especificado
-                $sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = $ordemServicoID";
+            if (isset($_GET['veiculo_placa'])) {
+                $veiculoPlaca = $_GET['veiculo_placa'];
+                // Consulta SQL para recuperar a ordem de serviço com a placa do veículo especificada
+                $sql = "SELECT * FROM ordem_servico_completa WHERE veiculo_placa = '$veiculoPlaca' AND status = 'Em andamento'";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -194,35 +191,11 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
                         $os_details[] = $row;
                     }
                 } else {
-                    echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
+                    echo "<p>Nenhuma Ordem de Serviço encontrada com a placa do veículo especificada.</p>";
                 }
             }
             ?>
-            <?php
-            require_once "config.php"; // Arquivo de configuração do banco de dados
             
-            // Defina uma variável padrão para ordem_servico_id
-            $ordemServicoID = "";
-
-            // Verifique se o campo de pesquisa está preenchido
-            if (isset($_GET['ordem_servico_id'])) {
-                $ordemServicoID = $_GET['ordem_servico_id'];
-                // Consulta SQL para recuperar a ordem de serviço com o ID especificado
-                $sql = "SELECT * FROM ordem_servico_completa WHERE ordem_servico_id = $ordemServicoID";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-            
-                    while ($row = $result->fetch_assoc()) {
-                        // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
-                        $os_details[] = $row;
-                    }
-                } else {
-                    echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
-                }
-            }
-            ?>
             <div id="ordens_andamento">
                 <?php
                 if (!empty($os_details)) {
