@@ -46,16 +46,23 @@
 
 
                 <li class="item_menu">
-                    <a href="#">
+                    <a href="../PHP/Graficos.php">
                         <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
                         <span class="txt_link">Gráficos</span>
                     </a>
                 </li>
 
                 <li class="item_menu">
-                    <a href="../PHP/Financeiro.php">
+                    <a href="../HTML/Financeiro.html">
                         <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                        <span class="txt_link">Carteira</span>
+                        <span class="txt_link">Históricos</span>
+                    </a>
+                </li>
+
+                <li class="item_menu">
+                    <a href="../PHP/Criação OS.php">
+                        <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                        <span class="txt_link">O.S</span>
                     </a>
                 </li>
 
@@ -124,7 +131,8 @@
 
                 <div id="adicionar-item" style="display: none;">
                     <h2>Adicionar Item ao Estoque</h2>
-                    <form enctype="multipart/form-data" class="form_estoque" action="../PHP/processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
+                    <form enctype="multipart/form-data" class="form_estoque"
+                        action="../PHP/processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
                         <div class="section_one">
                             <label>Nome do Item: <input type="text" name="nome"></label><br>
                             <label>Referência: <input type="text" name="referencia"></label><br>
@@ -145,9 +153,11 @@
                             <label>Local: <input type="text" name="local"></label><br>
                         </div>
 
-                        <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
+                        <div class="section_four">
+                            <label for="arquivo">ENVIAR FOTO<input type="file" name="arquivo" id="arquivo"></label>
+                            <input type="submit" value="Adicionar">
+                        </div>
 
-                        <input type="submit" value="Adicionar">
                     </form>
                 </div>
 
@@ -168,7 +178,9 @@
                             <label>Quantidade: <input type="number" name="quantidade"></label><br>
                         </div>
 
-                        <input type="submit" value="Remover">
+                        <div class="remover">
+                            <input type="submit" value="Remover" id="botão_remover">
+                        </div>
 
                     </form>
                 </div>
@@ -188,13 +200,14 @@
                             <label>Aplicação: <input type="text" name="aplicacao"></label><br>
                             <label>Ano: <input type="number" name="ano"></label><br>
                         </div>
-
-                        <input type="submit" value="Pesquisar">
+                        <div class="pesquisa">
+                            <input type="submit" value="Pesquisar">
+                        </div>
                     </form>
                 </div>
 
                 <script src="../JS/estoque.js"></script>
-                
+
         </section>
 
     </main>
