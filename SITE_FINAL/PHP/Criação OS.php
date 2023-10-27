@@ -158,91 +158,157 @@ $conn->close();
     </nav>
 
 
-    
-       <div class="container-os">
 
-            <div id="card-botoes-os">
-                <button onclick="mostrarCriarOrdem()" class="botao-os">Criar Ordem</button>
-                <button onclick="mostrarCancelarOrdem()" class="botao-os">Cancelar Ordem</button>
-                <button onclick="mostrarConsultarOrdens()" class="botao-os">Consultar Ordens</button>
-                <button onclick="mostrarOrdensConcluidas() " class="botao-os">Ordens Concluidas</button>
-                
-            </div>
+    <div class="container-os">
 
-            <div class="card-ordens">
-                <div id="criar-ordem" style="display: none;">
-                    <!-- Conteúdo para criar uma nova ordem de serviço -->
-                    <h2>Criar Nova Ordem de Serviço</h2>
-                    <form method="POST" action="processar_os.php">
-                        <label>Nome do Cliente:</label>
-                        <input type="text" name="cliente_nome" required><br>
-                        <label>CPF/CNPJ:
-                            <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
-                                <option value="">Selecione...</option>
-                                <option value="CPF">CPF</option>
-                                <option value="CNPJ">CNPJ</option>
-                            </select>
-                            <br>
-                        </label>
-                        <div id="CPF" style="display: none;">
-                            <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+        <div id="card-botoes-os">
+            <button onclick="mostrarCriarOrdem()" class="botao-os">Criar Ordem</button>
+            <button onclick="mostrarCancelarOrdem()" class="botao-os">Cancelar Ordem</button>
+            <button onclick="mostrarConsultarOrdens()" class="botao-os">Consultar Ordens</button>
+            <button onclick="mostrarOrdensConcluidas() " class="botao-os">Ordens Concluidas</button>
+
+        </div>
+
+        <div class="card-ordens">
+            <div id="criar-ordem" style="display: none;">
+                <!-- Conteúdo para criar uma nova ordem de serviço -->
+                <div class="container-criar-ordem">
+
+                    <section class="card-ordem-serviços">
+                        <h2 class="estilizacao-h2">Criar Nova Ordem de Serviço</h2>
+                        <form method="POST" action="processar_os.php">
+
+                            <div class="card2-servico">
+                                <div>
+                                    <label>Nome do Cliente:</label>
+                                    <input type="text" name="cliente_nome" required id="input-servicos">
+                                </div>
+
+                                <div id="cpf">
+
+                                    <label>CPF/CNPJ:</label>
+                                    <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
+                                        <option value="">Selecione...</option>
+                                        <option value="CPF">CPF</option>
+                                        <option value="CNPJ">CNPJ</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div id="CPF" style="display: none;">
+                                <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+                            </div>
+                            <div id="CNPJ" style="display: none;">
+                                <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+                            </div>
+
+                            <div class="card2-servico">
+
+                                <div>
+                                    <label>Nome do Veículo:</label>
+                                    <input type="text" name="veiculo_nome" required>
+                                </div>
+
+                                <div id="placa-veiculo">
+                                    <label>Placa do Veículo:</label>
+                                    <input type="text" name="veiculo_placa" required>
+                                </div>
+
+                            </div>
+
+                            <div class="card2-servico">
+                                <div id="endereco">
+                                    <label>Endereço do Cliente:</label>
+                                    <input type="text" name="endereco_cliente" required>
+                                </div>
+                                <div id="data">
+                                    <label>Data de Abertura:</label>
+                                    <input type="date" name="data_abertura" required>
+                                </div>
+                            </div>
+                    </section>
+
+                    <section class="card-ordem-produtos">
+                        <h2 class="estilizacao-h2">Produtos Vendidos</h2>
+
+
+                        <div class="card-produtos1">
+                            <div>
+                                <label>Código do Produto:</label>
+                                <input type="number" name="codigo_produto[]">
+                            </div>
+                            <div>
+                                <label>Produto:</label>
+                                <input type="text" name="produto[]">
+                            </div>
                         </div>
-            
-                        <div id="CNPJ" style="display: none;">
-                            <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+
+                        <div class="card-produtos1">
+
+                            <div class="referencia">
+                                <label>Referência:</label>
+                                <input type="text" name="referencia[]">
+                            </div>
+
+                            <div class="tipo">
+                                <label>Tipo:</label>
+                                <input type="text" name="tipo[]">
+                            </div>
                         </div>
-                        <label>Nome do Veículo:</label>
-                        <input type="text" name="veiculo_nome" required><br>
-            
-                        <label>Placa do Veículo:</label>
-                        <input type="text" name="veiculo_placa" required><br>
-            
-                        <label>Endereço do Cliente:</label>
-                        <input type="text" name="endereco_cliente" required><br><br>
-            
-                        <label>Data de Abertura:</label>
-                        <input type="date" name="data_abertura" required><br><br>
-            
-                        <h2>Produtos Vendidos</h2>
-                        <label>Código do Produto:</label>
-                        <input type="number" name="codigo_produto[]"><br>
-            
-                        <label>Produto:</label>
-                        <input type="text" name="produto[]"><br>
-            
-                        <label>Referência:</label>
-                        <input type="text" name="referencia[]"><br>
-            
-                        <label>Tipo:</label>
-                        <input type="text" name="tipo[]"><br>
-            
-                        <label>Quantidade:</label>
-                        <input type="number" name="quantidade[]"><br>
-            
-                        <label>Preço:</label>
-                        <input type="number" name="preco[]"><br>
-            
-                        <label for="pagamento_previo">Produtos Pagos Antes da OS?</label>
-                        <input type="checkbox" name="pagamento_previo" id="pagamento_previo" value="1">
-            
-                        <h2>Serviços Prestados</h2>
-                        <label>Nome do Serviço:</label>
-                        <input type="text" name="servico_nome[]"><br>
-            
-                        <label>Técnico Responsável:</label>
-                        <input type="text" name="tecnico_responsavel[]"><br>
-            
-                        <label>Valor do Serviço:</label>
-                        <input type="number" name="valor_servico[]"><br>
-            
-                        <label for="forma_pagamento">Forma de Pagamento:</label>
-                        <select name="forma_pagamento" id="forma_pagamento" onchange="mostrarParcelas()">
-                            <option value="dinheiro">Dinheiro</option>
-                            <option value="cartao">Cartão de Crédito</option>
-                            <option value="cartao_debito">Cartão de Débito</option>
-                            <option value="pix">Pix</option>
-                            <option value="Parcelado">Parcelado</option>
-                        </select>
+
+                        <div class="card-produtos1">
+                            <div>
+                                <label>Quantidade:</label>
+                                <input type="number" name="quantidade[]">
+                            </div>
+                            <div>
+                                <label>Preço:</label>
+                                <input type="number" name="preco[]">
+                            </div>
+                        </div>
+
+                            <div class="card-produtos1">
+                            <label for="pagamento_previo">Produtos Pagos Antes da OS?</label>
+                            <input type="checkbox" name="pagamento_previo" id="pagamento_previo" value="1">
+                            </div>
+                    </section>
+
+                    <section class="card-ordem-prestados">
+
+                        <h2 class="estilizacao-h2">Serviços Prestados</h2>
+
+                        <div class="card2-servico">
+                            <div>
+                                <label>Nome do Serviço:</label>
+                                <input type="text" name="servico_nome[]">
+                            </div>
+
+                            <div>
+                                <label>Técnico Responsável:</label>
+                                <input type="text" name="tecnico_responsavel[]">
+                            </div>
+                        </div>
+
+
+                        <div class="card2-servico">
+
+                            <div>
+                                <label>Valor do Serviço:</label>
+                                <input type="number" name="valor_servico[]">
+                            </div>
+
+                            <div>
+                                <label for="forma_pagamento">Forma de Pagamento:</label>
+                                <select name="forma_pagamento" id="forma_pagamento" onchange="mostrarParcelas()">
+                                    <option value="dinheiro">Dinheiro</option>
+                                    <option value="cartao">Cartão de Crédito</option>
+                                    <option value="cartao_debito">Cartão de Débito</option>
+                                    <option value="pix">Pix</option>
+                                    <option value="Parcelado">Parcelado</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div id="parcelas" style="display: none;">
                             <label for="numero_parcelas">Número de Parcelas:
                                 <select name="numero_parcelas" id="numero_parcelas">
@@ -256,41 +322,50 @@ $conn->close();
                                 </select>
                             </label>
                         </div>
-            
-                        <h2>Observações</h2>
+                    </section>
+
+                    <section class="card-ordem-observacoes">
                         <label>Observações:</label>
-                        <textarea name="observacoes_vendedor" rows="4" cols="50"></textarea><br>
-            
-            
-                        <input type="submit" value="Cadastrar Ordem de Serviço">
-                    </form>
+                        <textarea name="observacoes_vendedor" rows="4" cols="50"></textarea>
+                    </section>
                 </div>
-                
-                <div id="cancelar-ordem" style="display: none;">
-                    <h2>Cancelar Ordem de Serviço</h2>
-                    <form method="POST" action="processar_os_devolucao.php">
-                        <label>Numero da OS:</label>
-                        <input type="int" name="ordem_servico_id" required><br><br>
-            
-                        <label>Deseja Estornar os Produto para o Estoque ?</label>
-                        <select name="estornar_produtos" id="estornar_produtos" onchange="mostrarCampo()">
-                            <option value="">Selecione...</option>
-                            <option value="Sim">Sim</option>
-                            <option value="Nao">Não</option>
-                        </select>
-            
-                        <br>
-            
-                        <input type="submit" value="Cancelar Ordem de Serviço">
-                    </form>
+
+                <div class="card-botao-ordem">
+                    <input type="submit" value="Cadastrar Ordem de Serviço" class="botao-ordens">
                 </div>
-            
-                <div id="consultar-ordens"></div>
-            
-                <div id="ordens-concluidas"></div>
+
+                </form>
             </div>
-       </div>
-    
+
+            <div id="cancelar-ordem" style="display: none;">
+                <h2 class="estilizacao-h2">Cancelar Ordem de Serviço</h2>
+                <form method="POST" action="processar_os_devolucao.php">
+
+                    <div class="container-card-cancelar">
+                        <div class="card-numero-os">
+                            <label>Numero da OS:</label>
+                            <input type="int" name="ordem_servico_id" required>
+                        </div>
+                        <div class="card-estornar">
+                            <label>Estornar os Produto para o Estoque ?</label>
+                            <select name="estornar_produtos" id="estornar_produtos" onchange="mostrarCampo()">
+                                <option value="">Selecione...</option>
+                                <option value="Sim">Sim</option>
+                                <option value="Nao">Não</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input type="submit" value="Cancelar Ordem de Serviço" class="botao-ordem-cancelar">
+                </form>
+            </div>
+
+            <div id="consultar-ordens"></div>
+
+            <div id="ordens-concluidas"></div>
+        </div>
+    </div>
+
 
 </body>
 <script>
