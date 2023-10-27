@@ -75,17 +75,26 @@ if ($result_calcula_valores) {
             total_ganho = VALUES(total_ganho), 
             total_lucro = VALUES(total_lucro), 
             total_gasto = VALUES(total_gasto)";
-        
+
         if ($conn->query($sql_insere_atualiza_saldos) === TRUE) {
-            echo "Valores de saldo inseridos/atualizados com sucesso.";
+
         } else {
-            echo "Erro ao inserir/atualizar valores de saldo: " . $conn->error;
+            echo '<script>
+                    alert("Erro ao inserir/atualizar valores");
+                    window.location.href = "../PHP/Graficos.php";
+                </script>';
         }
     } else {
-        echo "Nenhum resultado encontrado na consulta para calcular valores.";
+        echo '<script>
+                    alert("Nenhum resultado encontrado na consulta para calcular valores.");
+                    window.location.href = "../PHP/Graficos.php";
+                </script>';
     }
 } else {
-    echo "Erro na consulta SQL para calcular valores: " . $conn->error;
+    echo '<script>
+                    alert("Erro na consulta SQL para calcular valores");
+                    window.location.href = "../PHP/Graficos.php";
+                </script>';
 }
 
 // Consulta SQL para obter os valores da tabela saldos
@@ -161,6 +170,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Calcule os totais de vendas e débitos
             $preco_total_geral += $row["preco_total_geral"];
             $totalDebito += $row["valor_debito"];
+        }
+    }
+    // Consulta SQL para buscar os totais de valores da tabela "valores2"
+    $sql_valores2 = "SELECT 
+    SUM(valor_venda) AS soma_valor_venda,
+    SUM(valor_servico) AS soma_valor_servico,
+    SUM(preco_total_geral) AS soma_preco_total_geral,
+    SUM(valor_debito) AS soma_valor_debito
+    FROM valores";
+
+    $result_valores2 = $conn->query($sql_valores2);
+
+    if ($result_valores2) {
+        if ($result_valores2->num_rows > 0) {
+            $row_valores2 = $result_valores2->fetch_assoc();
+
+            // Soma dos valores da tabela "valores2"
+            $total_ganho_valores2 = $row_valores2["soma_valor_venda"] + $row_valores2["soma_valor_servico"] + $row_valores2["soma_preco_total_geral"];
+            $total_gasto_valores2 = $row_valores2["soma_valor_debito"];
+            $total_lucro_valores2 = $total_ganho_valores2 - $total_gasto_valores2;
         }
     }
 }
@@ -288,9 +317,15 @@ $conn->close();
         </ul>
 
     </nav>
+
+    <div class="container_inline">
+        <h1 id="titulo-financeiro">GRÁFICOS</h1>
+    </div>
+
     <div class="container-grafico">
-    <h1 id="titulo-financeiro">Valores Financeiros</h1>
-        <button onclick="mostrarSaldos()" class="botao-geral" id="mostrar-saldos-e-debitos">Mostrar Saldos e Débitos</button>
+
+        <button onclick="mostrarSaldos()" class="botao-geral" id="mostrar-saldos-e-debitos">Mostrar Saldos e
+            Débitos</button>
         <form method="post" action="Graficos.php" id="form-saldos-e-debitos">
 
             <div class="botao-geral">
@@ -345,7 +380,7 @@ $conn->close();
         </form>
     </div>
     <!-- Tabela para mostrar os valores -->
-    <div id="valores" style="display: none;">
+    <div id="valores" style="display:none;">
         <div id="tabela-valores">
             <table>
                 <tr>
@@ -353,7 +388,7 @@ $conn->close();
                     <th>Total Gasto</th>
                     <th>Total Lucro</th>
                 </tr>
-                
+
                 <tr>
                     <td>
                         <?php echo $valores_saldos['total_ganho']; ?>
@@ -368,37 +403,31 @@ $conn->close();
             </table>
         </div>
     </div>
-    
-    <div id="tabelaGastos" style="display: none;">
-        <table>
-            <tr>
-                <th>Índice</th>
-                <th>Valor da Venda</th>
-                <th>Valor do Serviço</th>
-                <th>Preço Total Geral</th>
-                <th>Valor do Débito</th>
-                <th>Data da Venda</th>
-            </tr>
-            <?php
-            $indice = 1;
-            foreach ($vendas as $venda) {
-                echo "<tr>";
-                echo "<td>" . $indice . "</td>";
-                echo "<td>" . $venda["valor_venda"] . "</td>";
-                echo "<td>" . $venda["valor_servico"] . "</td>";
-                echo "<td>" . $venda["preco_total_geral"] . "</td>";
-                echo "<td>" . $venda["valor_debito"] . "</td>";
-                echo "<td>" . $venda["data_venda"] . "</td>";
-                echo "</tr>";
-                $indice++;
-            }
-            ?>
-        </table>
+    <div id="valores2" style="display:block;">
+        <div id="tabela-valores2">
+            <table>
+                <tr>
+                    <th>Total Ganho</th>
+                    <th>Total Gasto</th>
+                    <th>Total Lucro</th>
+                </tr>
+                <tr>
+                    <td id="totalGanho2">
+                        <?php echo $preco_total_geral; ?>
+                    </td>
+                    <td id="totalGasto2">
+                        <?php echo $totalDebito; ?>
+                    </td>
+                    <td id="totalLucro2">
+                        <?php echo $preco_total_geral - $totalDebito; ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
-
     <div id="grafico-saldos" style="display: none;">
-    
-        <canvas id="grafico" width="200" height="60"></canvas>
+
+        <canvas id="grafico" width="400" height="200"></canvas>
         <script>
             // Acesse o contexto do canvas
             var ctx = document.getElementById("grafico").getContext("2d");
@@ -444,15 +473,15 @@ $conn->close();
         <script>
             var ctx = document.getElementById('graficoVendas').getContext('2d');
 
-            // Use os totais calculados no PHP para criar o gráfico
-            var preco_total_geral = <?php echo $preco_total_geral ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
-            var totalDebito = <?php echo $totalDebito ?? 0; ?>; // Defina um valor padrão se a variável não estiver definida
-            var lucro = preco_total_geral - totalDebito;
+            var totalGanho = <?php echo $preco_total_geral; ?>;
+            var totalGasto = <?php echo $totalDebito; ?>;
+            var lucro = totalGanho - totalGasto;
 
+            // Use os totais calculados no PHP para criar o gráfico
             var data = {
                 labels: ['Ganhos', 'Gastos', 'Lucro'],
                 datasets: [{
-                    data: [preco_total_geral, totalDebito, lucro],
+                    data: [totalGanho, totalGasto, lucro],
                     backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)'],
                     borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)'],
                     borderWidth: 1
@@ -476,17 +505,19 @@ $conn->close();
     </div>
 </body>
 <script>
-    function mostrarGastos() {
-        document.getElementById("tabelaGastos").style.display = "block";
-        document.getElementById("grafico-saldos").style.display = "none";
-        document.getElementById("grafico-vendas").style.display = "block";
-        document.getElementById("valores").style.display = "block";
-    }
+    // Atualize os elementos na tabela de valores2 com os valores do gráfico
+    var totalGanho = <?php echo $preco_total_geral; ?>;
+    var totalGasto = <?php echo $totalDebito; ?>;
+    var lucro = totalGanho - totalGasto;
+    // Atualize os elementos de tabela na tabela de valores2
+    document.getElementById("totalGanho2").innerText = totalGanho;
+    document.getElementById("totalGasto2").innerText = totalGasto;
+    document.getElementById("totalLucro2").innerText = lucro;
     function mostrarSaldos() {
-        document.getElementById("tabelaGastos").style.display = "none";
         document.getElementById("grafico-saldos").style.display = "block";
         document.getElementById("grafico-vendas").style.display = "none";
         document.getElementById("valores").style.display = "block";
+        document.getElementById("valores2").style.display = "none";
     }
     function mostrarIntervaloDeTempo() {
         var selectSaldos = document.getElementById("saldos");
