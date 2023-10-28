@@ -21,10 +21,6 @@ body {
     align-items: center; /* Centraliza verticalmente os elementos do usuário */
 }
 
-#icone-notificacoes {
-    /* Adicione estilos para o ícone de notificações, como tamanho, margem, etc. */
-}
-
 /* Estilização para o menu lateral */
 #menu-lateral {
     background-color: black; /* Cor de fundo do menu (pode ajustar conforme desejado) */
