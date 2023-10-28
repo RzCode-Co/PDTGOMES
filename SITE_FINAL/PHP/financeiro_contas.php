@@ -1,56 +1,8 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    require_once "config.php"; 
-
-    // Consulta SQL para buscar as vendas com forma de pagamento "Parcelado" e incluir a coluna valor_parcela
-    $sql = "SELECT id, nome_comprador, numero_parcelas, data_venda, valor_parcela FROM vendas WHERE forma_pagamento = 'Parcelado'";
-
-    $result = $conn->query($sql);
-
-    // Verifique se a consulta foi bem-sucedida
-    if ($result) {
-        $currentDate = new DateTime(); // Data atual
-        $itemsToUpdate = array(); // Array para armazenar as vendas a serem atualizadas
-
-        while ($row = $result->fetch_assoc()) {
-            $dataVenda = new DateTime($row['data_venda']);
-            $diff = $currentDate->diff($dataVenda);
-
-            if ($diff->m >= 1) {
-                // Se passou 1 mês ou mais desde a venda, atualize a venda
-                $itemsToUpdate[] = $row;
-            }
-        }
-
-        // Atualize as vendas que completaram 1 mês
-        foreach ($itemsToUpdate as $item) {
-            $idVenda = $item['id'];
-            $numeroParcelas = $item['numero_parcelas'];
-            $valorParcela = $item['valor_parcela'];
-
-            // Atualize o número de parcelas
-            $newNumeroParcelas = $numeroParcelas - 1;
-
-            if ($newNumeroParcelas <= 0) {
-                $newNumeroParcelas = 0;
-                $sql = "UPDATE vendas SET status = 'Completa' WHERE id = $idVenda";
-                $conn->query($sql);
-            }
-
-            // Adicione o valor da parcela à tabela de valores
-            $sql = "INSERT INTO valores (id_op, preco_total_geral, data_venda) VALUES ($idVenda, $valorParcela, NOW())";
-            $conn->query($sql);
-
-            // Atualize o número de parcelas na tabela de vendas
-            $sql = "UPDATE vendas SET numero_parcelas = $newNumeroParcelas WHERE id = $idVenda";
-            $conn->query($sql);
-        }
-    }
-
-}
+require_once "config.php"; // Arquivo de configuração do banco de dados
 
 // Consulta SQL para buscar as vendas com forma de pagamento "Parcelado"
-$sql = "SELECT nome_comprador, numero_parcelas, data_venda FROM vendas WHERE forma_pagamento = 'Parcelado'";
+$sql = "SELECT nome_comprador, valor_venda, numero_parcelas, data_venda FROM vendas WHERE forma_pagamento = 'Parcelado'";
 
 $result = $conn->query($sql);
 
@@ -62,9 +14,9 @@ if ($result->num_rows > 0) {
         $historico[] = $row;
     }
 }
-
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -199,7 +151,7 @@ $conn->close();
             $itemsPerPage = 10;
 
             // Obtenha a página atual a partir dos parâmetros da URL
-            $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+            $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 
             $totalItems = count($historico);
             $totalPages = ceil($totalItems / $itemsPerPage);
@@ -220,6 +172,7 @@ $conn->close();
                 echo '<table>';
                 echo '<tr>
                         <th>Nome do comprador</th>
+                        <th>Valor da venda</th>
                         <th>Número de Parcelas</th>
                         <th>Data de Venda</th>
                     </tr>';
@@ -227,6 +180,7 @@ $conn->close();
                 for ($i = $startIndex; $i < $endIndex; $i++) {
                     echo '<tr>';
                     echo '<td>' . $historico[$i]['nome_comprador'] . '</td>';
+                    echo '<td>' . $historico[$i]['valor_venda'] . '</td>';
                     echo '<td>' . $historico[$i]['numero_parcelas'] . 'x</td>';
                     echo '<td>' . $historico[$i]['data_venda'] . '</td>';
                     echo '</tr>';
@@ -237,35 +191,6 @@ $conn->close();
                 echo '<p>Não há itens para exibir.</p>';
             }
             ?>
-
-            <div id="pagination">
-                <?php
-                if ($totalPages > 1) {
-                    $currentPage = $page;
-
-                    echo '<ul class="pagination">';
-                    if ($currentPage > 1) {
-                        echo '<a href="contas_receber.php?page=1">&laquo;&laquo;</a>';
-                        echo '<a href="contas_receber.php?page=' . ($currentPage - 1) . '">&laquo;</a>';
-                    }
-
-                    // Mostrar até 5 links de página
-                    for ($i = max(1, $currentPage - 2); $i <= min($currentPage + 2, $totalPages); $i++) {
-                        if ($i == $currentPage) {
-                            echo '<strong>' . $i . '</strong>';
-                        } else {
-                            echo '<a href="contas_receber.php?page=' . $i . '">' . $i . '</a>';
-                        }
-                    }
-
-                    if ($currentPage < $totalPages) {
-                        echo '<a href="contas_receber.php?page=' . ($currentPage + 1) . '">&raquo;</a>';
-                        echo '<a href="contas_receber.php?page=' . $totalPages . '">&raquo;&raquo;</a>';
-                    }
-
-                    echo '</ul>';
-                }
-                ?>
         </div>
 
         <div id="pagination">
@@ -297,24 +222,6 @@ $conn->close();
             }
             ?>
         </div>
-        <script>
-            function atualizarVendasUmMes() {
-                <?php
-                    require_once "config.php";
-
-                    // Execute o procedimento armazenado
-                    $sql = "CALL AtualizarValorParcela()";
-                    $sql = "CALL AtualizarValorParcelaOrdemCompleta()";
-                    $sql = "CALL AtualizarValorParcelaVendas()";
-                    if ($conn->query($sql) === TRUE) {
-                        echo "Procedimento armazenado executado com sucesso.";
-                    } else {
-                        echo "Erro ao executar o procedimento armazenado: " . $conn->error;
-                    }
-                ?>
-                
-            }
-        </script>
     </div>
 </body>
 

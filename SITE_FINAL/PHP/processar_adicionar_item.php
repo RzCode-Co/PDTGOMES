@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
                         echo '<script>window.location.href = "estoque.html";</script>';
                     }
     } else {
+        if(move_uploaded_file($_FILES["arquivo"]["tmp_name"], $caminhoCompleto)){
             // Insere um novo registro no estoque
             $inserir_sql = "INSERT INTO estoque (nome, referencia, marca, aplicacao, ano, quantidade, valor_custo, valor_varejo, valor_atacado, localizacao, imagem) VALUES ('$nome', '$referencia', '$marca', '$aplicacao', '$ano', '$quantidade', '$valor_custo', '$valor_varejo', '$valor_atacado', '$local','$caminhoCompleto')";
             if ($conn->query($inserir_sql) === TRUE) {
@@ -59,8 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
                 echo '<script>alert("Erro ao adicionar o item: ' . $conn->error . '");</script>';
                 echo '<script>window.location.href = "estoque.html";</script>';
             }
-            if(move_uploaded_file($_FILES["arquivo"]["tmp_name"], $caminhoCompleto)){
-            }
+        }
     }
 }
 

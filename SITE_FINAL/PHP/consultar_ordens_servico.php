@@ -44,7 +44,7 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
     <meta charset="UTF-8">
     <title>Criação/Consulta de OS</title>
     <link rel="stylesheet" href="../CSS/pagina_inicial.css">
-    <link rel="stylesheet" href="../CSS/consultar_ordens.css">
+    <link rel="stylesheet" href="../CSS/consultar_ordens_geral.css">
 </head>
 
 <body>
@@ -156,110 +156,109 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
 
     </nav>
 
-    <div class="centralização_geral">
-        <div id="consultar-ordens">
-            <div class="titulo_icone">
-                <a id="icone_voltar" href="../PHP/Criação OS.php"><img src="../CSS/img/voltar.svg"
-                        alt="voltar página"></a>
-                <h1>Consultar ordens</h1>
-            </div>
 
-            <div id="pesquisa_placa">
-                <form method="GET">
-                    <label>Pesquisar por Placa do Veículo:</label>
-                    <input type="text" name="veiculo_placa">
-                    <input type="submit" value="Pesquisar" name="Pesquisa">
-                </form>
-            </div>
+    <div id="consultar-ordens">
+        <div class="titulo_icone">
+            <a id="icone_voltar" href="../PHP/Criação OS.php"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
+            <h1>Consultar ordens</h1>
+        </div>
+
+        <div id="pesquisa_placa">
+            <form method="GET">
+                <label>Pesquisar por Placa do Veículo:</label>
+                <input type="text" name="veiculo_placa">
+                <input type="submit" value="Pesquisar" name="Pesquisa">
+            </form>
+        </div>
 
 
+        <?php
+        require_once "config.php"; // Arquivo de configuração do banco de dados
+        
+        // Verifique se o campo de pesquisa está preenchido
+        if (isset($_GET['veiculo_placa'])) {
+            $veiculoPlaca = $_GET['veiculo_placa'];
+            // Consulta SQL para recuperar a ordem de serviço com a placa do veículo especificada
+            $sql = "SELECT * FROM ordem_servico_completa WHERE veiculo_placa = '$veiculoPlaca' AND status = 'Em andamento'";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+        
+                while ($row = $result->fetch_assoc()) {
+                    // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
+                    $os_details[] = $row;
+                }
+            } else {
+                echo "<p>Nenhuma Ordem de Serviço encontrada com a placa do veículo especificada.</p>";
+            }
+        }
+        ?>
+
+        <div id="ordens_andamento">
             <?php
-            require_once "config.php"; // Arquivo de configuração do banco de dados
-            
-            // Verifique se o campo de pesquisa está preenchido
-            if (isset($_GET['veiculo_placa'])) {
-                $veiculoPlaca = $_GET['veiculo_placa'];
-                // Consulta SQL para recuperar a ordem de serviço com a placa do veículo especificada
-                $sql = "SELECT * FROM ordem_servico_completa WHERE veiculo_placa = '$veiculoPlaca' AND status = 'Em andamento'";
-                $result = $conn->query($sql);
-
-                if ($result->num_rows > 0) {
-                    $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-            
-                    while ($row = $result->fetch_assoc()) {
-                        // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
-                        $os_details[] = $row;
+            if (!empty($os_details)) {
+                foreach ($os_details as $os) {
+                    if ($os['status'] == 'Concluída') {
+                        // Não exiba ordens concluídas aqui
+                        continue;
                     }
-                } else {
-                    echo "<p>Nenhuma Ordem de Serviço encontrada com a placa do veículo especificada.</p>";
+                    echo "<div class='ordem_servico'>";
+                    echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                    echo "<table>";
+                    echo "<tr><th>ID:</th><td>{$os['ordem_servico_id']}</td></tr>";
+                    echo "<tr><th>Cliente:</th><td>{$os['cliente_nome']}</td></tr>";
+                    echo "<tr><th>Veículo:</th><td>{$os['veiculo_nome']}</td></tr>";
+                    echo "<tr><th>Placa do Veículo:</th><td>{$os['veiculo_placa']}</td></tr>";
+                    echo "<tr><th>Data de Abertura:</th><td>{$os['data_abertura']}</td></tr>";
+                    echo "<tr><th>Status:</th><td>{$os['status']}</td></tr>";
+                    echo "</table>";
+                    echo "</div>";
                 }
             }
             ?>
-            
-            <div id="ordens_andamento">
+        </div>
+
+        <div class="paginacao_detalhes">
+            <div class="paginacao">
                 <?php
-                if (!empty($os_details)) {
-                    foreach ($os_details as $os) {
-                        if ($os['status'] == 'Concluída') {
-                            // Não exiba ordens concluídas aqui
-                            continue;
-                        }
-                        echo "<div class='ordem_servico'>";
-                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-                        echo "<table>";
-                        echo "<tr><th>ID:</th><td>{$os['ordem_servico_id']}</td></tr>";
-                        echo "<tr><th>Cliente:</th><td>{$os['cliente_nome']}</td></tr>";
-                        echo "<tr><th>Veículo:</th><td>{$os['veiculo_nome']}</td></tr>";
-                        echo "<tr><th>Placa do Veículo:</th><td>{$os['veiculo_placa']}</td></tr>";
-                        echo "<tr><th>Data de Abertura:</th><td>{$os['data_abertura']}</td></tr>";
-                        echo "<tr><th>Status:</th><td>{$os['status']}</td></tr>";
-                        echo "</table>";
-                        echo "</div>";
+                // Exibir links de paginação apenas se houver mais de uma página
+                if ($totalPaginas > 1) {
+                    // Link para a página anterior
+                    if ($paginaAtual > 1) {
+                        echo "<a href='?pagina=" . ($paginaAtual - 1) . "' class='pagina-anterior'>&laquo;</a>";
                     }
+
+                    // Links para as páginas intermediárias
+                    $quantidadeLinks = 5; // Quantidade de links visíveis
+                    $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
+                    $fim = min($totalPaginas, $paginaAtual + floor($quantidadeLinks / 2));
+
+                    for ($i = $inicio; $i <= $fim; $i++) {
+                        if ($paginaAtual == $i) {
+                            echo "<span class='pagina-atual'>$i</span>";
+                        } else {
+                            echo "<a href='?pagina=$i' class='pagina'>$i</a>";
+                        }
+                    }
+
+                    // Link para a próxima página
+                    if ($paginaAtual < $totalPaginas) {
+                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "' class='proxima-pagina'>&raquo;</a>";
+                    }
+                } else {
+                    // Caso haja apenas uma página, mostre o link de página 1
+                    echo "<span class='pagina-atual'>1</span>";
                 }
                 ?>
             </div>
 
-            <div class="paginacao_detalhes">
-                <div class="paginacao">
-                    <?php
-                    // Exibir links de paginação apenas se houver mais de uma página
-                    if ($totalPaginas > 1) {
-                        // Link para a página anterior
-                        if ($paginaAtual > 1) {
-                            echo "<a href='?pagina=" . ($paginaAtual - 1) . "' class='pagina-anterior'>&laquo;</a>";
-                        }
 
-                        // Links para as páginas intermediárias
-                        $quantidadeLinks = 5; // Quantidade de links visíveis
-                        $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
-                        $fim = min($totalPaginas, $paginaAtual + floor($quantidadeLinks / 2));
+            <div></div>
 
-                        for ($i = $inicio; $i <= $fim; $i++) {
-                            if ($paginaAtual == $i) {
-                                echo "<span class='pagina-atual'>$i</span>";
-                            } else {
-                                echo "<a href='?pagina=$i' class='pagina'>$i</a>";
-                            }
-                        }
-
-                        // Link para a próxima página
-                        if ($paginaAtual < $totalPaginas) {
-                            echo "<a href='?pagina=" . ($paginaAtual + 1) . "' class='proxima-pagina'>&raquo;</a>";
-                        }
-                    } else {
-                        // Caso haja apenas uma página, mostre o link de página 1
-                        echo "<span class='pagina-atual'>1</span>";
-                    }
-                    ?>
-                </div>
-
-
-                <div></div>
-
-            </div>
-            <a class="detalhes_os" href="detalhes_os_em_andamento.php">Detalhes</a>
         </div>
+        <a class="detalhes_os" href="detalhes_os_em_andamento.php">Detalhes</a>
+    </div>
 
 </body>
 <script>
