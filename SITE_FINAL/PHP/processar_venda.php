@@ -47,8 +47,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Verificar se a quantidade é suficiente
         if ($quantidade > 0) {
+            $data_abertura = date("Y-m-d");
             // Consulta SQL para inserir a venda na tabela "vendas"
-            $sql = "INSERT INTO vendas (nome_comprador, nome_peca, marca, ano, referencia, aplicacao, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, numero_parcelas, valor_venda, funcionario_vendedor, garantia_produto) VALUES ('$nome_comprador', '$nome_peca', '$marca', '$ano', '$referencia', '$aplicacao', '$quantidade', '$cpf_cnpj', '$CPF', '$CNPJ', '$forma_pagamento', '$numero_parcelas', '$valor_venda', '$funcionario_vendedor', '$garantia_produto')";
+            $sql = "INSERT INTO vendas (cliente_nome, nome_peca, marca, ano, referencia, aplicacao, quantidade, cpf_cnpj, CPF, CNPJ, forma_pagamento, numero_parcelas, valor_venda, funcionario_vendedor, garantia_produto, data_abertura) VALUES ('$nome_comprador', '$nome_peca', '$marca', '$ano', '$referencia', '$aplicacao', '$quantidade', '$cpf_cnpj', '$CPF', '$CNPJ', '$forma_pagamento', '$numero_parcelas', '$valor_venda', '$funcionario_vendedor', '$garantia_produto', '$data_abertura')";
 
             // Executar a consulta de inserção
             if ($conn->query($sql) === TRUE) {
@@ -65,11 +66,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $sql_notificacao = "INSERT INTO notificacoes (mensagem, data) VALUES ('$funcionario_vendedor realizou uma venda de um(a) $nome_peca no valor de $valor_venda em $dataVenda', NOW())";
 
                     if ($conn->query($sql_notificacao) === TRUE) {
+                        $datavaluca = date("Y-m-d");
                         $valor_servico = NULL;
                         $preco_total_geral = NULL;
                         $valor_debito = NULL;
                         // Consulta SQL para inserir valores na tabela "valores"
-                        $sql_valores = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES ('$venda_id', '$dataVenda', '$valor_venda', '$valor_servico', '$preco_total_geral', '$valor_debito')";
+                        $sql_valores = "INSERT INTO valores (id_op, data_abertura, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES ('$venda_id', '$datavaluca', '$valor_venda', '$valor_servico', '$preco_total_geral', '$valor_debito')";
 
                         if ($conn->query($sql_valores) === TRUE) {
                             echo '<script>
@@ -92,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // A quantidade é insuficiente, exiba um alerta e redirecione para a página venda.html com uma mensagem de erro
             echo '<script>
                     alert("Quantidade para venda Insuficiente!");
-                    window.location.href = "Venda.html";
+                    window.location.href = "Venda.php";
                   </script>';
         }
     } else {

@@ -172,7 +172,7 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
 
                     // Link para a próxima página
                     if ($paginaAtual < $totalPaginas) {
-                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "' class='proxima-pagina'>&raquo;</a>";
+                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "&veiculoplaca=". ($veiculoPlaca)."' class='proxima-pagina'>&raquo;</a>";
                     }
                 } else {
                     // Caso haja apenas uma página, mostre o link de página 1
