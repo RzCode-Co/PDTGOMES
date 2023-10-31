@@ -184,6 +184,10 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
                 echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
                 echo "<input type='submit' name='editar_os' value='Salvar'>";
                 echo "</form></div>";
+                echo "<form method='GET' action='detalhes_os.php'>";
+                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                echo "<input type='submit' name='detalhar_os' value='Saiba mais'>";
+                echo"</form></div>";
             }
         }
     }
