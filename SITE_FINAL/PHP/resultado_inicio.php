@@ -201,7 +201,7 @@
                 if ($result->num_rows > 0) {
                     echo "<h2>Resultados da Pesquisa:</h2>";
                     echo "<table>";
-                    echo "<tr><th>Nome</th><th>Referência</th><th>Marca</th><th>Aplicação</th><th>Ano</th>";
+                    echo "<tr><th>Nome</th><th>Referência</th><th>Marca</th><th>Aplicação</th><th>Ano</th><th>Quantidade</th><th>Valor de Varejo</th><th>Valor de Atacado</th>";
 
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
@@ -211,6 +211,9 @@
                         echo "<td>" . $row["marca"] . "</td>";
                         echo "<td>" . $row["aplicacao"] . "</td>";
                         echo "<td>" . $row["ano"] . "</td>";
+                        echo "<td>" . $row["quantidade"] . "</td>";
+                        echo "<td>" . $row["valor_varejo"] . "</td>";
+                        echo "<td>" . $row["valor_atacado"] . "</td>";
                         echo "</tr>";
                     }
 
