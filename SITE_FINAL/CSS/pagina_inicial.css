@@ -161,23 +161,25 @@ input[type='file'] {
     background-color: #bcbcbc;
 }
 
+
+
 /* Busca */
 .busca_container {
     position: fixed;
     display: flex;
     align-content: center;
-    width: 100%;
-    margin-top: 60px;
-    margin-left: 150px;
+    margin-top: 40px;
+    margin-left: 130px;
 }
-
+.form_home{
+    display: flex;
+    flex-wrap: wrap;
+}
 /* card */
 .card {
     background-color: #09562F;
-    width: 400px;
-    height: 530px;
     padding: 15px 20px;
-    border-radius: 8%;
+    border-radius: 10px;
     box-shadow: 3px 3px 1px 0px #00000050;
     text-align: center;
 }
@@ -207,8 +209,7 @@ input[type='file'] {
 
 /* inputs */
 .input_busca input {
-    margin-bottom: 15px;
-    width: 95%;
+    margin: 0px 0px 10px 10px;
     height: 45px;
     border-radius: 10px;
     border: none;
@@ -226,68 +227,14 @@ input[type='file'] {
     opacity: 0.4;
 }
 
-/* Busca por placa */
-.busca_placa {
-    margin-top: 10px;
-    margin-bottom: 15px;
-}
 
-.busca_placa label {
-    display: block;
-    margin: 0 auto;
-    text-transform: uppercase;
-    color: #09562F;
-    font-weight: 600;
-    border-radius: 13px 13px 0px 0px;
-    padding: 4px;
-    width: 60%;
-    background-color: #FFCC29;
-}
-
-.busca_placa input {
-    display: block;
-    margin: 0 auto;
-    width: 60%;
-    padding: 4px;
-    text-transform: uppercase;
-    font-size: 20px;
-    text-align: center;
-    outline: none;
-    color: #09562F;
-    height: 40px;
-    font-weight: 600;
-    border-radius: 0px 0px 13px 13px;
-    background-color: #fff;
-}
-
-#busca_placa::placeholder {
-    color: #09562F;
-    opacity: 0.4;
-}
-
-/* Busca Avançada */
-.busca_avancada{
-    width: 180px;
-    height: 30px;
-    border-radius: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #09562F;
-    cursor: pointer;
-}
-
-.busca_avancada img {
-    height: 18px;
-
-}
-
-.form_home input[type="submit"] {
-    margin-top: 20px;
-    width: 65%;
-    height: 50px;
+.form_home button {
+    margin: 0px 10px 0px 10px;
+    height: 45px;
     background-color: #fff;
     border-radius: 10px;
-    font-size: 30px;
+    font-size: 20px;
+    padding: 5px;
     font-weight: bold;
     text-transform: uppercase;
     color: #09562F;
