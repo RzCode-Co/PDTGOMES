@@ -42,16 +42,16 @@
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/Graficos.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Gráficos</span>
+                    <span class="txt_link">Vendas</span>
                 </a>
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/financeiro_historico.php">
+                <a href="../PHP/Debitos.php">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Históricos</span>
+                    <span class="txt_link">Débitos</span>
                 </a>
             </li>
 

@@ -49,7 +49,7 @@ $conn->close();
             </li>
 
             <li class="item_menu">
-                <a href="../HTML/Venda.html">  
+                <a href="../HTML/Venda.html">
                     <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
                     <span class="txt_link">Vendas</span>
                 </a>
@@ -62,18 +62,17 @@ $conn->close();
                 </a>
             </li>
 
-
             <li class="item_menu">
-                <a href="../PHP/Graficos.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Gráficos</span>
+                    <span class="txt_link">Vendas</span>
                 </a>
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/financeiro_historico.php">
+                <a href="../PHP/Debitos.php">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Históricos</span>
+                    <span class="txt_link">Débitos</span>
                 </a>
             </li>
 
@@ -132,7 +131,8 @@ $conn->close();
                 </div>
             </li>
 
-            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                        alt="Notificações"></a></li>
 
         </ul>
 
@@ -140,7 +140,7 @@ $conn->close();
 
     <div id="contas-a-receber">
         <div class="titulo_icone">
-            <a id="icone_voltar" href="../PHP/financeiro_contas.php"><img src="../CSS/img/voltar.svg"
+            <a id="icone_voltar" href="../HTML/Financeiro.html"><img src="../CSS/img/voltar.svg"
                     alt="voltar página"></a>
             <h1>Contas a receber</h1>
         </div>

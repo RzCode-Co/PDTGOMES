@@ -81,18 +81,17 @@ $conn->close();
                 </a>
             </li>
 
-
             <li class="item_menu">
-                <a href="../PHP/Graficos.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Gráficos</span>
+                    <span class="txt_link">Vendas</span>
                 </a>
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/financeiro_historico.php">
+                <a href="../PHP/Debitos.php">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Históricos</span>
+                    <span class="txt_link">Débitos</span>
                 </a>
             </li>
 
@@ -151,7 +150,8 @@ $conn->close();
                 </div>
             </li>
 
-            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                        alt="Notificações"></a></li>
 
         </ul>
 
@@ -289,10 +289,10 @@ $conn->close();
                             </div>
                         </div>
 
-                            <div class="card-produtos1">
+                        <div class="card-produtos1">
                             <label for="pagamento_previo">Produtos Pagos Antes da OS?</label>
                             <input type="checkbox" name="pagamento_previo" id="pagamento_previo" value="1">
-                            </div>
+                        </div>
                     </section>
 
                     <section class="card-ordem-prestados">

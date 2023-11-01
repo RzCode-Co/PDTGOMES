@@ -49,6 +49,77 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
 
 
 <body>
+    <nav class="menu_lateral">
+
+        <!-- Barra MENU -->
+        <div class="btn_expandir">
+            <img src="../CSS/img/Três barras.svg" alt="menu" id="btn_exp">
+        </div>
+
+        <!--  itens MENU LATERAL-->
+        <ul class="ul_menu_lateral">
+
+            <li class="item_menu ativo">
+                <a href="../PHP/Inicio.php">
+                    <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
+                    <span class="txt_link">Home</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Venda.html">
+                    <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
+                    <span class="txt_link">Vendas</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/estoque.php">
+                    <img class="icon" src="../CSS/img/Compras.svg" alt="icone compras">
+                    <span class="txt_link">Estoque</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Financeiro.html">
+                    <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
+                    <span class="txt_link">Vendas</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Debitos.php">
+                    <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
+                    <span class="txt_link">Débitos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="#">
+                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
+                    <span class="txt_link">Perfil</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Notificações.php">
+                    <img class="icon" src="../CSS/img/Sino.svg" alt="logo">
+                    <span class="txt_link">Notificações</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- importando o JS para o Menu Lateral-->
+        <script src="../JS/menu.js"></script>
+
+    </nav>
 
 
     <!-- Menu horizonatl -->
@@ -79,7 +150,8 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
                 </div>
             </li>
 
-            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                        alt="Notificações"></a></li>
 
         </ul>
 
@@ -124,76 +196,76 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
         }
         ?>
 
-<div id="div_ordens_concluidas">
-    <?php
-    if (!empty($os_details)) {
-        foreach ($os_details as $os) {
-            if ($os['status'] != 'Concluída') {
-                // Ignorar ordens com status diferente de "Concluída"
-                continue;
-            }
-            echo "<div class='ordem_servico'>";
-            echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+        <div id="div_ordens_concluidas">
+            <?php
+            if (!empty($os_details)) {
+                foreach ($os_details as $os) {
+                    if ($os['status'] != 'Concluída') {
+                        // Ignorar ordens com status diferente de "Concluída"
+                        continue;
+                    }
+                    echo "<div class='ordem_servico'>";
+                    echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
 
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_os']) && $_POST['ordem_servico_id'] == $os['ordem_servico_id']) {
-                // Formulário de edição enviado, processe a atualização
-                $ordem_servico_id = $os['ordem_servico_id'];
-                $cliente_nome = $_POST['cliente_nome'];
-                $veiculo_nome = $_POST['veiculo_nome'];
-                $veiculo_placa = $_POST['veiculo_placa'];
-                $data_abertura = $_POST['data_abertura'];
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_os']) && $_POST['ordem_servico_id'] == $os['ordem_servico_id']) {
+                        // Formulário de edição enviado, processe a atualização
+                        $ordem_servico_id = $os['ordem_servico_id'];
+                        $cliente_nome = $_POST['cliente_nome'];
+                        $veiculo_nome = $_POST['veiculo_nome'];
+                        $veiculo_placa = $_POST['veiculo_placa'];
+                        $data_abertura = $_POST['data_abertura'];
 
-                // Execute a atualização no banco de dados
-                $sqlAtualizacao = "UPDATE ordem_servico_completa SET
+                        // Execute a atualização no banco de dados
+                        $sqlAtualizacao = "UPDATE ordem_servico_completa SET
                     cliente_nome = '$cliente_nome',
                     veiculo_nome = '$veiculo_nome',
                     veiculo_placa = '$veiculo_placa',
                     data_abertura = '$data_abertura'
                     WHERE ordem_servico_id = $ordem_servico_id";
 
-                if ($conn->query($sqlAtualizacao) === TRUE) {
-                    echo "<p>Ordem de Serviço atualizada com sucesso.</p>";
-                } else {
-                    echo "<p>Erro ao atualizar a Ordem de Serviço: " . $conn->error . "</p>";
-                }
-            } else {
-                // Exiba os detalhes da ordem de serviço com um botão de edição
-                echo "<form method='POST' action=''>";
-                echo "<table>";
-                echo "<tr><th>ID:</th><td>{$os['ordem_servico_id']}</td></tr>";
-                echo "<tr>
+                        if ($conn->query($sqlAtualizacao) === TRUE) {
+                            echo "<p>Ordem de Serviço atualizada com sucesso.</p>";
+                        } else {
+                            echo "<p>Erro ao atualizar a Ordem de Serviço: " . $conn->error . "</p>";
+                        }
+                    } else {
+                        // Exiba os detalhes da ordem de serviço com um botão de edição
+                        echo "<form method='POST' action=''>";
+                        echo "<table>";
+                        echo "<tr><th>ID:</th><td>{$os['ordem_servico_id']}</td></tr>";
+                        echo "<tr>
                         <th>Cliente:</th>
                         <td>{$os['cliente_nome']}</td>
                         <td><input type='text' name='cliente_nome' value='{$os['cliente_nome']}'></td>
                     </tr>";
-                echo "<tr>
+                        echo "<tr>
                         <th>Veículo:</th>
                         <td>{$os['veiculo_nome']}</td>
                         <td><input type='text' name='veiculo_nome' value='{$os['veiculo_nome']}'></td>
                     </tr>";
-                echo "<tr>
+                        echo "<tr>
                         <th>Placa do Veículo:</th>
                         <td>{$os['veiculo_placa']}</td>
                         <td><input type='text' name='veiculo_placa' value='{$os['veiculo_placa']}'></td>
                     </tr>";
-                echo "<tr>
+                        echo "<tr>
                         <th>Data de Abertura:</th>
                         <td>{$os['data_abertura']}</td>
                         <td><input type='text' name='data_abertura' value='{$os['data_abertura']}'></td>
                     </tr>";
-                echo "</table>";
-                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
-                echo "<input type='submit' name='editar_os' value='Salvar'>";
-                echo "</form></div>";
-                echo "<form method='GET' action='detalhes_os.php'>";
-                echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
-                echo "<input type='submit' name='detalhar_os' value='Saiba mais'>";
-                echo"</form></div>";
+                        echo "</table>";
+                        echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                        echo "<input type='submit' name='editar_os' value='Salvar'>";
+                        echo "</form></div>";
+                        echo "<form method='GET' action='detalhes_os.php'>";
+                        echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                        echo "<input type='submit' name='detalhar_os' value='Saiba mais'>";
+                        echo "</form></div>";
+                    }
+                }
             }
-        }
-    }
-    ?>
-</div>
+            ?>
+        </div>
 
 
         <div class="paginacao_detalhes">
@@ -221,7 +293,7 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
 
                     // Link para a próxima página
                     if ($paginaAtual < $totalPaginas) {
-                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "&veiculoplaca=". ($veiculoPlaca)."' class='proxima-pagina'>&raquo;</a>";
+                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "&veiculoplaca=" . ($veiculoPlaca) . "' class='proxima-pagina'>&raquo;</a>";
                     }
                 } else {
                     // Caso haja apenas uma página, mostre o link de página 1

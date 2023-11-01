@@ -48,6 +48,77 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
 </head>
 
 <body>
+    <nav class="menu_lateral">
+
+        <!-- Barra MENU -->
+        <div class="btn_expandir">
+            <img src="../CSS/img/Três barras.svg" alt="menu" id="btn_exp">
+        </div>
+
+        <!--  itens MENU LATERAL-->
+        <ul class="ul_menu_lateral">
+
+            <li class="item_menu ativo">
+                <a href="../PHP/Inicio.php">
+                    <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
+                    <span class="txt_link">Home</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Venda.html">
+                    <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
+                    <span class="txt_link">Vendas</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/estoque.php">
+                    <img class="icon" src="../CSS/img/Compras.svg" alt="icone compras">
+                    <span class="txt_link">Estoque</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Financeiro.html">
+                    <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
+                    <span class="txt_link">Vendas</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Debitos.php">
+                    <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
+                    <span class="txt_link">Débitos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="#">
+                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
+                    <span class="txt_link">Perfil</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Notificações.php">
+                    <img class="icon" src="../CSS/img/Sino.svg" alt="logo">
+                    <span class="txt_link">Notificações</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- importando o JS para o Menu Lateral-->
+        <script src="../JS/menu.js"></script>
+
+    </nav>
 
     <!-- Menu horizonatl -->
     <nav class="menu_horizontal">
@@ -77,7 +148,8 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
                 </div>
             </li>
 
-            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                        alt="Notificações"></a></li>
 
         </ul>
 
@@ -133,7 +205,7 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
                     }
                     echo "<div class='ordem_servico'>";
                     echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
-                    
+
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_os']) && $_POST['ordem_servico_id'] == $os['ordem_servico_id']) {
                         // Formulário de edição enviado, processe a atualização
                         $ordem_servico_id = $os['ordem_servico_id'];
@@ -187,7 +259,7 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
                         echo "<form method='GET' action='detalhes_os.php'>";
                         echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
                         echo "<input type='submit' name='detalhar_os' value='Saiba mais'>";
-                        echo"</form></div>";
+                        echo "</form></div>";
                     }
                 }
             }
@@ -219,7 +291,7 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
 
                     // Link para a próxima página
                     if ($paginaAtual < $totalPaginas) {
-                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "&veiculoplaca=". ($veiculoPlaca)."' class='proxima-pagina'>&raquo;</a>";
+                        echo "<a href='?pagina=" . ($paginaAtual + 1) . "&veiculoplaca=" . ($veiculoPlaca) . "' class='proxima-pagina'>&raquo;</a>";
                     }
                 } else {
                     // Caso haja apenas uma página, mostre o link de página 1

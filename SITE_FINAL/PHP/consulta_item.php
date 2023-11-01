@@ -32,7 +32,6 @@ if ($result->num_rows > 0) {
 </head>
 
 <body>
-    <!-- Menu lateral -->
     <nav class="menu_lateral">
 
         <!-- Barra MENU -->
@@ -64,18 +63,24 @@ if ($result->num_rows > 0) {
                 </a>
             </li>
 
-
             <li class="item_menu">
-                <a href="../PHP/Graficos.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Gráficos</span>
+                    <span class="txt_link">Vendas</span>
                 </a>
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/financeiro_historico.php">
+                <a href="../PHP/Debitos.php">
                     <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Carteira</span>
+                    <span class="txt_link">Débitos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
                 </a>
             </li>
 
@@ -127,7 +132,8 @@ if ($result->num_rows > 0) {
                 </div>
             </li>
 
-            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                        alt="Notificações"></a></li>
 
         </ul>
 
