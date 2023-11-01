@@ -32,72 +32,7 @@ if ($result->num_rows > 0) {
 </head>
 
 <body>
-    <!-- Menu lateral -->
-    <nav class="menu_lateral">
 
-        <!-- Barra MENU -->
-        <div class="btn_expandir">
-            <img src="../CSS/img/Três barras.svg" alt="menu" id="btn_exp">
-        </div>
-
-        <!--  itens MENU LATERAL-->
-        <ul class="ul_menu_lateral">
-
-            <li class="item_menu ativo">
-                <a href="../HTML/pagina_incial.html">
-                    <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
-                    <span class="txt_link">Home</span>
-                </a>
-            </li>
-
-            <li class="item_menu">
-                <a href="../HTML/Venda.html">
-                    <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
-                    <span class="txt_link">Vendas</span>
-                </a>
-            </li>
-
-            <li class="item_menu">
-                <a href="../PHP/estoque.php">
-                    <img class="icon" src="../CSS/img/Compras.svg" alt="icone compras">
-                    <span class="txt_link">Estoque</span>
-                </a>
-            </li>
-
-
-            <li class="item_menu">
-                <a href="#">
-                    <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Gráficos</span>
-                </a>
-            </li>
-
-            <li class="item_menu">
-                <a href="../PHP/Financeiro.php">
-                    <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
-                    <span class="txt_link">Carteira</span>
-                </a>
-            </li>
-
-            <li class="item_menu">
-                <a href="#">
-                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
-                    <span class="txt_link">Perfil</span>
-                </a>
-            </li>
-
-            <li class="item_menu">
-                <a href="../PHP/Notificações.php">
-                    <img class="icon" src="../CSS/img/Sino.svg" alt="logo">
-                    <span class="txt_link">Notificações</span>
-                </a>
-            </li>
-
-        </ul>
-        <!-- importando o JS para o Menu Lateral-->
-        <script src="../JS/menu.js"></script>
-
-    </nav>
 
     <!-- Menu horizonatl -->
     <nav class="menu_horizontal">
@@ -142,36 +77,78 @@ if ($result->num_rows > 0) {
             <table>
 
                 <tr>
-                    <th>Foto</th>
                     <th>Nome</th>
-                    <th>Preço Varejo</th>
-                    <th>Preço Atacado</th>
+                    <th>Quantidade</th>
+                    <th>Preço de Varejo</th>
+                    <th>Preço de Atacado</th>
                     <th>Ano</th>
                     <th>Marca</th>
                     <th>Referência</th>
                     <th>Aplicação</th>
-                    <th>Quantidade</th>
                 </tr>
 
+
                 <?php
-                foreach ($consulta as $pesquisa) {
-                    echo "<tr>";
-                    echo '<td><img id="img_width" width="100%" src="' . $pesquisa["imagem"] . '"></td>';
-                    echo "<td>" . $pesquisa["nome"] . "</td>";
-                    echo "<td>" . $pesquisa["valor_varejo"] . "</td>";
-                    echo "<td>" . $pesquisa["valor_atacado"] . "</td>";
-                    echo "<td>" . $pesquisa["ano"] . "</td>";
-                    echo "<td>" . $pesquisa["marca"] . "</td>";
-                    echo "<td>" . $pesquisa["referencia"] . "</td>";
-                    echo "<td>" . $pesquisa["aplicacao"] . "</td>";
-                    echo "<td>" . $pesquisa["quantidade"] . "</td>";
-                    echo "</tr>";
-                }
+                    foreach ($consulta as $pesquisa) {
+                        echo "<tr>";
+                        echo '<img src="' . $pesquisa["imagem"] . '">';
+                        echo "<td>" . $pesquisa["nome"] . "</td>";
+                        echo "<td>" . $pesquisa["quantidade"] . "</td>";
+                        echo "<td>" . $pesquisa["valor_varejo"] . "</td>";
+                        echo "<td>" . $pesquisa["valor_atacado"] . "</td>";
+                        echo "<td>" . $pesquisa["ano"] . "</td>";
+                        echo "<td>" . $pesquisa["marca"] . "</td>";
+                        echo "<td>" . $pesquisa["referencia"] . "</td>";
+                        echo "<td>" . $pesquisa["aplicacao"] . "</td>";
+                        echo '<td><a href="javascript:void(0);" onclick="abrirPopupEdicao(' . $pesquisa["id"] . ', \'' . $pesquisa["nome"] . '\', ' . $pesquisa["quantidade"] . ', ' . $pesquisa["valor_varejo"] . ', ' . $pesquisa["valor_atacado"] . ')">Editar</a></td>';
+                    }
                 ?>
+
 
             </table>
         </div>
     </div>
+    <div class="popup" id="editarPopup" style="display: none;">
+    <div class="popup-content">
+        <h2>Editar Produto</h2>
+        <form action="processar_edicao.php" method="POST">
+            <input type="hidden" id="id" name="id">
+            
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome"><br><br>
+
+            <label for="quantidade">Quantidade:</label>
+            <input type="text" id="quantidade" name="quantidade"><br><br>
+
+            <label for="valorVarejo">Preço de Varejo:</label>
+            <input type="text" id="valorVarejo" name="valorVarejo"><br><br>
+
+            <label for="valorAtacado">Preço de Atacado:</label>
+            <input type="text" id="valorAtacado" name="valorAtacado"><br><br>
+
+            <!-- Adicione outros campos conforme necessário -->
+
+            <input type="submit" value="Salvar">
+            <button onclick="fecharPopup()">Fechar</button>
+        </form>
+    </div>
+</div>
+<script>
+    // Função para abrir o pop-up de edição com os dados existentes
+    function abrirPopupEdicao(id, nome, quantidade, valorVarejo, valorAtacado) {
+        document.getElementById("id").value = id; // Defina o valor do campo ID
+        document.getElementById("nome").value = nome;
+        document.getElementById("quantidade").value = quantidade;
+        document.getElementById("valorVarejo").value = valorVarejo;
+        document.getElementById("valorAtacado").value = valorAtacado;
+        document.getElementById("editarPopup").style.display = "block";
+    }
+
+    // Função para fechar o pop-up
+    function fecharPopup() {
+        document.getElementById("editarPopup").style.display = "none";
+    }
+</script>
 </body>
 
 </html>
