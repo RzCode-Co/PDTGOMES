@@ -50,9 +50,29 @@ if (isset($_GET['ordem_servico_id'])) {
         echo "<tr><th>ID</th><td>{$os_details['ordem_servico_id']}</td></tr>";
         echo "<tr><th>Cliente</th><td>{$os_details['cliente_nome']}</td></tr>";
         echo "<tr><th>Veículo</th><td>{$os_details['veiculo_nome']}</td></tr>";
+        echo "<tr><th>Nome Fantasia</th><td>{$os_details['nome_fantasia']}</td></tr>";
+        // Exibir CPF ou CNPJ com base nos valores
+        if ($os_details['CPF'] !== null && $os_details['CPF'] !== "0") {
+            echo "<tr><th>CPF</th><td>{$os_details['CPF']}</td></tr>";
+        } elseif ($os_details['CNPJ'] !== null && $os_details['CNPJ'] !== "0") {
+            echo "<tr><th>CNPJ</th><td>{$os_details['CNPJ']}</td></tr>";
+        } else {
+            // Se nenhum CPF ou CNPJ for fornecido, você pode mostrar uma mensagem padrão ou deixar em branco
+            echo "<tr><th>CPF/CNPJ</th><td>Não fornecido</td></tr>";
+        }
         echo "<tr><th>Placa do Veículo</th><td>{$os_details['veiculo_placa']}</td></tr>";
+        echo "<tr><th>Telefone</th><td>{$os_details['telefone']}</td></tr>";
+        echo "<tr><th>E-mail</th><td>{$os_details['email']}</td></tr>";
+        echo "<tr><th>Endereco</th><td>{$os_details['endereco']}</td></tr>";
+        echo "<tr><th>CEP</th><td>{$os_details['CEP']}</td></tr>";
         echo "<tr><th>Data de Abertura</th><td>{$os_details['data_abertura']}</td></tr>";
         echo "<tr><th>Status</th><td>{$os_details['status']}</td></tr>";
+        echo '<tr><th>Atualizar Status</th><form method="POST" action="atualizar_status.php">
+        <td><input type="hidden" name="ordem_servico_id" value="' . $os_details['ordem_servico_id'] . '">
+        <button type="submit" name="status_em_andamento" value="Em Andamento">Em Andamento</button>
+        <button type="submit" name="status_concluida" value="Concluída">Concluída</button>
+        <button type="submit" name="status_encerrada" value="Encerrada">Encerrada</button>
+    </form></td></tr>';
         echo "</table>";
 
         // Quebra de linha para exibir em colunas separadas
@@ -135,8 +155,8 @@ if (isset($_GET['ordem_servico_id'])) {
         echo "<p>Valor Total: {$os_details['preco_total_geral']}</p>";
 
         // Quebra de linha para exibir em colunas separadas
-        echo "<br>";    
-    
+        echo "<br>";
+
     } else {
         echo "<p>Nenhuma Ordem de Serviço encontrada com o ID especificado.</p>";
     }

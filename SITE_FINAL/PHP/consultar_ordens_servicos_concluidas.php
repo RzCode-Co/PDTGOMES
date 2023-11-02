@@ -237,22 +237,31 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
                         <th>Cliente:</th>
                         <td>{$os['cliente_nome']}</td>
                         <td><input type='text' name='cliente_nome' value='{$os['cliente_nome']}'></td>
-                    </tr>";
+                        </tr>";
+                        // Verifique se há um CPF definido e não é nulo
+                        if (!is_null($os['CPF']) && $os['CPF'] !== '0') {
+                            echo "<th>CPF:</th><td> {$os['CPF']}</td>";
+                        }
+
+                        // Verifique se há um CNPJ definido e não é nulo
+                        if (!is_null($os['CNPJ']) && $os['CNPJ'] !== '0') {
+                            echo "<th>CNPJ:</th><td> {$os['CNPJ']}</td>";
+                        }
                         echo "<tr>
                         <th>Veículo:</th>
                         <td>{$os['veiculo_nome']}</td>
                         <td><input type='text' name='veiculo_nome' value='{$os['veiculo_nome']}'></td>
-                    </tr>";
+                        </tr>";
                         echo "<tr>
                         <th>Placa do Veículo:</th>
                         <td>{$os['veiculo_placa']}</td>
                         <td><input type='text' name='veiculo_placa' value='{$os['veiculo_placa']}'></td>
-                    </tr>";
+                        </tr>";
                         echo "<tr>
                         <th>Data de Abertura:</th>
                         <td>{$os['data_abertura']}</td>
                         <td><input type='text' name='data_abertura' value='{$os['data_abertura']}'></td>
-                    </tr>";
+                        </tr>";
                         echo "</table>";
                         echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
                         echo "<input type='submit' name='editar_os' value='Salvar'>";

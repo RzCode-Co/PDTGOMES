@@ -237,6 +237,12 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
                                 <td>{$os['cliente_nome']}</td>
                                 <td><input type='text' name='cliente_nome' value='{$os['cliente_nome']}'></td>
                             </tr>";
+                            if (!is_null($os['CPF']) && $os['CPF'] !== '0') {
+                                echo "<tr><th>CPF:</th><td>{$os['CPF']}</td></tr>";
+                            }
+                            if (!is_null($os['CNPJ']) && $os['CNPJ'] !== '0') {
+                                echo "<tr><th>CNPJ:</th><td>{$os['CNPJ']}</td></tr>";
+                            }
                         echo "<tr>
                                 <th>Veículo:</th>
                                 <td>{$os['veiculo_nome']}</td>
