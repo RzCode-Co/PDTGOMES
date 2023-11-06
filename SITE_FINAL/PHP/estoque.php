@@ -206,9 +206,9 @@
                 </div>
 
                 <script src="../JS/estoque.js"></script>
-
+            </div 
+        
         </section>
-
     </main>
 </body>
 
