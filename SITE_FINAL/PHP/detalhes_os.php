@@ -69,10 +69,14 @@ if (isset($_GET['ordem_servico_id'])) {
         echo "<tr><th>Status</th><td>{$os_details['status']}</td></tr>";
         echo '<tr><th>Atualizar Status</th><form method="POST" action="atualizar_status.php">
         <td><input type="hidden" name="ordem_servico_id" value="' . $os_details['ordem_servico_id'] . '">
-        <button type="submit" name="status_em_andamento" value="Em Andamento">Em Andamento</button>
-        <button type="submit" name="status_concluida" value="Concluída">Concluída</button>
-        <button type="submit" name="status_encerrada" value="Encerrada">Encerrada</button>
-    </form></td></tr>';
+        <label for="novo_status">Novo Status:</label>
+        <select name="novo_status" id="novo_status">
+            <option value="Em Andamento">Em Andamento</option>
+            <option value="Concluída">Concluída</option>
+            <option value="Encerrada">Encerrada</option>
+        </select>
+        <button type="submit" name="atualizar_status">Atualizar Status</button>
+        </form></td></tr>';
         echo "</table>";
 
         // Quebra de linha para exibir em colunas separadas
@@ -106,16 +110,15 @@ if (isset($_GET['ordem_servico_id'])) {
         }
 
         // Informações adicionais sobre pagamento e observações
-        $sql = "SELECT pagamento_previo, forma_pagamento FROM ordem_servico WHERE id = $ordem_servico_id";
+        $sql = "SELECT pagamento_previo FROM ordem_servico WHERE id = $ordem_servico_id";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
             $pagamentoPrevio = $row['pagamento_previo'];
-            $formaPagamento = $row['forma_pagamento'];
 
             if ($pagamentoPrevio === '1') {
-                echo "Produtos já foram pagos previamente no caixa.<br> Forma de pagamento: $formaPagamento";
+                echo "Produtos já foram pagos previamente no caixa.";
             } else {
                 echo "Produtos devem ser pagos no caixa.";
             }

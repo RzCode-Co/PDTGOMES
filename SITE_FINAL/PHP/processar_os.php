@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $valor_debito = NULL;
     // Inserir os dados na tabela ordem_servico
     $status = "Em andamento";
-    $sql = "INSERT INTO ordem_servico (cliente_nome, nome_fantasia, cpf_cnpj, CPF, CNPJ, email, telefone, endereco, CEP, veiculo_nome, veiculo_placa, data_abertura, preco_total_produtos, preco_total_servicos, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo) VALUES ('$cliente_nome', '$nomeFantasia', '$cpf_cnpj','$CPF', '$CNPJ', '$email', '$telefone', '$endereco', '$cep', '$veiculo_nome', '$veiculo_placa', '$data_abertura', $preco_total_produtos, $preco_total_servicos, $preco_total_geral, '$observacoes_vendedor','$forma_pagamento','$numero_parcelas', '$pagamento_previo')";
+    $sql = "INSERT INTO ordem_servico (cliente_nome, cpf_cnpj, CPF, CNPJ, veiculo_nome, veiculo_placa, data_abertura, status) VALUES ('$cliente_nome', '$cpf_cnpj','$CPF', '$CNPJ', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$status')";
 
     if ($conn->query($sql) === TRUE) {
         // Obter o ID da ordem de serviço inserida
@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_op = $row["id"];
 
         // Consulta SQL para inserir valores na tabela "valores" com o ID da ordem de serviço
-        $sql = "INSERT INTO valores (id_op, data_abertura, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES('$id_op', '$data_abertura','$preco_total_produtos', '$preco_total_servicos', '$preco_total_geral', '$valor_debito')";
+        $sql = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES('$id_op', '$data_venda','$preco_total_produtos', '$preco_total_servicos', '$preco_total_geral', '$valor_debito')";
 
         if ($conn->query($sql) === TRUE) {
             echo "Valores atualizados.";
@@ -164,6 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $status = "Em andamento";
     $sql = "INSERT INTO ordem_servico_completa (ordem_servico_id, codigo_produto, cliente_nome, nome_fantasia, cpf_cnpj, CPF, CNPJ, email, telefone, endereco, CEP, veiculo_nome, veiculo_placa, data_abertura, produto, referencia, tipo, quantidade, preco_total_produto, servico_nome, tecnico_responsavel, preco_total_servico, preco_total_geral, observacoes_vendedor, forma_pagamento, numero_parcelas, pagamento_previo, status) VALUES ('$ordem_servico_id', '$codigo_produto', '$cliente_nome', '$nomeFantasia', '$cpf_cnpj', '$CPF', '$CNPJ', '$email', '$telefone', '$endereco', '$cep', '$veiculo_nome', '$veiculo_placa', '$data_abertura', '$produto_nome', '$referencia', '$tipo', '$quantidade', '$preco_total_produtos', '$servico_nome', '$tecnico_responsavel', '$preco_total_servicos', '$preco_total_geral', '$observacoes_vendedor','$forma_pagamento','$numero_parcelas','$pagamento_previo', '$status')";
+
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>alert('Ordem de Serviços criada com sucesso!');</script>";

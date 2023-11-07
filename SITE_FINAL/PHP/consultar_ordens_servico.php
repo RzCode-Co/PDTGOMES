@@ -172,105 +172,110 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
 
 
         <?php
-        require_once "config.php"; // Arquivo de configuração do banco de dados
-        
-        // Verifique se o campo de pesquisa está preenchido
-        $veiculoPlaca = null;
-        if (isset($_GET['veiculo_placa'])) {
-            $veiculoPlaca = $_GET['veiculo_placa'];
-            // Consulta SQL para recuperar a ordem de serviço com a placa do veículo especificada
-            $sql = "SELECT * FROM ordem_servico_completa WHERE veiculo_placa = '$veiculoPlaca' AND status = 'Em andamento'";
-            $result = $conn->query($sql);
+            require_once "config.php"; // Arquivo de configuração do banco de dados
 
-            if ($result->num_rows > 0) {
-                $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-        
-                while ($row = $result->fetch_assoc()) {
-                    // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
-                    $os_details[] = $row;
-                }
-            } else {
-                echo "<p>Nenhuma Ordem de Serviço encontrada com a placa do veículo especificada.</p>";
-            }
-        }
-        ?>
+            // Verifique se o campo de pesquisa está preenchido
+            $veiculoPlaca = null;
+            if (isset($_GET['veiculo_placa'])) {
+                $veiculoPlaca = $_GET['veiculo_placa'];
+                // Consulta SQL para recuperar a ordem de serviço com a placa do veículo especificada
+                $sql = "SELECT * FROM ordem_servico_completa WHERE veiculo_placa = '$veiculoPlaca' AND status = 'Em andamento'";
+                $result = $conn->query($sql);
 
-        <div id="ordens_andamento">
-            <?php
-            if (!empty($os_details)) {
-                foreach ($os_details as $os) {
-                    if ($os['status'] == 'Concluída') {
-                        // Não exiba ordens concluídas aqui
-                        continue;
+                if ($result->num_rows > 0) {
+                    $os_details = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+
+                    while ($row = $result->fetch_assoc()) {
+                        // Armazena a ordem de serviço encontrada no array de detalhes da ordem de serviço
+                        $os_details[] = $row;
                     }
-                    echo "<div class='ordem_servico'>";
-                    echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+                } else {
+                    echo "<p>Nenhuma Ordem de Serviço encontrada com a placa do veículo especificada.</p>";
+                }
+            }
+            ?>
 
-                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_os']) && $_POST['ordem_servico_id'] == $os['ordem_servico_id']) {
-                        // Formulário de edição enviado, processe a atualização
-                        $ordem_servico_id = $os['ordem_servico_id'];
-                        $cliente_nome = $_POST['cliente_nome'];
-                        $veiculo_nome = $_POST['veiculo_nome'];
-                        $veiculo_placa = $_POST['veiculo_placa'];
-                        $data_abertura = $_POST['data_abertura'];
-
-                        // Execute a atualização no banco de dados
-                        $sqlAtualizacao = "UPDATE ordem_servico_completa SET
-                            cliente_nome = '$cliente_nome',
-                            veiculo_nome = '$veiculo_nome',
-                            veiculo_placa = '$veiculo_placa',
-                            data_abertura = '$data_abertura'
-                            WHERE ordem_servico_id = $ordem_servico_id";
-
-                        if ($conn->query($sqlAtualizacao) === TRUE) {
-                            echo "<p>Ordem de Serviço atualizada com sucesso.</p>";
-                        } else {
-                            echo "<p>Erro ao atualizar a Ordem de Serviço: " . $conn->error . "</p>";
+            <div id="ordens_andamento">
+                <?php
+                if (!empty($os_details)) {
+                    foreach ($os_details as $os) {
+                        if ($os['status'] == 'Concluída') {
+                            // Não exiba ordens concluídas aqui
+                            continue;
                         }
-                    } else {
-                        // Exiba os detalhes da ordem de serviço com um botão de edição
-                        echo "<form method='POST' action=''>";
-                        echo "<table>";
-                        echo "<tr><th>ID:</th><td>{$os['ordem_servico_id']}</td></tr>";
-                        echo "<tr>
-                                <th>Cliente:</th>
-                                <td>{$os['cliente_nome']}</td>
-                                <td><input type='text' name='cliente_nome' value='{$os['cliente_nome']}'></td>
-                            </tr>";
+                        echo "<div class='ordem_servico'>";
+                        echo "<h3>Ordem de Serviço ID: {$os['ordem_servico_id']}</h3>";
+
+                        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_os']) && $_POST['ordem_servico_id'] == $os['ordem_servico_id']) {
+                            // Formulário de edição enviado, processe a atualização
+                            $ordem_servico_id = $os['ordem_servico_id'];
+                            $cliente_nome = $_POST['cliente_nome'];
+                            $veiculo_nome = $_POST['veiculo_nome'];
+                            $veiculo_placa = $_POST['veiculo_placa'];
+                            $data_abertura = $_POST['data_abertura'];
+
+                            // Execute a atualização no banco de dados
+                            $sqlAtualizacao = "UPDATE ordem_servico_completa SET
+                                cliente_nome = '$cliente_nome',
+                                veiculo_nome = '$veiculo_nome',
+                                veiculo_placa = '$veiculo_placa',
+                                data_abertura = '$data_abertura'
+                                WHERE ordem_servico_id = $ordem_servico_id";
+
+                            if ($conn->query($sqlAtualizacao) === TRUE) {
+                                echo "<p>Ordem de Serviço atualizada com sucesso.</p>";
+                            } else {
+                                echo "<p>Erro ao atualizar a Ordem de Serviço: " . $conn->error . "</p>";
+                            }
+                        } else {
+                            // Exiba os detalhes da ordem de serviço com um botão de edição
+                            echo "<form method='POST' action=''>";
+                            echo "<table>";
+                            echo "<tr><th>ID:</th><td>{$os['ordem_servico_id']}</td></tr>";
+                            echo "<tr>
+                                    <th>Cliente:</th>
+                                    <td>{$os['cliente_nome']}</td>
+                                    <td><input type='text' name='cliente_nome' value='{$os['cliente_nome']}'></td>
+                                </tr>";
                             if (!is_null($os['CPF']) && $os['CPF'] !== '0') {
                                 echo "<tr><th>CPF:</th><td>{$os['CPF']}</td></tr>";
                             }
                             if (!is_null($os['CNPJ']) && $os['CNPJ'] !== '0') {
                                 echo "<tr><th>CNPJ:</th><td>{$os['CNPJ']}</td></tr>";
                             }
-                        echo "<tr>
-                                <th>Veículo:</th>
-                                <td>{$os['veiculo_nome']}</td>
-                                <td><input type='text' name='veiculo_nome' value='{$os['veiculo_nome']}'></td>
-                            </tr>";
-                        echo "<tr>
-                                <th>Placa do Veículo:</th>
-                                <td>{$os['veiculo_placa']}</td>
-                                <td><input type='text' name='veiculo_placa' value='{$os['veiculo_placa']}'></td>
-                            </tr>";
-                        echo "<tr>
-                                <th>Data de Abertura:</th>
-                                <td>{$os['data_abertura']}</td>
-                                <td><input type='text' name='data_abertura' value='{$os['data_abertura']}'></td>
-                            </tr>";
-                        echo "</table>";
-                        echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
-                        echo "<input type='submit' name='editar_os' value='Salvar'>";
-                        echo "</form></div>";
-                        echo "<form method='GET' action='detalhes_os.php'>";
-                        echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
-                        echo "<input type='submit' name='detalhar_os' value='Saiba mais'>";
-                        echo "</form></div>";
+                            echo "<tr>
+                                    <th>Veículo:</th>
+                                    <td>{$os['veiculo_nome']}</td>
+                                    <td><input type='text' name='veiculo_nome' value='{$os['veiculo_nome']}'></td>
+                                </tr>";
+                            echo "<tr>
+                                    <th>Placa do Veículo:</th>
+                                    <td>{$os['veiculo_placa']}</td>
+                                    <td><input type='text' name='veiculo_placa' value='{$os['veiculo_placa']}'></td>
+                                </tr>";
+                            echo "<tr>
+                                    <th>Data de Abertura:</th>
+                                    <td>{$os['data_abertura']}</td>
+                                    <td><input type='text' name='data_abertura' value='{$os['data_abertura']}'></td>
+                                </tr>";
+                            echo "</table>";
+                            echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                            echo "<input type='submit' name='editar_os' value='Salvar'>";
+                            echo "</form></div>";
+
+                            // Gere o botão "Saiba Mais"
+                            echo "<form method='GET' action='detalhes_os.php'>";
+                            echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
+                            echo "<input type='submit' name='detalhar_os' value='Saiba mais'>";
+                            echo "</form></div>";
+                        }
                     }
+                } else {
+                    echo "<p>Nenhuma Ordem de Serviço encontrada com a placa do veículo especificada.</p>";
                 }
-            }
-            ?>
-        </div>
+                ?>
+            </div>
+
 
         <div class="paginacao_detalhes">
             <div class="paginacao">

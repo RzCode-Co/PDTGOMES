@@ -26,7 +26,6 @@ if ($result->num_rows > 0) {
         $os_details[] = $row;
     }
 } else {
-    echo "<p>Nenhuma Ordem de Serviço encontrada.</p>";
 }
 
 // Calcular o número total de páginas com base no total de registros
