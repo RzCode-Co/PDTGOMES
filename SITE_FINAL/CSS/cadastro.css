@@ -16,6 +16,10 @@ body {
     background-attachment: fixed;
 }
 
+.cadastro {
+    display: flex;
+    justify-content: space-between;
+}
 
 /* Container */
 .conteiner {
@@ -56,21 +60,26 @@ body {
     transition: all .3s ease-out;
     color: #013018;
     outline: 2px solid #09562F;
+    
 }
 
 .label-float{
     position: relative;
-    margin-top: 5%;
+    /*margin-top: 5%;*/
     margin-bottom: 5%;
 }
 
 .label-float label{
     color: #09562F;
     font-size: 18px;
-    pointer-events: none;
     top: 0;
     left: 0;
     transition: all .3s ease-out;
+}
+
+#cpf_cnpj2 label {
+    color: #09562F;
+    font-size: 18px;
 }
 
 /* Select Cargo */
@@ -86,6 +95,11 @@ body {
     color: #ffffff;
     padding: 5px;
     border-radius:5px;
+    display: block;
+    margin-left: 0px;
+     margin-top:5px;
+
+    
 }
 
 /* Botão ENTRAR */
@@ -96,7 +110,7 @@ button{
     border-radius: 10px;
     border: none;
     padding: 10px 120px 10px 120px;
-    margin-top: 10px;
+    margin-top: 15px;
     font-weight: bold;
     font-size: 15pt;
     cursor: pointer;
@@ -119,4 +133,46 @@ button:hover{
     left: 91%;
     top: 85%;
     cursor: pointer;
+}
+#enviar-file label {
+    font-size: 18px;
+    color: #09562F;
+
+}
+#enviar-file input {
+    height: 40px;
+    color: #09562fc6;
+    font-size: 18px;
+    margin-top: 5px;
+
+
+}
+
+#selects-cargo-cpf {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+#enviar-file input[type='file'] {
+    display: none;
+    margin-top: 0;
+   
+    
+}
+
+#enviar-file {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    background-color: rgba(128, 128, 128, 0.25);
+    outline: 2px solid #09562F;
+    border-radius: 5px;
+    width: 40%;
+}
+
+#enviar-file:hover{
+    color: #FFCC29;
+    transition: 0.3s;
+    background-color: rgba(128, 128, 128, 0.616);
 }

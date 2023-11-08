@@ -1,0 +1,30 @@
+#container-cadastro {
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+}
+
+
+#container-cadastro button {
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 5px;
+    width: 250px;
+    height: 50px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#container-cadastro button  a {
+    text-decoration: none;
+    color: #fff;
+    
+}
+
+#container-cadastro button a:hover{
+    color: #FFCC29;
+    transition: 0.3s;
+}
