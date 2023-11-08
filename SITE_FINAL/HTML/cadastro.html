@@ -22,6 +22,7 @@
 
                 <!-- cadastro -->
                 <div class="cadastro">
+                    <a id="icone_voltar" href="pagina_cadastro.html"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
                     <h1>Cadastro PDT</h1>
                 </div>
 
@@ -36,25 +37,29 @@
                     <label for="senha">Senha:</label>
                     <input type="password" id="senha" placeholder="" name="senha">
                 </div>
-                <div id="cpf_cnpj2">
+                <div class="label-float">
                     <label>CPF/CNPJ:
                         <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
                             <option value="">Selecione...</option>
                             <option value="CPF">CPF</option>
                             <option value="CNPJ">CNPJ</option>
                         </select>
-                        <br>
                     </label>
                 </div>
-                <div id="CPF" style="display: none;">
+                <div id="CPF" class="label-float" style="display: none;">
                     <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
                 </div>
             
-                <div id="CNPJ" style="display: none;">
+                <div id="CNPJ" class="label-float" style="display: none;">
                     <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
                 </div>
-                <div>
-                    <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
+                <div id="enviar-file">
+
+                    <div>
+                        <label >Adicione Arquivo</label>
+                        <input type="file" name="arquivo">
+                    </div>
+
                 </div>
 
                 <!-- Botão "Entrar" -->
