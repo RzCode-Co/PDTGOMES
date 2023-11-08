@@ -18,50 +18,50 @@
 
         <div class="card">
 
-            <!-- cadastro -->
-            <div class="cadastro">
-                <h1>Cadastro PDT</h1>
-            </div>
+            <form enctype="multipart/form-data" action="../PHP/processar_cadastro.php" method="post">
 
-            <!-- Nome -->
-            <div class="label-float">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" placeholder="">
-            </div>
+                <!-- cadastro -->
+                <div class="cadastro">
+                    <h1>Cadastro PDT</h1>
+                </div>
 
-            <!-- Email -->
-            <div class="label-float">
-                <label for="email">E-mail:</label>
-                <input type="text" id="email" placeholder="">
-            </div>
+                <!-- Nome -->
+                <div class="label-float">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" placeholder="" name="nome">
+                </div>
 
-            <!-- Senha -->
-            <div class="label-float">
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" placeholder="">
-            </div>
+                <!-- Senha -->
+                <div class="label-float">
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" placeholder="" name="senha">
+                </div>
+                <div id="cpf_cnpj2">
+                    <label>CPF/CNPJ:
+                        <select name="cpf_cnpj" id="cpf_cnpj" onchange="mostrarCampo()">
+                            <option value="">Selecione...</option>
+                            <option value="CPF">CPF</option>
+                            <option value="CNPJ">CNPJ</option>
+                        </select>
+                        <br>
+                    </label>
+                </div>
+                <div id="CPF" style="display: none;">
+                    <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+                </div>
+            
+                <div id="CNPJ" style="display: none;">
+                    <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
+                </div>
+                <div>
+                    <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
+                </div>
 
-            <!-- confirmar Senha -->
-            <div class="label-float">
-                <label for="confirm_senha">Confirmar Senha:</label>
-                <input type="password" id="confirm_senha" placeholder="">
-            </div>
-
-            <!-- Cargo -->
-            <div class="label-float">
-                <label for="cargo">Cargo:</label>
-                <select name="cargo" id="cargo" onchange="mostrarCampo()">
-                    <option value="">Selecione...</option>
-                    <option value="admin">ADMIN</option>
-                    <option value="vendedor">VENDEDOR</option>
-                    <option value="estagio">ESTAGIÁRIO</option>
-                </select>
-            </div>
-
-            <!-- Botão "Entrar" -->
-            <div class="justify-center">
-                <a href="../HTML/pagina_incial.html"></a><button type="submit">Cadastrar</button>
-            </div>
+                <!-- Botão "Entrar" -->
+                <div class="justify-center">
+                        <button type="submit">Cadastrar</button>
+                </div>
+            </form>
 
         </div>
 
@@ -75,5 +75,22 @@
 
 
 </body>
+<script>
+    function mostrarCampo() {
+        var selecao = document.getElementById("cpf_cnpj");
+        var CPF = document.getElementById("CPF");
+        var CNPJ = document.getElementById("CNPJ");
 
+        if (selecao.value === "CPF") {
+            CPF.style.display = "block";
+            CNPJ.style.display = "none";
+        } else if (selecao.value === "CNPJ") {
+            CPF.style.display = "none";
+            CNPJ.style.display = "block";
+        } else {
+            CPF.style.display = "none";
+            CNPJ.style.display = "none";
+        }
+    }
+</script>
 </html>
