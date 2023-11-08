@@ -153,21 +153,21 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
                 <form enctype="multipart/form-data" action="processar_debito.php" method="post" class="form_debito">
 
 
-                    <div class="section_one">
+                    <section class="section_one">
                         <label>Nome: <input type="text" name="nome"></label>
-                    </div>
+                    </section>
 
-                    <div class="section_two">
+                    <section class="section_two">
                         <label>Data: <input type="date" name="data_debito"></label>
                         <label>Valor: <input type="number" name="valor_debito"></label>
                         <label>Tipo: <input type="text" name="tipo"></label>
                         <label>Descrição: <input type="text" name="descricao"></label>
-                    </div>
+                    </section>
 
-                    <div class="section_three">
+                    <section class="section_three">
                         <label>Envie o arquivo aqui: <input type="file" name="arquivo"></label>
                         <input type="submit" value="Registrar Custo">
-                    </div>
+                    </section>
 
 
                 </form>
@@ -175,7 +175,7 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
             <div id="cancelar-debito" style="display: none;">
                 <form enctype="multipart/form-data" action="cancelar_debito.php" method="post" class="form_debito">
 
-                    <div class="section_one"><label>Nome: <input type="text" name="nome"></label></div>
+                    <section class="section_one"><label>Nome: <input type="text" name="nome"></label></section>
 
                     <section class="section_two">
                         <label>Data: <input type="date" name="data_debito"></label>
@@ -190,11 +190,16 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
 
             <div id="baixar-debitos" style="display: none">
                 <form action="debitos.php" method="post" class="form_debito">
-                    <label for="nome_arquivo">Nome do Arquivo:</label>
-                    <input type="text" name="nome_arquivo" id="nome_arquivo" required>
-                    <label for="data_debito">Data:</label>
-                    <input type="date" name="data_debito" id="data_debito" required>
-                    <input type="submit" value="Pesquisar">
+
+                    <section class="section_one"><label for="nome_arquivo">Nome:<input type="text" name="nome_arquivo"
+                                id="nome_arquivo" required></label>
+                    </section>
+
+                    <section class="section_two">
+                        <label for="data_debito">Data:<input type="date" name="data_debito" id="data_debito" required></label>
+                    </section>
+
+                    <div class="section_three"><input type="submit" value="Pesquisar"></div>
                 </form>
             </div>
             <div id="lista-arquivos" style="display: <?php echo $formularioUtilizado ? 'block' : 'none'; ?>">
