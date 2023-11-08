@@ -1,0 +1,279 @@
+
+.container-grafico {
+    margin-left: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+}
+
+.container_inline{
+    width: 100%;
+    height: 80px;
+    padding: 15px;
+    background-color:rgba(255, 255, 255, 0.5) ;
+    margin-bottom:20px;
+}
+
+#titulo-financeiro {
+    text-align: center;
+    color: #09562f;
+    text-transform: uppercase;
+}
+
+
+.container-grafico form  {
+   display: flex;
+
+}
+/* Estilização dos inputs, selects e botoes */
+#titulo-financeiro {
+    text-align: center;
+    width: 100%;
+    
+}
+.botao-geral{
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 10px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+
+
+}
+
+.container-grafico form input {
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 10px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: #033d20;
+    transition: 0.3s;
+    cursor: pointer;
+    
+ }
+
+ .container-grafico form input:hover {
+    color: #FFCC29;
+    transition: 0.3s;
+    cursor: pointer;
+    
+ }
+
+ #form-saldos-e-debitos select {
+    height: 30px;
+    margin: 0 10px;
+    font-weight: bold;
+    background-color: #ddd;
+    border-radius: 5px;
+    font-size: 11pt;
+    color: #636363;
+    outline: none;
+    text-align: center;
+    cursor: pointer;
+ }
+ 
+#mostrar-saldos-e-debitos:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#tabela-valores, #tabela-valores2 {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    top: 20px;
+    margin-bottom: 20px;
+}
+
+#tabela-valores tr, #tabela-valores2 tr{
+    color: #09562F;
+    display: flex;
+    padding-left: 80px;
+    width: 1300px;
+    justify-content: space-between;
+}
+
+#tabela-valores th, #tabela-valores td, #tabela-valores2 th, #tabela-valores2 td{
+    margin: 0 auto;
+}
+
+/* Gráficos */
+#grafico-saldos, #grafico-vendas{
+    width: 1300px;
+    margin: 0 auto;
+    padding-left: 80px;
+}
+
+.centralização{
+    display: flex;
+    justify-content: center;
+}
+
+/* Icone de voltar e título */
+.titulo_icone{
+    display: flex;
+}
+
+/* icone voltar */
+#icone_voltar img{
+    justify-content: left;
+    height: 40px;
+}
+/* Consula item e Consulta Geral de Item */
+#resultado_busca{
+    background-color:rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#resultado_busca h1, .titulo_icone h1{
+    color: #09562F;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#resultado_busca th{
+    margin-bottom: 5px;
+    padding: 10px;
+    color: #09562F;
+    font-size: 13pt;
+
+}
+
+#resultado_busca table{
+    color: #03381d;
+}
+
+#resultado_busca td{
+   
+    text-align: center;
+    font-size: 13pt;
+}
+
+
+
+#container_financeiro {
+    display: flex;
+    justify-content: left;
+    flex-direction: column; 
+    margin-top: 200px;
+    margin-left: 150px;
+}
+
+.botao {
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 5px;
+    width: 250px;
+    height: 50px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.botao:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+
+/* Paginação */
+#pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Paginação */
+#pagination a {
+    padding: 5px 10px;
+    margin-right:5px;
+    background-color: #03381d;
+    color: #fafafa;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Paginação */
+#pagination strong{
+    color: #09562F;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    background-color:  #ddd;
+}
+
+/* Paginação */
+#pagination a:hover {
+    background-color: #117f48;
+}
+
+/* Consula item e Consulta Geral de Item */
+
+
+.centralização{
+    display: flex;
+    justify-content: center;
+}
+
+/* Icone de voltar e título */
+.titulo_icone{
+    display: flex;
+}
+
+/* icone voltar */
+#icone_voltar img{
+    justify-content: left;
+    height: 40px;
+}
+/* Consula item e Consulta Geral de Item */
+#historico-de-vendas, #contas-a-receber{
+    background-color:rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#historico-de-vendas h1, #contas-a-receber h1, .titulo_icone h1{
+    color: #09562F;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#historico-de-vendas th,#contas-a-receber th{
+    margin-bottom: 5px;
+    padding: 30px;
+    color: #09562F;
+    font-size: 13pt;
+
+}
+
+#historico-de-vendas table, #contas-a-receber table{
+    color: #03381d;
+}
+
+#historico-de-vendas td, #contas-a-receber td{
+    padding: 5px 10px;
+    text-align: center;
+    font-size: 13pt;
+}

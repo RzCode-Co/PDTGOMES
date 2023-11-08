@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Zerando as configurações iniciais da página */
+* {
+    margin: 0px;
+    border: none;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'roboto', sans-serif;
+}
+
+/* Predifinições da página */
+body {
+    background-image: url(../CSS/img/fundo_2.jpg);
+    height: 100%;
+}
+
+/* Definições do Menu Lateral */
+.menu_lateral {
+    width: 70px;
+    height: 100%;
+    background-color: #fff;
+    /*padding: 30px 0 30px 1%;*/
+    padding-left:5px ;
+    padding-top: 30px;
+    box-shadow: 3px 0 0 #ddd;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transition: 0.5s;
+    z-index: 2;
+}
+
+/* Deifinições para quando ele fica minimizado */
+.menu_lateral.expandir {
+    width: 300px;
+}
+
+/* Três Barras */
+.btn_expandir {
+    width: 100%;
+    padding-left: 13px;
+}
+.btn_expandir img {
+    margin-bottom: 20px;
+    width: 20px;
+    cursor: pointer;
+}
+
+/* Definições dos icones */
+.ul_menu_lateral {
+    height: 100%;
+    list-style: none;
+}
+
+
+.ul_menu_lateral li.item_menu {
+    transition: 0.3s;
+}
+
+.ul_menu_lateral li.ativo {
+    background-color: #eae9e9;
+}
+
+.ul_menu_lateral li.item_menu:hover {
+    background: #eae9e9;
+    padding: 0 5px;
+}
+
+.ul_menu_lateral li.item_menu a {
+    color: #09562F;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px 4%;
+    display: flex;
+    line-height: 40px;
+}
+
+ul li.item_menu a .txt_link {
+    margin-left: 70px;
+    transition: 0.5s;
+    opacity: 0;
+}
+
+.menu_lateral.expandir .txt_link {
+    margin-left: 38px;
+    opacity: 1;
+}
+
+.ul_menu_lateral li.item_menu a .icon {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Menu Horizontal */
+.menu_horizontal {
+    width: 100%;
+    height: 100px;
+    background-color: #09562F;
+    padding: 0 2rem;
+}
+
+.menu_horizontal ul {
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+}
+
+.menu_horizontal ul li {
+    display: inline-block;
+    text-decoration: none;
+    padding: 20px 10px;
+}
+
+.menu_horizontal ul li img {
+    height: 50px;
+}
+
+/* Logo horizontal */
+#logo_menu_horizontal {
+    padding-left: 100px;
+}
+
+/* Admin e Notificações */
+#direita {
+    float: right;
+}
+
+/* Nome */
+.cargo_nome p{
+    color: #fff;
+    font-weight: bold;
+}
+
+/* cargo */
+.cargo_nome h3{
+    color: #FFCC29;
+    font-weight: bold;
+}
+
+/* esconder input */
+input[type='file'] {
+    display: none;
+}
+
+
+#img_photo {
+    height: 55px;
+    width: 55px;
+    padding: 1px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+#img_photo:hover {
+    background-color: #bcbcbc;
+}
+
+
+
+/* Busca */
+.busca_container {
+    position: fixed;
+    display: flex;
+    align-content: center;
+    margin-top: 40px;
+    margin-left: 130px;
+}
+.form_home{
+    display: flex;
+    flex-wrap: wrap;
+}
+/* card */
+.card {
+    background-color: #09562F;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    text-align: center;
+}
+
+/* Texto título */
+.pesquisa {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.pesquisa h1 {
+    font-weight: 500;
+    color: #fff;
+    font-size: 18pt;
+    text-transform: uppercase;
+    padding: 3px;
+}
+
+/* Borda texto título */
+.pesquisa .border_titulo {
+    width: 67%;
+    height: 5px;
+    margin: 0 auto;
+    background-color: #FFCC29;
+    border-radius: 5px;
+}
+
+/* inputs */
+.input_busca input {
+    margin: 0px 0px 10px 10px;
+    height: 45px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    color: #033d20;
+    padding: 5px;
+}
+
+#marca::placeholder,
+#referencia::placeholder,
+#ano::placeholder,
+#aplicacao::placeholder {
+    color: #09562F;
+    opacity: 0.4;
+}
+
+
+.form_home button {
+    margin: 0px 10px 0px 10px;
+    height: 45px;
+    background-color: #fff;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #09562F;
+    box-shadow: 3px 3px 1px 0px #2b2b2b50;
+    cursor: pointer;
+}
