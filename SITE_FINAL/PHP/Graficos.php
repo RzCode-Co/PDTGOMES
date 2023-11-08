@@ -9,7 +9,7 @@ if ($dataSeteDiasAtras === NULL) {
     $dataSeteDiasAtras = NULL;
 }
 // Consulta SQL para buscar os dias únicos da coluna data_venda na tabela valores dentro do intervalo de datas
-$sql_dias_disponiveis = "SELECT DISTINCT DATE(data_venda) AS dia FROM valores WHERE DATE(data_venda) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
+$sql_dias_disponiveis = "SELECT DISTINCT DATE(data_abertura) AS dia FROM valores WHERE DATE(data_abertura) BETWEEN '$dataSeteDiasAtras' AND '$dataAtual'";
 $result_dias_disponiveis = $conn->query($sql_dias_disponiveis);
 // Array para armazenar os dias disponíveis
 $dias_disponiveis = array();
@@ -23,7 +23,7 @@ if ($result_dias_disponiveis->num_rows > 0) {
 setlocale(LC_TIME, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
 
 // Consulta SQL para buscar os meses e anos únicos da coluna data_venda na tabela valores
-$sql_meses_disponiveis = "SELECT DISTINCT YEAR(data_venda) AS ano, MONTH(data_venda) AS mes FROM valores";
+$sql_meses_disponiveis = "SELECT DISTINCT YEAR(data_abertura) AS ano, MONTH(data_abertura) AS mes FROM valores";
 $result_meses_disponiveis = $conn->query($sql_meses_disponiveis);
 
 // Arrays para armazenar os meses e anos disponíveis
@@ -145,17 +145,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Defina consultas SQL diferentes com base no intervalo selecionado.
     if ($intervalo === "Dias") {
         $dataConsulta = $_POST['intervalo-saldos'];
-        $sql = "SELECT * FROM valores WHERE DATE(data_venda) = '$dataConsulta'";
+        $sql = "SELECT * FROM valores WHERE DATE(data_abertura) = '$dataConsulta'";
         $dataSelecionada = $dataConsulta;
     } elseif ($intervalo === "Semana") {
-        $sql = "SELECT * FROM valores WHERE DATE(data_venda) BETWEEN '$dataInicioSemana' AND '$dataFimSemana'";
+        $sql = "SELECT * FROM valores WHERE DATE(data_abertura) BETWEEN '$dataInicioSemana' AND '$dataFimSemana'";
     } elseif ($intervalo === "Mes") {
         $mesSelecionado = $_POST['mes'];
-        $sql = "SELECT * FROM valores WHERE MONTH(data_venda) = '$mesSelecionado'";
+        $sql = "SELECT * FROM valores WHERE MONTH(data_abertura) = '$mesSelecionado'";
         $dataSelecionada = obterNomeMes(date("Y"), $mesSelecionado);
     } elseif ($intervalo === "Ano") {
         $anoSelecionado = $_POST['ano'];
-        $sql = "SELECT * FROM valores WHERE YEAR(data_venda) = '$anoSelecionado'";
+        $sql = "SELECT * FROM valores WHERE YEAR(data_abertura) = '$anoSelecionado'";
         $dataSelecionada = $anoSelecionado;
     }
 

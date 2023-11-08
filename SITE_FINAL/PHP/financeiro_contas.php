@@ -2,17 +2,22 @@
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
 // Consulta SQL para buscar as vendas com forma de pagamento "Parcelado"
-$sql = "SELECT nome_comprador, valor_venda, numero_parcelas, data_venda FROM vendas WHERE forma_pagamento = 'Parcelado'";
+$sqlVendas = "SELECT nome_comprador, valor_venda, numero_parcelas, data_venda FROM vendas WHERE forma_pagamento = 'Parcelado'";
+$resultVendas = $conn->query($sqlVendas);
 
-$result = $conn->query($sql);
+// Consulta SQL para buscar as informações da tabela "ordem_servico_completa" com forma de pagamento "Parcelado"
+$sqlOrdemServico = "SELECT cliente_nome, preco_total_geral, numero_parcelas, data_abertura FROM ordem_servico_completa WHERE forma_pagamento = 'Parcelado'";
+$resultOrdemServico = $conn->query($sqlOrdemServico);
 
-// Array para armazenar o histórico de vendas
+// Combine os resultados das vendas e da ordem de serviço
 $historico = array();
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $historico[] = $row;
-    }
+while ($row = $resultVendas->fetch_assoc()) {
+    $historico[] = $row;
+}
+
+while ($row = $resultOrdemServico->fetch_assoc()) {
+    $historico[] = $row;
 }
 $conn->close();
 ?>
@@ -32,7 +37,6 @@ $conn->close();
 
 <body>
     <nav class="menu_lateral">
-
         <!-- Barra MENU -->
         <div class="btn_expandir">
             <img src="../CSS/img/Três barras.svg" alt="menu" id="btn_exp">
@@ -50,7 +54,7 @@ $conn->close();
 
             <li class="item_menu">
                 <a href="../HTML/Venda.html">
-                    <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
+                    <img class ="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
                     <span class="txt_link">Vendas</span>
                 </a>
             </li>
@@ -106,20 +110,15 @@ $conn->close();
     <!-- Menu horizonatl -->
     <nav class="menu_horizontal">
         <ul>
-            <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img src="../CSS/img/Logo Horizontal.png"
-                        alt="logo da empresa"></a>
-            </li>
+            <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img src="../CSS/img/Logo Horizontal.png" alt="logo da empresa"></a></li>
 
             <li id="direita">
-
                 <!-- Perfil -->
                 <div class="image_container">
                     <img src="../CSS/img/editar.png" alt="insira foto de perfil" id="img_photo">
                 </div>
-
                 <!-- Escolhendo Imagem -->
                 <input type="file" id="file_image" name="file_image" accept="image/*">
-
                 <script src="../JS/login_preview.js"></script>
             </li>
 
@@ -131,17 +130,14 @@ $conn->close();
                 </div>
             </li>
 
-            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
-                        alt="Notificações"></a></li>
+            <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
 
         </ul>
-
     </nav>
 
     <div id="contas-a-receber">
         <div class="titulo_icone">
-            <a id="icone_voltar" href="../HTML/Financeiro.html"><img src="../CSS/img/voltar.svg"
-                    alt="voltar página"></a>
+            <a id="icone_voltar" href="../HTML/Financeiro.html"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
             <h1>Contas a receber</h1>
         </div>
 
@@ -179,10 +175,18 @@ $conn->close();
 
                 for ($i = $startIndex; $i < $endIndex; $i++) {
                     echo '<tr>';
-                    echo '<td>' . $historico[$i]['nome_comprador'] . '</td>';
-                    echo '<td>' . $historico[$i]['valor_venda'] . '</td>';
-                    echo '<td>' . $historico[$i]['numero_parcelas'] . 'x</td>';
-                    echo '<td>' . $historico[$i]['data_venda'] . '</td>';
+                    if (isset($historico[$i]['nome_comprador'])) {
+                        echo '<td>' . $historico[$i]['nome_comprador'] . '</td>';
+                        echo '<td>' . $historico[$i]['valor_venda'] . '</td>';
+                        echo '<td>' . $historico[$i]['numero_parcelas'] . 'x</td>';
+                        echo '<td>' . $historico[$i]['data_venda'] . '</td>';
+                    } else {
+                        // Estas colunas são da tabela "ordem_servico_completa"
+                        echo '<td>' . $historico[$i]['cliente_nome'] . '</td>';
+                        echo '<td>' . $historico[$i]['preco_total_geral'] . '</td>';
+                        echo '<td>' . $historico[$i]['numero_parcelas'] . '</td>';
+                        echo '<td>' . $historico[$i]['data_abertura'] . '</td>';
+                    }
                     echo '</tr>';
                 }
 
