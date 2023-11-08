@@ -101,11 +101,11 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
             </li>
 
             <li class="item_menu">
-                <a href="#">
-                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
-                    <span class="txt_link">Perfil</span>
-                </a>
-            </li>
+                    <a href="../HTML/pagina_cadastro.html">
+                        <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
+                        <span class="txt_link">Cadastro</span>
+                    </a>
+                </li>
 
             <li class="item_menu">
                 <a href="../PHP/Notificações.php">
