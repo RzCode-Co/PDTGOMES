@@ -83,18 +83,18 @@ if (isset($_POST['apagar_notificacoes'])) {
             </li>
 
             <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
                     <a href="../HTML/pagina_cadastro.html">
                         <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
                         <span class="txt_link">Cadastro</span>
                     </a>
                 </li>
-
-            <li class="item_menu">
-                <a href="#">
-                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
-                    <span class="txt_link">Perfil</span>
-                </a>
-            </li>
 
             <li class="item_menu">
                 <a href="../PHP/Notificações.php">
