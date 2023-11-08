@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_op = $row["id"];
 
         // Consulta SQL para inserir valores na tabela "valores" com o ID da ordem de serviço
-        $sql = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES('$id_op', '$data_venda','$preco_total_produtos', '$preco_total_servicos', '$preco_total_geral', '$valor_debito')";
+        $sql = "INSERT INTO valores (id_op, data_venda, valor_venda, valor_servico, preco_total_geral, valor_debito) VALUES('$id_op', '$data_abertura','$preco_total_produtos', '$preco_total_servicos', '$preco_total_geral', '$valor_debito')";
 
         if ($conn->query($sql) === TRUE) {
             echo "Valores atualizados.";
