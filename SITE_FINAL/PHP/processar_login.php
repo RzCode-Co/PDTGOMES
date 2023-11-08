@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             echo '<script>
             alert("Escolha CPF ou CNPJ.");
-            window.location.href = "../HTML/login.html";
+            window.location.href = "../HTML/index.html";
             </script>';
             exit;
         }
@@ -44,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 window.location.href = "../PHP/inicio.php?id=' . $idUsuario . '";
                 </script>';
         } else {
-            echo '<script> alert("Credenciais inválidas."); window.location.href = "../HTML/login.html";</script>';
+            echo '<script> alert("Credenciais inválidas."); window.location.href = "../HTML/index.html";</script>';
         }
     } else {
-        echo '<script> alert("Faltou preencher campos."); window.location.href = "../HTML/login.html";</script>';
+        echo '<script> alert("Faltou preencher campos."); window.location.href = "../HTML/index.html";</script>';
     }
 }
 ?>
