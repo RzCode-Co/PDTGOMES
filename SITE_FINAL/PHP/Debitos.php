@@ -42,7 +42,7 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
         <!--  itens MENU LATERAL-->
         <ul class="ul_menu_lateral">
 
-            <li class="item_menu ativo">
+            <li class="item_menu">
                 <a href="../PHP/Inicio.php">
                     <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
                     <span class="txt_link">Home</span>

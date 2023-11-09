@@ -219,7 +219,7 @@ $conn->close();
         <!--  itens MENU LATERAL-->
         <ul class="ul_menu_lateral">
 
-            <li class="item_menu ativo">
+            <li class="item_menu">
                 <a href="../PHP/Inicio.php">
                     <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
                     <span class="txt_link">Home</span>
@@ -316,65 +316,71 @@ $conn->close();
     </nav>
 
     <div class="container_inline">
-        <h1 id="titulo-financeiro">GRÁFICOS</h1>
+        
+    
+                    <a id="icone_voltar" href="../PHP/Financeiro.php"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
+                    <h1 id=>GRÁFICOS</h1>
+
+
     </div>
 
     <div class="container-grafico">
 
-        <button onclick="mostrarSaldos()" class="botao-geral" id="mostrar-saldos-e-debitos">Mostrar Saldos e
-            Débitos</button>
-        <form method="post" action="Graficos.php" id="form-saldos-e-debitos">
-
-            <div class="botao-geral">
-                <label id="consultar-saldos-e-debitos">Consultar Saldos e Débitos por:
-                    <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()" required>
-                        <option value="" selected disabled>Escolha uma opção</option>
-                        <option value="Dias">Dias</option>
-                        <option value="Semana">Semana</option>
-                        <option value="Mes">Mês</option>
-                        <option value="Ano">Ano</option>
+        <div> 
+            <button onclick="mostrarSaldos()" class="botao-geral" id="mostrar-saldos-e-debitos">Saldos e
+                Débitos</button>
+            <form method="post" action="Graficos.php" id="form-saldos-e-debitos">
+                <div class="botao-geral">
+                    <label id="consultar-saldos-e-debitos">Consultar Saldos e Débitos por:
+                        <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()" required>
+                            <option value="" selected disabled>Escolha uma opção</option>
+                            <option value="Dias">Dias</option>
+                            <option value="Semana">Semana</option>
+                            <option value="Mes">Mês</option>
+                            <option value="Ano">Ano</option>
+                        </select>
+                    </label>
+                </div>
+                <!-- Div para escolher intervalo de tempo -->
+                <div id="intervalo-de-tempo" class="botao-geral" style="display: none;">
+                    <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
+                    <select name="intervalo-saldos" id="intervalo-saldos">
+                        <?php
+                        echo "<option value=''selected disabled>Escolha uma opção</option>";
+                        foreach ($dias_disponiveis as $dia) {
+                            echo "<option value='$dia'>$dia</option>";
+                        }
+                        ?>
                     </select>
-                </label>
-            </div>
-            <!-- Div para escolher intervalo de tempo -->
-            <div id="intervalo-de-tempo" class="botao-geral" style="display: none;">
-                <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
-                <select name="intervalo-saldos" id="intervalo-saldos">
-                    <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($dias_disponiveis as $dia) {
-                        echo "<option value='$dia'>$dia</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <!-- Div para escolher o mês (para a opção "Mês") -->
-            <div id="mes-selecionado" class="botao-geral" style="display: none;">
-                <label for="mes">Escolha o mês:</label>
-                <select name="mes" id="mes">
-                    <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($meses_disponiveis as $mes) {
-                        $valor_mes = $mes['valor'];
-                        $nome_mes = $mes['nome'];
-                        echo "<option value='$valor_mes'>$nome_mes</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <div id="ano-selecionado" class="botao-geral" style="display: none;">
-                <label for="ano">Escolha o ano:</label>
-                <select name="ano" id="ano">
-                    <?php
-                    echo "<option value=''selected disabled>Escolha uma opção</option>";
-                    foreach ($anos_disponiveis as $ano) {
-                        echo "<option value='$ano'>$ano</option>";
-                    }
-                    ?>
-                </select>
-            </div>
-            <input type="submit" value="Consultar">
-        </form>
+                </div>
+                <!-- Div para escolher o mês (para a opção "Mês") -->
+                <div id="mes-selecionado" class="botao-geral" style="display: none;">
+                    <label for="mes">Escolha o mês:</label>
+                    <select name="mes" id="mes">
+                        <?php
+                        echo "<option value=''selected disabled>Escolha uma opção</option>";
+                        foreach ($meses_disponiveis as $mes) {
+                            $valor_mes = $mes['valor'];
+                            $nome_mes = $mes['nome'];
+                            echo "<option value='$valor_mes'>$nome_mes</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div id="ano-selecionado" class="botao-geral" style="display: none;">
+                    <label for="ano">Escolha o ano:</label>
+                    <select name="ano" id="ano">
+                        <?php
+                        echo "<option value=''selected disabled>Escolha uma opção</option>";
+                        foreach ($anos_disponiveis as $ano) {
+                            echo "<option value='$ano'>$ano</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+                <input type="submit" value="Consultar">
+            </form>
+        </div>
     </div>
     <!-- Tabela para mostrar os valores -->
     <div id="valores" style="display:none;">

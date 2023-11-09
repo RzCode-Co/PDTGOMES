@@ -15,8 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute a instrução preparada
         if ($stmt->execute()) {
-            // Redirecione de volta à página de detalhes da ordem de serviço
-            header("Location: consultar_ordens_servico.php");
+            if($novo_status == 'Em Andamento'){
+                header("Location: consultar_ordens_servico.php");
+            }else if($novo_status == 'Concluída'){
+                header("Location: consultar_ordens_servicos_concluidas.php");
+            }
             exit();
         } else {
             echo "Erro ao executar a consulta: " . $stmt->error;

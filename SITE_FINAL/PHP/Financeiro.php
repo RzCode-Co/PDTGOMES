@@ -86,11 +86,81 @@ $conn->close();
     <meta charset="UTF-8">
     <title>Financeiro</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="../CSS/financeiro.css">
     <link rel="stylesheet" href="../CSS/pagina_inicial.css">
+    <link rel="stylesheet" href="../CSS/financeiro.css">
 </head>
 <body>
+     <nav class="menu_lateral">
 
+        <!-- Barra MENU -->
+        <div class="btn_expandir">
+            <img src="../CSS/img/Três barras.svg" alt="menu" id="btn_exp">
+        </div>
+
+        <!--  itens MENU LATERAL-->
+        <ul class="ul_menu_lateral">
+
+            <li class="item_menu">
+                <a href="../PHP/Inicio.php">
+                    <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
+                    <span class="txt_link">Home</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Venda.html">
+                    <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
+                    <span class="txt_link">Vendas</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/estoque.php">
+                    <img class="icon" src="../CSS/img/Compras.svg" alt="icone compras">
+                    <span class="txt_link">Estoque</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../HTML/Financeiro.php">
+                    <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
+                    <span class="txt_link">Financeiro</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Debitos.php">
+                    <img class="icon" src="../CSS/img/Carteira.svg" alt="icone carteira">
+                    <span class="txt_link">Débitos</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Criação OS.php">
+                    <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
+                    <span class="txt_link">O.S</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="#">
+                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
+                    <span class="txt_link">Perfil</span>
+                </a>
+            </li>
+
+            <li class="item_menu">
+                <a href="../PHP/Notificações.php">
+                    <img class="icon" src="../CSS/img/Sino.svg" alt="logo">
+                    <span class="txt_link">Notificações</span>
+                </a>
+            </li>
+
+        </ul>
+        <!-- importando o JS para o Menu Lateral-->
+        <script src="../JS/menu.js"></script>
+
+    </nav>
     <!-- Menu horizonatl -->
     <nav class="menu_horizontal">
         <ul>
@@ -119,65 +189,74 @@ $conn->close();
 
     </nav>
 
-    <button onclick="redirecionarParaFinanceiroHistorico()">Mostrar Histórico de Vendas</button>
-    <button onclick="redirecionarParaFinanceiroContas()">Mostrar Contas a Receber</button>
-    <button onclick="redirecionarParaGraficos()">Mostrar Gráficos de Saldos e Débitos</button>
-    <?php if ($cargo == 'vendedor') { ?>
-        <div id="comissao_vendedor">
-            <form method="post" action="Financeiro_vendedor.php" id="form-saldos-e-debitos">
-                <div class="botao-geral">
-                    <label id="consultar-saldos-e-debitos">Consultar Saldos e Débitos por:
-                        <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()" required>
-                            <option value="" selected disabled>Escolha uma opção</option>
-                            <option value="Dias">Dias</option>
-                            <option value="Semana">Semana</option>
-                            <option value="Mes">Mês</option>
-                            <option value="Ano">Ano</option>
-                        </select>
-                    </label>
-                </div>
-                <!-- Div para escolher intervalo de tempo -->
-                <div id="intervalo-de-tempo" class="botao-geral" style="display: none;">
-                    <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
-                    <select name="intervalo-saldos" id="intervalo-saldos">
-                        <?php
-                        echo "<option value=''selected disabled>Escolha uma opção</option>";
-                        foreach ($dias_disponiveis as $dia) {
-                            echo "<option value='$dia'>$dia</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <!-- Div para escolher o mês (para a opção "Mês") -->
-                <div id="mes-selecionado" class="botao-geral" style="display: none;">
-                    <label for="mes">Escolha o mês:</label>
-                    <select name="mes" id="mes">
-                        <?php
-                        echo "<option value=''selected disabled>Escolha uma opção</option>";
-                        foreach ($meses_disponiveis as $mes) {
-                            $valor_mes = $mes['valor'];
-                            $nome_mes = $mes['nome'];
-                            echo "<option value='$valor_mes'>$nome_mes</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <div id="ano-selecionado" class="botao-geral" style="display: none;">
-                    <label for="ano">Escolha o ano:</label>
-                    <select name="ano" id="ano">
-                        <?php
-                        echo "<option value=''selected disabled>Escolha uma opção</option>";
-                        foreach ($anos_disponiveis as $ano) {
-                            echo "<option value='$ano'>$ano</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-                <input type="hidden" name="id" value="<?php echo $id; ?>">
-                <input type="submit" value="Consultar">
-            </form>
+    <div id="container_financeiro">
+
+        <div class="container-buttons">
+            <button onclick="redirecionarParaFinanceiroHistorico()" class="botao">Histórico de Vendas</button>
+            <button onclick="redirecionarParaFinanceiroContas()" class="botao">Contas a Receber</button>
+            <button onclick="redirecionarParaGraficos()" class="botao">Gráficos</button>
         </div>
-    <?php } ?>
+    
+
+        <div class="container-consultar" >
+            <?php if ($cargo == 'vendedor') { ?>
+                <div id="comissao_vendedor"> <!-- AQUI É O FINANCEIRO, TUDO O QUE ESTÁ NA TELA "FINANCEIRO", ESTILIZAR AQUI !-->
+                    <form method="post" action="Financeiro_vendedor.php" id="form-saldos-e-debitos">
+                        <div class="botao-financeiro-consultar">
+                            <label id="consultar-saldos-e-debitos">Consultar Saldos e Débitos:
+                                <select name="saldos" id="saldos" onchange="mostrarIntervaloDeTempo()" required>
+                                    <option value="" selected disabled>Escolha uma opção</option>
+                                    <option value="Dias">Dias</option>
+                                    <option value="Semana">Semana</option>
+                                    <option value="Mes">Mês</option>
+                                    <option value="Ano">Ano</option>
+                                </select>
+                            </label>
+                        </div>
+                        <!-- Div para escolher intervalo de tempo -->
+                        <div id="intervalo-de-tempo" class="botao-geral" style="display: none;">
+                            <label for="intervalo-saldos">Escolha o intervalo de tempo:</label>
+                            <select name="intervalo-saldos" id="intervalo-saldos">
+                                <?php
+                                echo "<option value=''selected disabled>Escolha uma opção</option>";
+                                foreach ($dias_disponiveis as $dia) {
+                                    echo "<option value='$dia'>$dia</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <!-- Div para escolher o mês (para a opção "Mês") -->
+                        <div id="mes-selecionado" class="botao-geral" style="display: none;">
+                            <label for="mes">Escolha o mês:</label>
+                            <select name="mes" id="mes">
+                                <?php
+                                echo "<option value=''selected disabled>Escolha uma opção</option>";
+                                foreach ($meses_disponiveis as $mes) {
+                                    $valor_mes = $mes['valor'];
+                                    $nome_mes = $mes['nome'];
+                                    echo "<option value='$valor_mes'>$nome_mes</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div id="ano-selecionado" class="botao-geral" style="display: none;">
+                            <label for="ano">Escolha o ano:</label>
+                            <select name="ano" id="ano">
+                                <?php
+                                echo "<option value=''selected disabled>Escolha uma opção</option>";
+                                foreach ($anos_disponiveis as $ano) {
+                                    echo "<option value='$ano'>$ano</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <input type="hidden" name="id" value="<?php echo $id; ?>">
+                        <input type="submit" value="Consultar" class="botao">
+                    </form>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
 
 <script>
     function mostrarIntervaloDeTempo() {

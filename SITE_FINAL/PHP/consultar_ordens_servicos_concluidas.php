@@ -59,7 +59,7 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
         <!--  itens MENU LATERAL-->
         <ul class="ul_menu_lateral">
 
-            <li class="item_menu ativo">
+            <li class="item_menu">
                 <a href="../PHP/Inicio.php">
                     <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
                     <span class="txt_link">Home</span>
@@ -81,9 +81,9 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
             </li>
 
             <li class="item_menu">
-                <a href="../HTML/Financeiro.html">
+                <a href="../PHP/Financeiro.php">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Vendas</span>
+                    <span class="txt_link">Financeiro</span>
                 </a>
             </li>
 
@@ -102,9 +102,9 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
             </li>
 
             <li class="item_menu">
-                <a href="#">
+                <a href="../HTML/pagina_cadastro.html">
                     <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
-                    <span class="txt_link">Perfil</span>
+                    <span class="txt_link">Cadastro</span>
                 </a>
             </li>
 

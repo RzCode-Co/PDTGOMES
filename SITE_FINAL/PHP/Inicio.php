@@ -20,7 +20,7 @@
         <!--  itens MENU LATERAL-->
         <ul class="ul_menu_lateral">
 
-            <li class="item_menu ativo">
+            <li class="item_menu">
                 <a href="../PHP/Inicio.php">
                     <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
                     <span class="txt_link">Home</span>
@@ -85,7 +85,7 @@
     <!-- Menu horizonatl -->
     <nav class="menu_horizontal">
         <ul>
-            <li id="logo_menu_horizontal"><a href="#"><img src="../CSS/img/Logo Horizontal.png"
+            <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img src="../CSS/img/Logo Horizontal.png"
                         alt="logo da empresa"></a>
             </li>
 

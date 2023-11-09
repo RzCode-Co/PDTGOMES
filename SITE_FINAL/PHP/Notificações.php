@@ -47,7 +47,7 @@ if (isset($_POST['apagar_notificacoes'])) {
         <!--  itens MENU LATERAL-->
         <ul class="ul_menu_lateral">
 
-            <li class="item_menu ativo">
+            <li class="item_menu">
                 <a href="../PHP/Inicio.php">
                     <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
                     <span class="txt_link">Home</span>
