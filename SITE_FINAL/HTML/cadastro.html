@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    
+
     <!-- conteiner -->
     <div class="conteiner">
 
@@ -22,7 +22,8 @@
 
                 <!-- cadastro -->
                 <div class="cadastro">
-                    <a id="icone_voltar" href="index.html"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
+                    <a id="icone_voltar" href="pagina_cadastro.html"><img src="../CSS/img/voltar.svg"
+                            alt="voltar página"></a>
                     <h1>Cadastro PDT</h1>
                 </div>
 
@@ -49,22 +50,16 @@
                 <div id="CPF" class="label-float" style="display: none;">
                     <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
                 </div>
-            
+
                 <div id="CNPJ" class="label-float" style="display: none;">
                     <label for="CNPJ">CNPJ: <input type="text" name="CNPJ" maxlength="14"></label>
                 </div>
-                <div id="enviar-file">
 
-                    <div>
-                        <label >Adicione Arquivo</label>
-                        <input type="file" name="arquivo">
-                    </div>
-
-                </div>
-
+                <div class="file"><label for="arquivo">Adicione Arquivo<input type="file" name="arquivo" id="arquivo"></label></div>
+                
                 <!-- Botão "Entrar" -->
                 <div class="justify-center">
-                        <button type="submit">Cadastrar</button>
+                    <button type="submit">Cadastrar</button>
                 </div>
             </form>
 
@@ -98,4 +93,5 @@
         }
     }
 </script>
+
 </html>
