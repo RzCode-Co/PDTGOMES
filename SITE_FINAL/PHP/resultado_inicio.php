@@ -210,6 +210,55 @@
             ?>
         </div>
     </div>
+    <div id="centralizar-container">
+        <div id="container-resultado">
+            <?php
+            require_once "config.php";
+            // Inicialize as variáveis para armazenar os valores dos campos
+            $nome = $referencia = $marca = $aplicacao = $ano = "";
+
+            if ($_SERVER["REQUEST_METHOD"] === "GET") {
+                $nome = isset($_GET['nome']) ? $_GET['nome'] : "";
+                $referencia = isset($_GET['referencia']) ? $_GET['referencia'] : "";
+                $marca = isset($_GET['marca']) ? $_GET['marca'] : "";
+                $aplicacao = isset($_GET['aplicacao']) ? $_GET['aplicacao'] : "";
+                $ano = isset($_GET['ano']) ? $_GET['ano'] : "";
+            }
+
+            // Consulta SQL para buscar produtos similares
+            $sql_similares = "SELECT * FROM banco_de_dados_pdt WHERE 
+                COL2 LIKE CONCAT('%', SUBSTRING_INDEX('$nome', ' ', 2), '%') AND 
+                COL2 != '$nome' LIMIT 10";
+
+            $result_similares = $conn->query($sql_similares);
+
+            // Exiba produtos similares
+            if ($result_similares->num_rows > 0) {
+                echo "<div class='container-tabela'>";
+                echo '<div class="titulo_icone">
+                            <h2>Produtos Similares:</h2>
+                             </div>';
+                echo "<table>";
+                echo "<tr> <th>Código</th><th>Nome</th><th>Tipo</th><th>Quantidade</th><th>Valor de Custo</th><th>Valor a vista</th><th>Valor a prazo</th>";
+                while ($row_similar = $result_similares->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $row_similar["COL1"] . "</td>";
+                    echo "<td>" . $row_similar["COL2"] . "</td>";
+                    echo "<td>" . $row_similar["COL3"] . "</td>";
+                    echo "<td>" . $row_similar["COL4"] . "</td>";
+                    echo "<td>" . $row_similar["COL5"] . "</td>";
+                    echo "<td>" . $row_similar["COL6"] . "</td>";
+                    echo "<td>" . $row_similar["COL7"] . "</td>";
+                    echo "</tr>";
+                }
+                echo "</table>";
+                echo "</div>";
+            } else {
+                echo "<p>Nenhum produto similar encontrado.</p>";
+            }
+            ?>
+        </div>
+    </div>
 </body>
 
 </html>
