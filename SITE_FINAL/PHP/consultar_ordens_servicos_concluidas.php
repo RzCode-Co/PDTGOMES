@@ -81,9 +81,9 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
             </li>
 
             <li class="item_menu">
-                <a href="../PHP/Financeiro.php">
+                <a href="../HTML/Financeiro.html">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Financeiro</span>
+                    <span class="txt_link">Vendas</span>
                 </a>
             </li>
 
@@ -102,11 +102,11 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
             </li>
 
             <li class="item_menu">
-                    <a href="../HTML/pagina_cadastro.html">
-                        <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
-                        <span class="txt_link">Cadastro</span>
-                    </a>
-                </li>
+                <a href="#">
+                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
+                    <span class="txt_link">Perfil</span>
+                </a>
+            </li>
 
             <li class="item_menu">
                 <a href="../PHP/Notificações.php">
@@ -235,7 +235,6 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
                         echo "<tr><th>ID:</th><td>{$os['ordem_servico_id']}</td></tr>";
                         echo "<tr>
                         <th>Cliente:</th>
-                        <td>{$os['cliente_nome']}</td>
                         <td><input type='text' name='cliente_nome' value='{$os['cliente_nome']}'></td>
                         </tr>";
                         // Verifique se há um CPF definido e não é nulo
@@ -249,27 +248,30 @@ $totalPaginas = ceil($totalRegistrosConcluidas / $registrosPorPagina);
                         }
                         echo "<tr>
                         <th>Veículo:</th>
-                        <td>{$os['veiculo_nome']}</td>
                         <td><input type='text' name='veiculo_nome' value='{$os['veiculo_nome']}'></td>
                         </tr>";
                         echo "<tr>
                         <th>Placa do Veículo:</th>
-                        <td>{$os['veiculo_placa']}</td>
                         <td><input type='text' name='veiculo_placa' value='{$os['veiculo_placa']}'></td>
                         </tr>";
                         echo "<tr>
                         <th>Data de Abertura:</th>
-                        <td>{$os['data_abertura']}</td>
                         <td><input type='text' name='data_abertura' value='{$os['data_abertura']}'></td>
                         </tr>";
                         echo "</table>";
                         echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
                         echo "<input type='submit' name='editar_os' value='Salvar'>";
-                        echo "</form></div>";
+                        echo "</form>";
+
+                        echo "</div>";
+
+                        echo "<div class='saiba_mais'>";
                         echo "<form method='GET' action='detalhes_os.php'>";
                         echo "<input type='hidden' name='ordem_servico_id' value='{$os['ordem_servico_id']}'>";
                         echo "<input type='submit' name='detalhar_os' value='Saiba mais'>";
-                        echo "</form></div>";
+                        echo "</form>";
+                        echo "</div>";
+
                     }
                 }
             }
