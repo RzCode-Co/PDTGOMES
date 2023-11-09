@@ -51,25 +51,47 @@ if (isset($_POST['id'])) {
                 }
 
                 // Consulta SQL para buscar as vendas no intervalo de datas
-                $sql = "SELECT valor_venda FROM vendas WHERE data_venda BETWEEN ? AND ? AND funcionario_vendedor = $CPF";
+                $sql = "SELECT id, data_venda, valor_venda FROM vendas WHERE data_venda BETWEEN ? AND ? AND funcionario_vendedor = ?";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("ss", $dataInicial, $dataFinal);
+                $stmt->bind_param("sss", $dataInicial, $dataFinal, $CPF);
                 $stmt->execute();
                 $result = $stmt->get_result();
 
+                // Inicializar a lista de vendas
+                $vendas = array();
+
                 // Calcular o valor total das vendas no intervalo de datas
                 $totalVendas = 0;
+
+                // Loop através das vendas
                 while ($row = $result->fetch_assoc()) {
+                    $venda = array(
+                        'id' => $row['id'],
+                        'data_venda' => $row['data_venda'],
+                        'valor_venda' => $row['valor_venda'],
+                    );
+                    $vendas[] = $venda;
+
+                    // Adicione o valor da venda ao total
                     $totalVendas += $row['valor_venda'];
                 }
 
                 // Calcular 1% do valor total
                 $umPorcento = $totalVendas * 0.01;
 
-                // Resto do código para exibir os resultados (tabela e total dos valores) permanece o mesmo
+                // Exibir a lista de vendas
+                echo "<h1>Lista de Vendas</h1>";
+                echo "<ul>";
+                foreach ($vendas as $venda) {
+                    echo "<li>ID: " . $venda['id'] . "<br>Data da Venda: " . $venda['data_venda'] . "<br>Valor da Venda: " . $venda['valor_venda'] . "</li>";
+                    $umCento = $venda['valor_venda'] * 0.01;
+                    echo"Comissão: $umCento";
+                }
+                echo "</ul>";
 
-                // Exibir o 1% do valor total
-                echo "1% do valor total de vendas no período: $umPorcento";
+                echo"Valor total de vendas no período: $totalVendas";
+                echo"<br>";
+                echo "Comissão: $umPorcento";
             }
         }
 } else {
