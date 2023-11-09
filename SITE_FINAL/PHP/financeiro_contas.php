@@ -167,6 +167,7 @@ $conn->close();
             if (!empty($historico)) {
                 echo '<table>';
                 echo '<tr>
+                        <th>id</th>
                         <th>Nome do comprador</th>
                         <th>Valor da venda</th>
                         <th>Forma de pagamento</th>
@@ -178,20 +179,32 @@ $conn->close();
                     for ($i = $startIndex; $i < $endIndex; $i++) {
                         echo '<tr>';
                         if (isset($historico[$i]['nome_comprador'])) {
+                            echo '<td>' . $historico[$i]['id'] . '</td>';
                             echo '<td>' . $historico[$i]['nome_comprador'] . '</td>';
                             echo '<td>' . $historico[$i]['valor_venda'] . '</td>';
                             echo '<td>' . $historico[$i]['forma_pagamento'] . '</td>';
                             echo '<td>' . $historico[$i]['numero_parcelas'] . 'x</td>';
                             echo '<td>' . $historico[$i]['data_venda'] . '</td>';
-                            echo '<td><button onclick="excluirConta(' . $i . ', \'' . (isset($historico[$i]['nome_comprador']) ? 'vendas' : 'ordem_servico_completa') . '\')">Excluir</button></td>';
+                            echo '<td>';
+                            echo '<form method="post" action="excluir_venda_conta.php">'; // Substitua "excluir.php" pelo nome do seu script de exclusão
+                            echo '<input type="hidden" name="id" value="' . $historico[$i]['id'] . '">';
+                            echo '<button type="submit">Excluir</button>';
+                            echo '</form>';
+                            echo '</td>';
                         } else {
                             // Estas colunas são da tabela "ordem_servico_completa"
+                            echo '<td>' . $historico[$i]['ID'] . '</td>';
                             echo '<td>' . $historico[$i]['cliente_nome'] . '</td>';
                             echo '<td>' . $historico[$i]['preco_total_geral'] . '</td>';
                             echo '<td>' . $historico[$i]['forma_pagamento'] . '</td>';
                             echo '<td>' . $historico[$i]['numero_parcelas'] . '</td>';
                             echo '<td>' . $historico[$i]['data_abertura'] . '</td>';
-                            echo '<td><button onclick="excluirConta(' . $i . ', \'' . (isset($historico[$i]['nome_comprador']) ? 'vendas' : 'ordem_servico_completa') . '\')">Excluir</button></td>';
+                            echo '<td>';
+                            echo '<form method="post" action="excluir_ordem_servico_conta.php">'; // Substitua "excluir.php" pelo nome do seu script de exclusão
+                            echo '<input type="hidden" name="id" value="' . $historico[$i]['ID'] . '">';
+                            echo '<button type="submit">Excluir</button>';
+                            echo '</form>';
+                            echo '</td>';
                         }
                         echo '</tr>';
                     }
@@ -234,29 +247,6 @@ $conn->close();
             ?>
         </div>
     </div>
-    <script>
-        function excluirConta(id, table) {
-            if (confirm("Tem certeza de que deseja excluir esta conta a receber?")) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", "excluir_conta.php", true);
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var response = xhr.responseText;
-                        if (response === "sucesso") {
-                            alert("Conta excluída com sucesso!");
-                            window.location.reload();
-                        } else {
-                            alert("Falha ao excluir a conta.");
-                        }
-                    }
-                };
-                // Passe 'table' junto com 'id' na solicitação
-                xhr.send("id=" + id + "&table=" + table);
-            }
-        }
-
-    </script>
 </body>
 
 </html>
