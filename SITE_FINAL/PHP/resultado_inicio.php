@@ -227,34 +227,71 @@
 
             // Consulta SQL para buscar produtos similares
             $sql_similares = "SELECT * FROM banco_de_dados_pdt WHERE 
-                COL2 LIKE CONCAT('%', SUBSTRING_INDEX('$nome', ' ', 2), '%') AND 
-                COL2 != '$nome' LIMIT 10";
+            COL2 LIKE CONCAT('%', SUBSTRING_INDEX('$nome', ' ', 2), '%') AND 
+            COL2 != '$nome'";
 
+            $result_similares = $conn->query($sql_similares);
+            $totalResultadosSimilares = $result_similares->num_rows;
+
+            // Adicione a funcionalidade de paginação para produtos similares
+            $itensPorPaginaSimilares = 10;
+            $numPaginasSimilares = ceil($totalResultadosSimilares / $itensPorPaginaSimilares);
+            $paginaAtualSimilares = isset($_GET['page_similares']) ? $_GET['page_similares'] : 1;
+
+            // Calcula o OFFSET com base na página atual
+            $offsetSimilares = ($paginaAtualSimilares - 1) * $itensPorPaginaSimilares;
+
+            // Consulta SQL com LIMIT e OFFSET para produtos similares
+            $sql_similares .= " LIMIT $itensPorPaginaSimilares OFFSET $offsetSimilares";
             $result_similares = $conn->query($sql_similares);
 
             // Exiba produtos similares
             if ($result_similares->num_rows > 0) {
-                echo "<div class='container-tabela'>";
-                echo '<div class="titulo_icone">
-                            <h2>Produtos Similares:</h2>
-                             </div>';
-                echo "<table>";
-                echo "<tr> <th>Código</th><th>Nome</th><th>Tipo</th><th>Quantidade</th><th>Valor de Custo</th><th>Valor a vista</th><th>Valor a prazo</th>";
-                while ($row_similar = $result_similares->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row_similar["COL1"] . "</td>";
-                    echo "<td>" . $row_similar["COL2"] . "</td>";
-                    echo "<td>" . $row_similar["COL3"] . "</td>";
-                    echo "<td>" . $row_similar["COL4"] . "</td>";
-                    echo "<td>" . $row_similar["COL5"] . "</td>";
-                    echo "<td>" . $row_similar["COL6"] . "</td>";
-                    echo "<td>" . $row_similar["COL7"] . "</td>";
-                    echo "</tr>";
+            echo "<div class='container-tabela'>";
+            echo '<div class="titulo_icone">
+                        <h2>Produtos Similares:</h2>
+                        </div>';
+            echo "<table>";
+            echo "<tr> <th>Código</th><th>Nome</th><th>Tipo</th><th>Quantidade</th><th>Valor de Custo</th><th>Valor a vista</th><th>Valor a prazo</th>";
+            while ($row_similar = $result_similares->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row_similar["COL1"] . "</td>";
+                echo "<td>" . $row_similar["COL2"] . "</td>";
+                echo "<td>" . $row_similar["COL3"] . "</td>";
+                echo "<td>" . $row_similar["COL4"] . "</td>";
+                echo "<td>" . $row_similar["COL5"] . "</td>";
+                echo "<td>" . $row_similar["COL6"] . "</td>";
+                echo "<td>" . $row_similar["COL7"] . "</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+
+            // Exiba a paginação para produtos similares
+            echo "<div class='paginacao'>";
+            if ($numPaginasSimilares > 1) {
+                if ($paginaAtualSimilares > 1) {
+                    echo "<a href='?page_similares=" . ($paginaAtualSimilares - 1) . "' class='pagina-anterior'>&laquo;</a>";
                 }
-                echo "</table>";
-                echo "</div>";
+                $quantidadeLinksSimilares = 5;
+                $inicioSimilares = max(1, $paginaAtualSimilares - floor($quantidadeLinksSimilares / 2));
+                $fimSimilares = min($numPaginasSimilares, $paginaAtualSimilares + floor($quantidadeLinksSimilares / 2));
+                for ($i = $inicioSimilares; $i <= $fimSimilares; $i++) {
+                    if ($paginaAtualSimilares == $i) {
+                        echo "<span class='pagina-atual'>$i</span>";
+                    } else {
+                        echo "<a href='?page_similares=$i&nome=$nome&referencia=$referencia&marca=$marca&aplicacao=$aplicacao&ano=$ano' class='pagina'>$i</a>";
+                    }
+                }
+                if ($paginaAtualSimilares < $numPaginasSimilares) {
+                    echo "<a href='?page_similares=" . ($paginaAtualSimilares + 1) . "' class='proxima-pagina'>&raquo;</a>";
+                }
             } else {
-                echo "<p>Nenhum produto similar encontrado.</p>";
+                echo "<span class='pagina-atual'>1</span>";
+            }
+            echo "</div>";
+            }
+            else {
+            echo "<p>Nenhum produto similar encontrado.</p>";
             }
             ?>
         </div>

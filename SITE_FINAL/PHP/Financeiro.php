@@ -208,7 +208,7 @@ $conn->close();
         window.location.href = "financeiro_historico.php";
     }
     function redirecionarParaFinanceiroContas() {
-        window.location.href ="contas_receber.php";
+        window.location.href ="financeiro_contas.php";
     }
     function redirecionarParaGraficos() {
         window.location.href = "Graficos.php";

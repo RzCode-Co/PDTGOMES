@@ -165,9 +165,9 @@ if (isset($_GET['ordem_servico_id'])) {
     }
     ?>
 
-<form method="POST" action="gerar_pdf.php">
-    <input type="hidden" name="ordem_servico_id" value="<?php echo $os_details['ordem_servico_id']; ?>">
-    <button type="submit" name="download_pdf">Baixar OS</button>
+<form method="get" action="download_os.php">
+    <input type="hidden" name="ordem_servico_id" value="<?php echo $ordem_servico_id ?>">
+    <button type="submit">Baixar OS</button>
 </form>
 
     <p><a href="Criação OS.php">Voltar para a Lista de Ordens de Serviço</a></p>
