@@ -70,6 +70,8 @@
     width: 100%;
 }
 
+
+
 /* Pesquisa por ID */
 #pesquisa_placa{
     width: 100%;
@@ -77,7 +79,7 @@
     justify-content: center;
 }
 
-#ordens_andamento,#div_ordens_concluidas{
+#ordens_andamento{
     display: flex;
     flex-wrap: wrap;
     width: 60%;
@@ -89,9 +91,8 @@
     flex-direction: column;
     color: #03381d;
     padding: 10px;
-    margin: 20px;
-    width: 40%;
-    border-radius: 10px;
+    justify-content: center;
+    border-radius: 10px 10px 10px 0px;
     background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -99,6 +100,14 @@
     text-align: center;
     margin-bottom: 10px;
     font-size: 16pt;
+}
+.ordem_servico table{
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.ordem_servico form{
+    margin: 0 auto;
 }
 
 .ordem_servico td{
@@ -109,11 +118,25 @@
     text-align: start;
     font-size: 14pt;
 }
+.ordem_servico input{
+    text-align: end;
+    font-size: 12pt;
+    border-radius: 5px;
+    background-color: #ddd;
+    padding: 5px;
+    margin-left:10px;
+}
+
+.ordem_servico input[type='submit'] {
+    background-color: #09562F;
+    cursor: pointer;
+    color: #fafafa;
+}
 
 .paginacao_detalhes{
     display: flex;
     justify-content: center;
-    width: 40%;
+    width: 100%;
 
 }
 
@@ -159,4 +182,18 @@
 /* Paginação */
 .paginacao a:hover {
     background-color: #117f48;
+}
+
+.saiba_mais {
+    display: flex;
+    width: 100%;
+   margin-bottom: 20px;
+}
+
+.saiba_mais input{
+    background-color: #09562F;
+    color: #fafafa;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 0px 0px 5px 5px;
 }
