@@ -95,6 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $valor_servico = $_POST["valor_servico"][$i];
         $forma_pagamento = $_POST["forma_pagamento"];
         $numero_parcelas = ($forma_pagamento === "Parcelado") ? $_POST["numero_parcelas"] : null;
+        $numero_parcelas = ($forma_pagamento === "Boleto") ? $_POST["numero_parcelas"] : null;
 
         // Calcular o preço total dos serviços
         $preco_total_servicos += $valor_servico;

@@ -81,9 +81,9 @@ $conn->close();
             </li>
 
             <li class="item_menu">
-                <a href="../HTML/Financeiro.html">
+                <a href="../PHP/Financeiro.php">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Vendas</span>
+                    <span class="txt_link">Financeiro</span>
                 </a>
             </li>
 
@@ -215,7 +215,7 @@ $conn->close();
                             <div class="card2-servico">
                                 <div>
                                     <label>Telefone:</label>
-                                    <input type="int" name="telefone">
+                                    <input type="varchar" name="telefone">
                                 </div>
                                 <div>
                                     <label>CEP:</label>
@@ -324,8 +324,9 @@ $conn->close();
                                     <option value="dinheiro">Dinheiro</option>
                                     <option value="cartao">Cartão de Crédito</option>
                                     <option value="cartao_debito">Cartão de Débito</option>
-                                    <option value="pix">Pix</option>
+                                    <option value="Pix">Pix</option>
                                     <option value="Parcelado">Parcelado</option>
+                                    <option value="Boleto">Boleto</option>
                                 </select>
                             </div>
                         </div>
@@ -411,6 +412,12 @@ $conn->close();
         var parcelasDiv = document.getElementById("parcelas");
 
         if (formaPagamento.value === "Parcelado") {
+            parcelasDiv.style.display = "block";
+        } else {
+            parcelasDiv.style.display = "none";
+        }
+
+        if (formaPagamento.value === "Boleto"){
             parcelasDiv.style.display = "block";
         } else {
             parcelasDiv.style.display = "none";

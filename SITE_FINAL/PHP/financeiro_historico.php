@@ -63,9 +63,9 @@ $conn->close();
             </li>
 
             <li class="item_menu">
-                <a href="../HTML/Financeiro.html">
+                <a href="../PHP/Financeiro.php">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Vendas</span>
+                    <span class="txt_link">Financeiro</span>
                 </a>
             </li>
 
@@ -140,7 +140,7 @@ $conn->close();
 
     <div id="historico-de-vendas">
         <div class="titulo_icone">
-            <a id="icone_voltar" href="../HTML/Financeiro.html"><img src="../CSS/img/voltar.svg"
+            <a id="icone_voltar" href="../PHP/Financeiro.php"><img src="../CSS/img/voltar.svg"
                     alt="voltar página"></a>
             <h1>Histórico de Vendas</h1>
         </div>

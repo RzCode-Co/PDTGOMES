@@ -69,9 +69,9 @@ if (isset($_POST['apagar_notificacoes'])) {
             </li>
 
             <li class="item_menu">
-                <a href="../HTML/Financeiro.html">
+                <a href="../PHP/Financeiro.php">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Vendas</span>
+                    <span class="txt_link">Financeiro</span>
                 </a>
             </li>
 

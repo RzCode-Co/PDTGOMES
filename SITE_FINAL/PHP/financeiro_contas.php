@@ -2,11 +2,11 @@
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
 // Consulta SQL para buscar as vendas com forma de pagamento "Parcelado"
-$sqlVendas = "SELECT nome_comprador, valor_venda, numero_parcelas, data_venda FROM vendas WHERE forma_pagamento = 'Parcelado'";
+$sqlVendas = "SELECT id, nome_comprador, valor_venda, forma_pagamento, numero_parcelas, data_venda FROM vendas WHERE forma_pagamento = 'Boleto'";
 $resultVendas = $conn->query($sqlVendas);
 
 // Consulta SQL para buscar as informações da tabela "ordem_servico_completa" com forma de pagamento "Parcelado"
-$sqlOrdemServico = "SELECT cliente_nome, preco_total_geral, numero_parcelas, data_abertura FROM ordem_servico_completa WHERE forma_pagamento = 'Parcelado'";
+$sqlOrdemServico = "SELECT ID, cliente_nome, preco_total_geral, forma_pagamento, numero_parcelas, data_abertura FROM ordem_servico_completa WHERE forma_pagamento = 'Boleto'";
 $resultOrdemServico = $conn->query($sqlOrdemServico);
 
 // Combine os resultados das vendas e da ordem de serviço
@@ -67,9 +67,9 @@ $conn->close();
             </li>
 
             <li class="item_menu">
-                <a href="../HTML/Financeiro.html">
+                <a href="../PHP/Financeiro.php">
                     <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
-                    <span class="txt_link">Vendas</span>
+                    <span class="txt_link">Financeiro</span>
                 </a>
             </li>
 
@@ -137,7 +137,7 @@ $conn->close();
 
     <div id="contas-a-receber">
         <div class="titulo_icone">
-            <a id="icone_voltar" href="../HTML/Financeiro.html"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
+            <a id="icone_voltar" href="../PHP/Financeiro.php"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>
             <h1>Contas a receber</h1>
         </div>
 
@@ -169,26 +169,33 @@ $conn->close();
                 echo '<tr>
                         <th>Nome do comprador</th>
                         <th>Valor da venda</th>
+                        <th>Forma de pagamento</th>
                         <th>Número de Parcelas</th>
                         <th>Data de Venda</th>
+                        <th>Excluir</th>
                     </tr>';
 
-                for ($i = $startIndex; $i < $endIndex; $i++) {
-                    echo '<tr>';
-                    if (isset($historico[$i]['nome_comprador'])) {
-                        echo '<td>' . $historico[$i]['nome_comprador'] . '</td>';
-                        echo '<td>' . $historico[$i]['valor_venda'] . '</td>';
-                        echo '<td>' . $historico[$i]['numero_parcelas'] . 'x</td>';
-                        echo '<td>' . $historico[$i]['data_venda'] . '</td>';
-                    } else {
-                        // Estas colunas são da tabela "ordem_servico_completa"
-                        echo '<td>' . $historico[$i]['cliente_nome'] . '</td>';
-                        echo '<td>' . $historico[$i]['preco_total_geral'] . '</td>';
-                        echo '<td>' . $historico[$i]['numero_parcelas'] . '</td>';
-                        echo '<td>' . $historico[$i]['data_abertura'] . '</td>';
+                    for ($i = $startIndex; $i < $endIndex; $i++) {
+                        echo '<tr>';
+                        if (isset($historico[$i]['nome_comprador'])) {
+                            echo '<td>' . $historico[$i]['nome_comprador'] . '</td>';
+                            echo '<td>' . $historico[$i]['valor_venda'] . '</td>';
+                            echo '<td>' . $historico[$i]['forma_pagamento'] . '</td>';
+                            echo '<td>' . $historico[$i]['numero_parcelas'] . 'x</td>';
+                            echo '<td>' . $historico[$i]['data_venda'] . '</td>';
+                            echo '<td><button onclick="excluirConta(' . $i . ', \'' . (isset($historico[$i]['nome_comprador']) ? 'vendas' : 'ordem_servico_completa') . '\')">Excluir</button></td>';
+                        } else {
+                            // Estas colunas são da tabela "ordem_servico_completa"
+                            echo '<td>' . $historico[$i]['cliente_nome'] . '</td>';
+                            echo '<td>' . $historico[$i]['preco_total_geral'] . '</td>';
+                            echo '<td>' . $historico[$i]['forma_pagamento'] . '</td>';
+                            echo '<td>' . $historico[$i]['numero_parcelas'] . '</td>';
+                            echo '<td>' . $historico[$i]['data_abertura'] . '</td>';
+                            echo '<td><button onclick="excluirConta(' . $i . ', \'' . (isset($historico[$i]['nome_comprador']) ? 'vendas' : 'ordem_servico_completa') . '\')">Excluir</button></td>';
+                        }
+                        echo '</tr>';
                     }
-                    echo '</tr>';
-                }
+                    
 
                 echo '</table>';
             } else {
@@ -227,6 +234,29 @@ $conn->close();
             ?>
         </div>
     </div>
+    <script>
+        function excluirConta(id, table) {
+            if (confirm("Tem certeza de que deseja excluir esta conta a receber?")) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "excluir_conta.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var response = xhr.responseText;
+                        if (response === "sucesso") {
+                            alert("Conta excluída com sucesso!");
+                            window.location.reload();
+                        } else {
+                            alert("Falha ao excluir a conta.");
+                        }
+                    }
+                };
+                // Passe 'table' junto com 'id' na solicitação
+                xhr.send("id=" + id + "&table=" + table);
+            }
+        }
+
+    </script>
 </body>
 
 </html>

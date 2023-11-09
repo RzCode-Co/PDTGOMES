@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $forma_pagamento = $_POST["forma_pagamento"];
     $numero_parcelas = ($forma_pagamento === "Parcelado") ? $_POST["numero_parcelas"] : null;
+    $numero_parcelas = ($forma_pagamento === "Boleto") ? $_POST["numero_parcelas"] : null;
     $valor_venda = $_POST["valor_venda"];
     $funcionario_vendedor = $_POST["funcionario_vendedor"];
     $garantia_produto = $_POST["garantia_produto"];
