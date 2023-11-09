@@ -79,13 +79,6 @@
     justify-content: center;
 }
 
-#ordens_andamento{
-    display: flex;
-    flex-wrap: wrap;
-    width: 60%;
-    margin-left: 10%;
-}
-
 .ordem_servico{
     display: flex;
     flex-direction: column;
@@ -170,6 +163,8 @@
 /* Paginação */
 .paginacao{
     margin-left: 100px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 .paginacao span {
     color: #09562F;

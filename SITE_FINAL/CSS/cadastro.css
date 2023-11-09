@@ -134,18 +134,31 @@ button:hover{
     top: 85%;
     cursor: pointer;
 }
-#enviar-file label {
-    font-size: 18px;
-    color: #09562F;
 
+.file{
+    text-align: center;
+    margin: 5px 0px 5px 0px;
 }
-#enviar-file input {
-    height: 40px;
-    color: #09562fc6;
-    font-size: 18px;
-    margin-top: 5px;
 
+.file label {
+    background-color: #09562F;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12pt;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-transform: uppercase;
+}
 
+.file label:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+.card input[type='file'] {
+    display: none;
 }
 
 #selects-cargo-cpf {
@@ -154,25 +167,3 @@ button:hover{
 }
 
 
-#enviar-file input[type='file'] {
-    display: none;
-    margin-top: 0;
-   
-    
-}
-
-#enviar-file {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    background-color: rgba(128, 128, 128, 0.25);
-    outline: 2px solid #09562F;
-    border-radius: 5px;
-    width: 40%;
-}
-
-#enviar-file:hover{
-    color: #FFCC29;
-    transition: 0.3s;
-    background-color: rgba(128, 128, 128, 0.616);
-}
