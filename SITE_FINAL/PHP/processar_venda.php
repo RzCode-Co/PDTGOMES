@@ -3,12 +3,12 @@
 require_once "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nome_comprador = $_POST["nome_comprador"];
-    $nome_peca = $_POST["nome_peca"];
-    $marca = $_POST["marca"];
-    $ano = $_POST["ano"];
-    $referencia = $_POST["referencia"];
-    $aplicacao = $_POST["aplicacao"];
+    $nome_comprador = formatarTexto($_POST["nome_comprador"]);
+    $nome_peca = formatarTexto($_POST["nome_peca"]);
+    $marca = formatarTexto($_POST["marca"]);
+    $ano = formatarTexto($_POST["ano"]);
+    $referencia = formatarTexto($_POST["referencia"]);
+    $aplicacao = formatarTexto($_POST["aplicacao"]);
     $quantidade = $_POST["quantidade"];
     $cpf_cnpj = $_POST["cpf_cnpj"];
 
@@ -32,8 +32,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $numero_parcelas = ($forma_pagamento === "Parcelado") ? $_POST["numero_parcelas"] : null;
     $numero_parcelas = ($forma_pagamento === "Boleto") ? $_POST["numero_parcelas"] : null;
     $valor_venda = $_POST["valor_venda"];
-    $funcionario_vendedor = $_POST["funcionario_vendedor"];
+    $funcionario_vendedor = formatarTexto($_POST["funcionario_vendedor"]);
     $garantia_produto = $_POST["garantia_produto"];
+
+    function formatarTexto($texto) {
+        // Remove a acentuação
+        $texto = iconv('UTF-8', 'ASCII//TRANSLIT', $texto);
+
+        // Converte para maiúsculas
+        $texto = mb_strtoupper($texto, 'UTF-8');
+
+        return $texto;
+    }
 
     // Consulta SQL para verificar se o produto existe com base no nome e outros critérios
     $verificar_produto_sql = "SELECT id, quantidade FROM estoque WHERE nome = '$nome_peca' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";

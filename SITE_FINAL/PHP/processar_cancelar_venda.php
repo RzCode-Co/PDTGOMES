@@ -4,12 +4,12 @@ require_once "config.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recupere os dados do formulário
-    $nome_comprador = $_POST["nome_comprador"];
-    $nome_peca = $_POST["nome_peca"];
-    $marca = $_POST["marca"];
-    $ano = $_POST["ano"];
-    $referencia = $_POST["referencia"];
-    $aplicacao = $_POST["aplicacao"];
+    $nome_comprador = formatarTexto($_POST["nome_comprador"]);
+    $nome_peca = formatarTexto($_POST["nome_peca"]);
+    $marca = formatarTexto($_POST["marca"]);
+    $ano = formatarTexto($_POST["ano"]);
+    $referencia = formatarTexto($_POST["referencia"]);
+    $aplicacao = formatarTexto($_POST["aplicacao"]);
     $cpf_cnpj = $_POST["cpf_cnpj2"];
 
     // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
@@ -27,7 +27,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </script>';
         exit; // Saia do script
     }
-    $funcionario_vendedor = $_POST["funcionario_vendedor"];
+    $funcionario_vendedor = formatarTexto($_POST["funcionario_vendedor"]);
+
+    function formatarTexto($texto) {
+        // Remove a acentuação
+        $texto = iconv('UTF-8', 'ASCII//TRANSLIT', $texto);
+
+        // Converte para maiúsculas
+        $texto = mb_strtoupper($texto, 'UTF-8');
+
+        return $texto;
+    }
+
 
     // Consulta SQL para obter o ID da venda com base nos dados do formulário
     $consulta_id_venda = "SELECT id, quantidade FROM vendas WHERE nome_comprador = '$nome_comprador' AND nome_peca = '$nome_peca' AND CPF ='$CPF' AND CNPJ ='$CNPJ' AND funcionario_vendedor ='$funcionario_vendedor'";

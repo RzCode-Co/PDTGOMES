@@ -163,6 +163,12 @@ th {
     display: flex;
 }
 
+input,select{
+    padding-left: 5px;
+}
+textarea {
+    padding:5px ;
+}
 #cancelar-ordem input,
 #cancelar-ordem select{
     width: 350px;
@@ -293,12 +299,13 @@ th {
 }
 
 .card-ordem-observacoes textarea {
+    margin-top: 10px;
     background-color: #ddd;
     resize:none;
     height: 80%;
     width: 100%;
      display: flex;
-    justify-content: center;
+    justify-content: center;    
 }
 
 .card-botao-ordem {
@@ -306,4 +313,3 @@ th {
     display: flex;
     justify-content: center;
 }
-

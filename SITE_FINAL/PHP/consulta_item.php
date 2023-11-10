@@ -1,13 +1,41 @@
 <?php
 require_once "config.php"; // arquivo de config do bd
 
-$nome_produto = $_POST["nome"];
-$referencia = $_POST["referencia"];
-$marca = $_POST["marca"];
-$aplicacao = $_POST["aplicacao"];
-$ano = $_POST["ano"];
+function removeAcentos($string) {
+    return preg_replace('/[^\p{L}\p{N}\s]/u', '', strtoupper($string));
+}
 
-$sql = "SELECT * FROM estoque WHERE nome = '$nome_produto' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano'";
+$nome_produto = isset($_POST["nome"]) ? strtoupper(removeAcentos($_POST["nome"])) : "";
+$referencia = isset($_POST["referencia"]) ? strtoupper(removeAcentos($_POST["referencia"])) : "";
+$marca = isset($_POST["marca"]) ? strtoupper(removeAcentos($_POST["marca"])) : "";
+$aplicacao = isset($_POST["aplicacao"]) ? strtoupper(removeAcentos($_POST["aplicacao"])) : "";
+$ano = isset($_POST["ano"]) ? $_POST["ano"] : "";
+
+$aviso = "";
+
+$consulta = []; // Definindo uma matriz vazia
+
+$sql = "SELECT * FROM estoque WHERE 1"; // Inicializa a consulta com "1" para garantir que sempre haja uma condição
+
+if (!empty($nome_produto)) {
+    $sql .= " AND UPPER(REPLACE(nome, ' ', '')) = UPPER(REPLACE('$nome_produto', ' ', ''))";
+}
+
+if (!empty($referencia)) {
+    $sql .= " AND UPPER(REPLACE(referencia, ' ', '')) = UPPER(REPLACE('$referencia', ' ', ''))";
+}
+
+if (!empty($marca)) {
+    $sql .= " AND UPPER(REPLACE(marca, ' ', '')) = UPPER(REPLACE('$marca', ' ', ''))";
+}
+
+if (!empty($aplicacao)) {
+    $sql .= " AND UPPER(REPLACE(aplicacao, ' ', '')) = UPPER(REPLACE('$aplicacao', ' ', ''))";
+}
+
+if (!empty($ano)) {
+    $sql .= " AND ano = '$ano'";
+}
 
 $result = $conn->query($sql);
 
@@ -16,9 +44,10 @@ if ($result->num_rows > 0) {
         $consulta[] = $row;
     }
 } else {
-    echo "Produto não encontrado.";
+    $aviso = "Produto não encontrado.";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-br">

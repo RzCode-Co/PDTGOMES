@@ -1,12 +1,16 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
+function removeAcentos($string) {
+    return preg_replace('/[^\p{L}\p{N}\s]/u', '', strtoupper($string));
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verifica se os campos obrigatórios estão preenchidos
     if (isset($_POST['nome'], $_POST['endereco'])) {
         // Validação e sanitização dos campos de entrada
-        $nome = filter_var($_POST['nome'], FILTER_SANITIZE_STRING);
-        $endereco = filter_var($_POST['endereco'], FILTER_SANITIZE_STRING);
+        $nome = removeAcentos(filter_var($_POST['nome'], FILTER_SANITIZE_STRING));
+        $endereco = removeAcentos(filter_var($_POST['endereco'], FILTER_SANITIZE_STRING));
         $cargo = "cliente";
         $cpf_cnpj = filter_var($_POST['cpf_cnpj'], FILTER_SANITIZE_STRING);
         // Verifique se a escolha do usuário (CPF ou CNPJ) é válida

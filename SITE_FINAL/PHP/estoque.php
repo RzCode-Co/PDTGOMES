@@ -130,8 +130,7 @@
 
                 <div id="adicionar-item" style="display: none;">
                     <h2>Adicionar Item ao Estoque</h2>
-                    <form enctype="multipart/form-data" class="form_estoque"
-                        action="../PHP/processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
+                    <form enctype="multipart/form-data" class="form_estoque" action="../PHP/processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
                         <div class="section_one">
                             <label>Nome do Item: <input type="text" name="nome"></label><br>
                             <label>Referência: <input type="text" name="referencia"></label><br>
@@ -145,10 +144,9 @@
                         </div>
 
                         <div class="section_three">
-                            <label>Valor de Custo: <input type="float" name="valor_custo"></label><br>
-                            <label>Valor de Varejo: <input type="float" name="valor_varejo"></label><br>
-
-                            <label>Valor de Atacado: <input type="float" name="valor_atacado"></label><br>
+                            <label>Valor de Custo: <input type="number" name="valor_custo"></label><br>
+                            <label>Valor de Varejo: <input type="number" name="valor_varejo"></label><br>
+                            <label>Valor de Atacado: <input type="number" name="valor_atacado"></label><br>
                             <label>Local: <input type="text" name="local"></label><br>
                         </div>
 
@@ -162,9 +160,7 @@
 
                 <div id="remover-item" style="display: none;">
                     <h2>Remover Item do Estoque</h2>
-                    <form class="form_estoque" action="../PHP/processar_remover_item.php" method="post"
-                        onchange="mostrarRemoverItem()">
-
+                    <form class="form_estoque" action="../PHP/processar_remover_item.php" method="post" onsubmit="return validarFormulario();" onchange="mostrarRemoverItem();">
                         <div class="section_one">
                             <label>Nome do Item: <input type="text" name="nome"></label><br>
                             <label>Referência: <input type="text" name="referencia"></label><br>
@@ -180,24 +176,22 @@
                         <div class="remover">
                             <input type="submit" value="Remover" id="botão_remover">
                         </div>
-
                     </form>
                 </div>
 
                 <div id="consultar-item" style="display: none;">
                     <h2>Pesquisa de Estoque</h2>
-                    <form class="form_estoque" action="../PHP/consulta_item.php" method="post"
-                        onchange="mostrarConsultarItem()">
+                    <form class="form_estoque" action="../PHP/consulta_item.php" method="post" onsubmit="return validarCampos()">
 
                         <div class="section_one">
-                            <label>Nome do Item: <input type="text" name="nome"></label><br>
-                            <label>Referência: <input type="text" name="referencia"></label><br>
+                            <label>Nome do Item: <input type="text" name="nome" id="nome"></label><br>
+                            <label>Referência: <input type="text" name="referencia" id="referencia"></label><br>
                         </div>
 
                         <div class="section_two">
-                            <label>Marca: <input type="text" name="marca"></label><br>
-                            <label>Aplicação: <input type="text" name="aplicacao"></label><br>
-                            <label>Ano: <input type="number" name="ano"></label><br>
+                            <label>Marca: <input type="text" name="marca" id="marca"></label><br>
+                            <label>Aplicação: <input type="text" name="aplicacao" id="aplicacao"></label><br>
+                            <label>Ano: <input type="number" name="ano" id="ano"></label><br>
                         </div>
                         <div class="pesquisa">
                             <input type="submit" value="Pesquisar">
@@ -210,6 +204,42 @@
         
         </section>
     </main>
+    <script>
+        function validarFormulario(event) {
+            var nome = document.querySelector('input[name="nome"]').value;
+            var referencia = document.querySelector('input[name="referencia"]').value;
+            var marca = document.querySelector('input[name="marca"]').value;
+            var aplicacao = document.querySelector('input[name="aplicacao"]').value;
+            var ano = document.querySelector('input[name="ano"]').value;
+            var quantidade = document.querySelector('input[name="quantidade"]').value;
+
+            if (nome === "" || referencia === "" || marca === "" || aplicacao === "" || ano === "" || quantidade === "") {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+                event.preventDefault(); // Impede o envio do formulário se campos obrigatórios estiverem vazios
+            }
+        }
+        function validarCampos() {
+            var nome = document.getElementById("nome").value;
+            var referencia = document.getElementById("referencia").value;
+            var marca = document.getElementById("marca").value;
+            var aplicacao = document.getElementById("aplicacao").value;
+            var ano = document.getElementById("ano").value;
+
+            if (!nome && !referencia && !marca && !aplicacao && !ano) {
+                alert("Pelo menos um campo deve ser preenchido para realizar a pesquisa.");
+                return false;
+            }
+
+            return true;
+        }
+
+        // Adicione um evento de envio ao formulário
+        var formulario = document.querySelector('.form_estoque');
+        formulario.addEventListener('submit', validarFormulario);
+    </script>
+
+
+
 </body>
 
 </html>

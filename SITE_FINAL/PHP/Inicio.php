@@ -150,7 +150,7 @@
                     <input type="number" name="ano" placeholder="Ano" value="<?php echo isset($ano) ? $ano : ''; ?>">
                 </div>
 
-                <button id="btn-pesquisar">Pesquisar</button>
+                <button id="btn-pesquisar" disabled>Pesquisar</button>
             </form>
         </div>
     </section>

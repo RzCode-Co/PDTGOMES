@@ -115,32 +115,45 @@
         <div id="container-resultado">
             <?php
             require_once "config.php";
+
+            function removerAcentos($str) {
+                $str = strtoupper($str); // Converter para maiúsculas
+                $str = preg_replace('/[ÁÀÂÃÄ]/u', 'A', $str);
+                $str = preg_replace('/[ÉÈÊË]/u', 'E', $str);
+                $str = preg_replace('/[ÍÌÎÏ]/u', 'I', $str);
+                $str = preg_replace('/[ÓÒÔÕÖ]/u', 'O', $str);
+                $str = preg_replace('/[ÚÙÛÜ]/u', 'U', $str);
+                $str = preg_replace('/[Ç]/u', 'C', $str);
+                return $str;
+            }
+            
+
             // Inicialize as variáveis para armazenar os valores dos campos
             $nome = $referencia = $marca = $aplicacao = $ano = "";
             if ($_SERVER["REQUEST_METHOD"] === "GET") {
-                $nome = isset($_GET['nome']) ? $_GET['nome'] : "";
-                $referencia = isset($_GET['referencia']) ? $_GET['referencia'] : "";
-                $marca = isset($_GET['marca']) ? $_GET['marca'] : "";
-                $aplicacao = isset($_GET['aplicacao']) ? $_GET['aplicacao'] : "";
+                $nome = isset($_GET['nome']) ? removerAcentos($_GET['nome']) : "";
+                $referencia = isset($_GET['referencia']) ? removerAcentos($_GET['referencia']) : "";
+                $marca = isset($_GET['marca']) ? removerAcentos($_GET['marca']) : "";
+                $aplicacao = isset($_GET['aplicacao']) ? removerAcentos($_GET['aplicacao']) : "";
                 $ano = isset($_GET['ano']) ? $_GET['ano'] : "";
             }
             // Consulta SQL sem LIMIT
             $sql = "SELECT * FROM estoque WHERE 1=1";
             if (!empty($nome)) {
                 $nome = mysqli_real_escape_string($conn, $nome);
-                $sql .= " AND nome LIKE '%$nome%'";
+                $sql .= " AND nome LIKE '%" . $nome . "%'";
             }
             if (!empty($referencia)) {
                 $referencia = mysqli_real_escape_string($conn, $referencia);
-                $sql .= " AND referencia LIKE '%$referencia%'";
+                $sql .= " AND referencia LIKE '%" . $referencia . "%'";
             }
             if (!empty($marca)) {
                 $marca = mysqli_real_escape_string($conn, $marca);
-                $sql .= " AND marca LIKE '%$marca%'";
+                $sql .= " AND marca LIKE '%" . $marca . "%'";
             }
             if (!empty($aplicacao)) {
                 $aplicacao = mysqli_real_escape_string($conn, $aplicacao);
-                $sql .= " AND aplicacao LIKE '%$aplicacao%'";
+                $sql .= " AND aplicacao LIKE '%" . $aplicacao . "%'";
             }
             if (!empty($ano)) {
                 $sql .= " AND ano = $ano";
@@ -218,17 +231,17 @@
             $nome = $referencia = $marca = $aplicacao = $ano = "";
 
             if ($_SERVER["REQUEST_METHOD"] === "GET") {
-                $nome = isset($_GET['nome']) ? $_GET['nome'] : "";
-                $referencia = isset($_GET['referencia']) ? $_GET['referencia'] : "";
-                $marca = isset($_GET['marca']) ? $_GET['marca'] : "";
-                $aplicacao = isset($_GET['aplicacao']) ? $_GET['aplicacao'] : "";
+                $nome = isset($_GET['nome']) ? removerAcentos($_GET['nome']) : "";
+                $referencia = isset($_GET['referencia']) ? removerAcentos($_GET['referencia']) : "";
+                $marca = isset($_GET['marca']) ? removerAcentos($_GET['marca']) : "";
+                $aplicacao = isset($_GET['aplicacao']) ? removerAcentos($_GET['aplicacao']) : "";
                 $ano = isset($_GET['ano']) ? $_GET['ano'] : "";
             }
 
             // Consulta SQL para buscar produtos similares
             $sql_similares = "SELECT * FROM banco_de_dados_pdt WHERE 
-            COL2 LIKE CONCAT('%', SUBSTRING_INDEX('$nome', ' ', 2), '%') AND 
-            COL2 != '$nome'";
+            COL2 LIKE CONCAT('%', SUBSTRING_INDEX('" . mysqli_real_escape_string($conn, $nome) . "', ' ', 2), '%') AND 
+            COL2 != '" . mysqli_real_escape_string($conn, $nome) . "'";
 
             $result_similares = $conn->query($sql_similares);
             $totalResultadosSimilares = $result_similares->num_rows;

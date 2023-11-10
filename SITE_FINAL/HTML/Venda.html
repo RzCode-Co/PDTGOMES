@@ -124,9 +124,7 @@
             <div class="conteudo">
                 <div id="fazer-venda" style="display: none;">
                     <h1>Registrar Venda</h1>
-                    <form class="form_vendas" action="../PHP/processar_venda.php" method="post">
-
-
+                    <form class="form_vendas" action="../PHP/processar_venda.php" method="post" onsubmit="return validarVenda()">
                         <section class="one">
                             <div class="div_one">
                                 <label for="nome_comprador">Nome do Comprador:</label>
@@ -248,16 +246,13 @@
                             </div>
                         </section>
 
-
                         <input type="submit" value="Registrar Venda">
-
                     </form>
                 </div>
 
                 <div id="cancelar-venda" style="display: none;">
                     <h1>Cancelar Venda</h1>
-                    <form class="form_vendas" action="../PHP/processar_cancelar_venda.php" method="post">
-
+                    <form class="form_vendas" action="../PHP/processar_cancelar_venda.php" method="post" onsubmit="return validarCancelamentoVenda()">
                         <section class="one">
                             <div class="div_one">
                                 <label for="nome_comprador">Nome do Comprador:</label>
@@ -323,9 +318,7 @@
                                 </div>
                             </div>
                         </section>
-
                         <input type="submit" value="Cancelar Venda">
-
                     </form>
                 </div>
             </div>
@@ -391,6 +384,72 @@
     function mostrarCancelarVenda() {
         document.getElementById("fazer-venda").style.display = "none";
         document.getElementById("cancelar-venda").style.display = "block";
+    }
+
+    function validarVenda() {
+        var nome_comprador = document.getElementsByName("nome_comprador")[0].value;
+        var nome_peca = document.getElementsByName("nome_peca")[0].value;
+        var marca = document.getElementsByName("marca")[0].value;
+        var ano = document.getElementsByName("ano")[0].value;
+        var referencia = document.getElementsByName("referencia")[0].value;
+        var aplicacao = document.getElementsByName("aplicacao")[0].value;
+        var quantidade = document.getElementsByName("quantidade")[0].value;
+        var cpf_cnpj = document.getElementsByName("cpf_cnpj")[0].value;
+        var CPF = document.getElementsByName("CPF")[0].value;
+        var CNPJ = document.getElementsByName("CNPJ")[0].value;
+        var forma_pagamento = document.getElementsByName("forma_pagamento")[0].value;
+        var valor_venda = document.getElementsByName("valor_venda")[0].value;
+        var funcionario_vendedor = document.getElementsByName("funcionario_vendedor")[0].value;
+        var garantia_produto = document.getElementsByName("garantia_produto")[0].value;
+
+        if (
+            nome_comprador === "" ||
+            nome_peca === "" ||
+            marca === "" ||
+            ano === "" ||
+            referencia === "" ||
+            aplicacao === "" ||
+            quantidade === "" ||
+            cpf_cnpj === "" ||
+            (cpf_cnpj === "CPF" && CPF === "") ||
+            (cpf_cnpj === "CNPJ" && CNPJ === "") ||
+            forma_pagamento === "" ||
+            valor_venda === "" ||
+            funcionario_vendedor === "" ||
+            garantia_produto === ""
+        ) {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+            return false; // Impede o envio do formulário
+        }
+    }
+
+    function validarCancelamentoVenda() {
+        var nome_comprador = document.getElementsByName("nome_comprador")[0].value;
+        var nome_peca = document.getElementsByName("nome_peca")[0].value;
+        var marca = document.getElementsByName("marca")[0].value;
+        var ano = document.getElementsByName("ano")[0].value;
+        var referencia = document.getElementsByName("referencia")[0].value;
+        var aplicacao = document.getElementsByName("aplicacao")[0].value;
+        var funcionario_vendedor = document.getElementsByName("funcionario_vendedor")[0].value;
+        var cpf_cnpj2 = document.getElementsByName("cpf_cnpj2")[0].value;
+        var CPF2 = document.getElementsByName("CPF2")[0].value;
+        var CNPJ2 = document.getElementsByName("CNPJ2")[0].value;
+
+        if (
+            nome_comprador === "" ||
+            nome_peca === "" ||
+            marca === "" ||
+            ano === "" ||
+            referencia === "" ||
+            aplicacao === "" ||
+            funcionario_vendedor === "" ||
+            cpf_cnpj2 === "" ||
+            (cpf_cnpj2 === "CPF2" && CPF2 === "") ||
+            (cpf_cnpj2 === "CNPJ2" && CNPJ2 === "")
+        ) {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+            return false; // Impede o envio do formulário
+        }
     }
 </script>
 

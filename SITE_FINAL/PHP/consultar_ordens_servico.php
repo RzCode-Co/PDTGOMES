@@ -1,6 +1,10 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
+function removeAcentos($string) {
+    return preg_replace('/[^\p{L}\p{N}\s]/u', '', strtoupper($string));
+}
+
 // Defina o número máximo de registros por página
 $registrosPorPagina = 5;
 
@@ -209,9 +213,9 @@ $totalPaginas = ceil($totalRegistrosAndamento / $registrosPorPagina);
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_os']) && $_POST['ordem_servico_id'] == $os['ordem_servico_id']) {
                         // Formulário de edição enviado, processe a atualização
                         $ordem_servico_id = $os['ordem_servico_id'];
-                        $cliente_nome = $_POST['cliente_nome'];
-                        $veiculo_nome = $_POST['veiculo_nome'];
-                        $veiculo_placa = $_POST['veiculo_placa'];
+                        $cliente_nome = removeAcentos($_POST['cliente_nome']);
+                        $veiculo_nome = removeAcentos($_POST['veiculo_nome']);
+                        $veiculo_placa = removeAcentos($_POST['veiculo_placa']);
                         $data_abertura = $_POST['data_abertura'];
 
                         // Execute a atualização no banco de dados

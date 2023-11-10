@@ -157,8 +157,14 @@
                     <?php
                     require_once "config.php";
 
-                    $sql = "SELECT nome, endereco, arquivo, cpf_cnpj, CPF, CNPJ FROM usuarios";
+                    $sql = "SELECT nome, endereco, arquivo, cpf_cnpj, CPF, CNPJ FROM usuarios WHERE cargo = 'cliente'";
+                    if (isset($_POST['nomeCliente'])) {
+                        $nomeCliente = removeAcentos(mb_strtoupper($_POST['nomeCliente'], 'UTF-8'));
+                        $sql .= " AND UPPER(nome) LIKE '%$nomeCliente%'";
+                    }
+
                     $result = $conn->query($sql);
+
 
                     $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                     $itemsPerPage = 10; // Número de itens por página

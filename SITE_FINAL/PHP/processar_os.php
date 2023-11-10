@@ -1,8 +1,12 @@
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
+function removeAcentos($string) {
+    return preg_replace('/[^\p{L}\p{N}\s]/u', '', strtoupper($string));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $cliente_nome = $_POST["cliente_nome"];
+    $cliente_nome = removeAcentos($_POST["cliente_nome"]);
     $cpf_cnpj = $_POST["cpf_cnpj"];
     // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
     if ($_POST["cpf_cnpj"] == "CPF") {
@@ -19,15 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </script>';
         exit; // Saia do script
     }
-    $nomeFantasia = $_POST['nome_fantasia'];
-    $email = $_POST['email'];
-    $telefone = $_POST['telefone'];
-    $endereco = $_POST['endereco'];
+    $nomeFantasia = removeAcentos($_POST['nome_fantasia']);
+    $email = strtoupper($_POST['email']);
+    $telefone = removeAcentos($_POST['telefone']);
+    $endereco = strtoupper($_POST['endereco']);
     $cep = $_POST['CEP'];
-    $veiculo_nome = $_POST["veiculo_nome"];
-    $veiculo_placa = $_POST["veiculo_placa"];
+    $veiculo_nome = removeAcentos($_POST["veiculo_nome"]);
+    $veiculo_placa = removeAcentos($_POST["veiculo_placa"]);
     $data_abertura = $_POST["data_abertura"];
-    $observacoes_vendedor = $_POST["observacoes_vendedor"];
+    $observacoes_vendedor = removeAcentos($_POST["observacoes_vendedor"]);
 
     // Inicialize os totais para produtos e serviços
     $preco_total_produtos = 0;
@@ -36,10 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Processar os produtos vendidos
     $produtos = [];
     for ($i = 0; $i < count($_POST["codigo_produto"]); $i++) {
-        $codigo_produto = $_POST["codigo_produto"][$i];
-        $produto_nome = $_POST["produto"][$i];
-        $referencia = $_POST["referencia"][$i];
-        $tipo = $_POST["tipo"][$i];
+        $codigo_produto = removeAcentos($_POST["codigo_produto"][$i]);
+        $produto_nome = removeAcentos($_POST["produto"][$i]);
+        $referencia = removeAcentos($_POST["referencia"][$i]);
+        $tipo = removeAcentos($_POST["tipo"][$i]);
         $quantidade = $_POST["quantidade"][$i];
         $preco_produto = $_POST["preco"][$i];
 
@@ -90,8 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Processar os serviços prestados
     $servicos = [];
     for ($i = 0; $i < count($_POST["servico_nome"]); $i++) {
-        $servico_nome = $_POST["servico_nome"][$i];
-        $tecnico_responsavel = $_POST["tecnico_responsavel"][$i];
+        $servico_nome = removeAcentos($_POST["servico_nome"][$i]);
+        $tecnico_responsavel = removeAcentos($_POST["tecnico_responsavel"][$i]);
         $valor_servico = $_POST["valor_servico"][$i];
         $forma_pagamento = $_POST["forma_pagamento"];
         $numero_parcelas = ($forma_pagamento === "Parcelado") ? $_POST["numero_parcelas"] : null;
