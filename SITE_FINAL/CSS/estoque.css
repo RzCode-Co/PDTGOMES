@@ -1,0 +1,308 @@
+/* Botões estoque */
+* {
+    margin: 0px;
+    border: none;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'roboto', sans-serif;
+}
+
+.estoque {
+    display: flex;
+    margin-top: 200px;
+    margin-left: 150px;
+}
+
+/* posicionando botões estoque */
+#botoes-estoque {
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+}
+
+/* estilizando botões estoque */
+#botoes-estoque button {
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 5px;
+    width: 250px;
+    height: 50px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* estilizando botões estoque - II */
+#botoes-estoque button:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+/* Conteudo dentro do Estoque */
+.conteudo {
+    display: flex;
+    text-align: center;
+}
+
+/* Estilizando "adicionar item" e os demais*/
+#adicionar-item,
+#remover-item,
+#consultar-item {
+    display: flex;
+    background-color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    color: #09562F;
+    height: 500px;
+    width: 700px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+/* Largura, Altura e posição Adicionar Item */
+#adicionar-item {
+    height: 400px;
+    width: 700px;
+    margin-top: -60px;
+    margin-left: 150px;
+}
+
+/* Largura, Altura e posição Remover Item */
+#remover-item {
+    height: 320px;
+    width: 700px;
+    margin-top: -30px;
+    margin-left: 150px;
+}
+
+
+/* Largura, Altura e posição Remover Item */
+#consultar-item {
+    height: 320px;
+    width: 700px;
+    margin-top: -30px;
+    margin-left: 150px;
+}
+
+/* Estilizando o título */
+#adicionar-item h2,
+#remover-item h2,
+#consultar-item h2 {
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+/* Formulário de Estoque */
+.form_estoque .section_one,
+.section_two,
+.section_three {
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilizando o input file e botão consultar */
+
+.section_four label {
+    background-color: #09562F;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15pt;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+.section_four label:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+.section_four input[type='file'] {
+    display: none;
+}
+
+.section_four {
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilização Geral dos Inputs */
+.form_estoque input {
+    margin: 5px 5px 20px 5px;
+    display: block;
+    width: 155px;
+    height: 40px;
+    background-color: #ddd;
+    border-radius: 5px;
+    font-size: 12pt;
+    padding: 5px;
+    color: #09562F;
+    outline: none;
+}
+
+/* Estilização Geral dos Inputs II*/
+.section_one input {
+    width: 320px;
+}
+
+/* Botão estoque */
+.form_estoque input[type="submit"] {
+    background-color: #09562F;
+    color: #fff;
+    cursor: pointer;
+    font-size: 15pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    height: 50px;
+    width: 250px;
+    margin: 0;
+}
+
+/* Botão estoque (Quando o mouse passar por cima*/
+.form_estoque input[type="submit"]:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+/* REMOVER */
+.remover, .pesquisa {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+#resultado_busca_geral {
+    margin-top: -40px;
+    margin-left: 100px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#resultado_busca_geral h1 {
+    color: #09562F;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#resultado_busca_geral th {
+    margin-bottom: 5px;
+    font-size: 13pt;
+
+}
+
+#resultado_busca_geral table {
+    width: 800px;
+    color: #09562F;
+}
+
+#resultado_busca_geral td {
+    text-align: center;
+}
+
+/* Paginação */
+#pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Paginação */
+#pagination a {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #03381d;
+    color: #fafafa;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Paginação */
+#pagination strong {
+    color: #09562F;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    background-color: #ddd;
+}
+
+/* Paginação */
+#pagination a:hover {
+    background-color: #117f48;
+}
+
+/* Consulta item e Consulta Geral de Item */
+#resultado_busca,
+#resultado_busca_geral {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#resultado_busca_geral {
+    margin-top: 30px;
+}
+
+.centralização {
+    display: flex;
+    justify-content: center;
+}
+
+/* Icone de voltar e título */
+.titulo_icone {
+    display: flex;
+}
+
+/* icone voltar */
+#icone_voltar img {
+    justify-content: left;
+    height: 40px;
+}
+
+#resultado_busca h1,
+.titulo_icone h1 {
+    color: #09562F;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#resultado_busca th,
+#resultado_busca_geral th {
+    margin-bottom: 5px;
+    padding: 15px;
+    color: #09562F;
+    font-size: 13pt;
+
+}
+
+#resultado_busca table,
+#resultado_busca_geral table {
+    color: arquivo;
+}
+
+#resultado_busca td,
+#resultado_busca_geral td {
+    text-align: center;
+    font-size: 13pt;
+}
+
+/* Ajustando a foto */
+#img_width{
+    margin:10px;
+    max-width: 100%;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #09562F;
+    border-radius: 5px;
+    object-fit: cover;
+}

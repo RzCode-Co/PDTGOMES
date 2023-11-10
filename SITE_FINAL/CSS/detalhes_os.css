@@ -1,0 +1,109 @@
+* {
+    margin: 0px;
+    border: none;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'roboto', sans-serif;
+}
+
+body{
+    text-align: center;
+    margin: 20px;
+    background-color: #fafafa;
+    background-image: url(../CSS/img/fundo_2.jpg);
+   
+    height: 100%;
+}
+
+
+h1,h2,h3{
+    color: #03381d;
+    font-size: 18pt;
+}
+
+.baixar_os button {
+    background-color: #09562F;
+    color: #fff;
+    box-shadow: 3px 3px 1px 0px #00000050;
+    padding: 5px;
+    width: 250px;
+    height: 50px;
+    font-size: 15pt;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* estilizando botões estoque - II */
+.baixar_os button:hover {
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 20px auto;
+}
+th, td {
+    border: 2px solid #ccc;
+    padding: 8px;
+    background-color: #fafafa;
+    text-align: left;
+}
+
+th {
+    background-color: #09562F;
+    color: #fafafa;
+}
+
+.titulo_icone{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+#icone_voltar img {
+    justify-content: left;
+    margin-right: 20px;
+    height: 40px;
+}
+
+.valor_total{
+    display: flex;
+    margin: 0 auto;
+    border-radius: 5px;
+    justify-content: center;
+    background-color: #033d20;
+    padding: 5px;
+    color: #fafafa;
+    font-weight: bold;
+    width: 15%;
+
+}
+
+.tabela_os button{
+    background-color: #09562F;
+    color: #fafafa;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+    transition: 0.5s;
+}
+
+.tabela_os button:hover{
+    background-color: #033d20;
+    color: #FFCC29;
+}
+
+.tabela_os select{
+    background-color: #09562F;
+    color: #fafafa;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    height: 30px;
+}
