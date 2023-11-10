@@ -48,7 +48,7 @@ date_default_timezone_set('America/Sao_Paulo');
             <div class="div_esquerda">
                 <h3>RZSystem</h3>
                 <p>Data/Hora: <?php date_default_timezone_set('America/Sao_Paulo'); echo date('d/m/Y H:i:s'); ?></p>
-                <p>Usuário: </p>
+                <p>Usuário:<?php echo $os_details['cliente_nome']; ?> </p>
             </div>
         </div>
 
