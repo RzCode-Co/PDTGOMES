@@ -1,0 +1,143 @@
+
+.centralizacao{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.titulo_icone{
+    color: #09562F;
+    background-color: #fafafa;
+    border-radius: 0px 0px 10px 10px;
+    display: flex;
+    width: 60%;
+    padding: 10px;
+    display: flex;
+}
+
+.titulo_icone h1{
+    margin: 0 auto;
+}
+
+/* icone voltar */
+#icone_voltar img{
+    justify-content: left;
+    height: 40px;
+}
+
+
+#pesquisa_nome{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#pesquisa_nome label{
+    color: #09562F;
+    font-size: 14pt;
+}
+
+#pesquisa_nome form{
+    width: 60%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#pesquisa_nome input[type="text"]{
+    width: 40%;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 5px;
+    font-size: 12pt;
+    padding: 5px;
+    color: #09562F;
+    outline: none;
+}
+
+
+
+#pesquisa_nome button[type="submit"]{
+    background-color: #03381d;
+    color: #fafafa;
+    padding: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12pt;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+#pesquisa_nome button[type="submit"]:hover{
+    background-color: #033d20;
+    color: #FFCC29;
+    transition: 0.3s;
+}
+
+
+.tabela-clientes {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    width: 60%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilo opcional para dar um espaçamento nas células da tabela */
+.tabela-clientes table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tabela-clientes th, .tabela-clientes td {
+    padding: 10px;
+    font-size: 14pt;
+    color: #09562F;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabela-clientes img{
+    margin:10px;
+    max-width: 100%;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #09562F;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+/* Paginação */
+#pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Paginação */
+#pagination a {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #03381d;
+    color: #fafafa;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Paginação */
+#pagination strong {
+    color: #09562F;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    background-color: #ddd;
+}
+
+/* Paginação */
+#pagination a:hover {
+    background-color: #117f48;
+}
+
