@@ -1,3 +1,6 @@
+
+
+
 <?php
 require_once "config.php"; // Arquivo de configuração do banco de dados
 
@@ -80,18 +83,35 @@ if (isset($_POST['id'])) {
                 $umPorcento = $totalVendas * 0.01;
 
                 // Exibir a lista de vendas
-                echo "<h1>Lista de Vendas</h1>";
+                echo " <link rel='stylesheet' href='../CSS/financeiro-vendedor.css'>";
+                echo " <link rel='stylesheet' href='../CSS/pagina_inicial.css'>";
+                echo '<div class="titulo-vendas">';
+                echo '<a id="voltar-icone" href="#"><img src="../CSS/img/voltar.svg" alt="voltar página"></a>';
+                 echo "<h1>Lista de Vendas</h1>";
+                echo '</div>';
+                
+                echo "<div class='total-vendas'>";
+                
+                echo "<div>";
+                echo '<img src="../CSS/img/VENDAS.svg" alt="voltar página"></a>';
+                echo "</div>";
+                echo "<div>";
+                echo "Valor total de vendas no período: <span>R$ " . number_format($totalVendas, 2) . "</span><br>";
+                echo "Comissão total: <span>R$" . number_format($totalVendas * 0.01, 2) . "</span>";
+                echo "</div>";
+                
+                echo "</div>";
                 echo "<ul>";
                 foreach ($vendas as $venda) {
-                    echo "<li>ID: " . $venda['id'] . "<br>Data da Venda: " . $venda['data_venda'] . "<br>Valor da Venda: " . $venda['valor_venda'] . "</li>";
-                    $umCento = $venda['valor_venda'] * 0.01;
-                    echo"Comissão: $umCento";
+                    echo "<li>";
+                    echo "<span>ID:</span> " . $venda['id'] . "<br>";
+                    echo "<span>Data da Venda:</span> " . $venda['data_venda'] . "<br>";
+                    echo "<span>Valor da Venda:</span> R$ " . $venda['valor_venda'] . "<br>";
+                    echo "<span>Comissão:</span> <span class='comissao'>R$" . number_format($venda['valor_venda'] * 0.01, 2) . "</span>";
+                    echo "</li>";
                 }
                 echo "</ul>";
-
-                echo"Valor total de vendas no período: $totalVendas";
-                echo"<br>";
-                echo "Comissão: $umPorcento";
+                
             }
         }
 } else {
