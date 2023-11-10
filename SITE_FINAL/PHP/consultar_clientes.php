@@ -7,25 +7,8 @@
     <title>Página inicial</title>
 
     <link rel="stylesheet" href="../CSS/pagina_inicial.css">
-    <link rel="stylesheet" href="../CSS/pagina_cadastro.css">
-    <style>
-        .tabela-clientes {
-            margin: 0 auto; /* Adiciona margem automática para centralizar */
-            width: 80%; /* Define a largura da tabela */
-        }
+    <link rel="stylesheet" href="../CSS/consultar_clientes.css">
 
-        /* Estilo opcional para dar um espaçamento nas células da tabela */
-        .tabela-clientes table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .tabela-clientes th, .tabela-clientes td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-    </style>
 </head>
 
 <html>
@@ -133,18 +116,30 @@
                     </div>
                 </li>
 
-                <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+                <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                            alt="Notificações"></a></li>
 
             </ul>
 
         </nav>
 
-        <div class="pesquisa-form">
-            <form method="post" action="">
-                <label for="nomeCliente">Pesquisar por nome:</label>
-                <input type="text" id="nomeCliente" name="nomeCliente">
-                <button type="submit">Pesquisar</button>
-            </form>
+        <div class="centralizacao">
+
+            <div class="titulo_icone">
+                <a id="icone_voltar" href="../HTML/pagina_cadastro.html"><img src="../CSS/img/voltar.svg"
+                        alt="voltar página"></a>
+                <h1>Consulta Cliente</h1>
+            </div>
+
+
+            <div id="pesquisa_nome">
+                <form method="post" action="">
+                    <label for="nomeCliente">Pesquisar por nome:</label>
+                    <input type="text" id="nomeCliente" name="nomeCliente">
+                    <button type="submit">Pesquisar</button>
+                </form>
+            </div>
+
         </div>
 
         <div class="tabela-clientes">
@@ -165,7 +160,7 @@
                     $sql = "SELECT nome, endereco, arquivo, cpf_cnpj, CPF, CNPJ FROM usuarios";
                     $result = $conn->query($sql);
 
-                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                     $itemsPerPage = 10; // Número de itens por página
                     $startIndex = ($page - 1) * $itemsPerPage;
                     $endIndex = $startIndex + $itemsPerPage;
@@ -208,7 +203,8 @@
                         echo "</tr>";
                     }
 
-                    function obterTotalGasto($conn, $cpf_cnpj, $cpf, $cnpj) {
+                    function obterTotalGasto($conn, $cpf_cnpj, $cpf, $cnpj)
+                    {
                         // Use prepared statement para evitar injeção de SQL
                         $stmt = $conn->prepare("SELECT SUM(valor_venda) AS total_gasto FROM vendas WHERE (cpf_cnpj = ? AND cpf_cnpj = 'CPF' AND cpf = ?) OR (cpf_cnpj = ? AND cpf_cnpj = 'CNPJ' AND cnpj = ?)");
                         $stmt->bind_param("ssss", $cpf_cnpj, $cpf, $cpf_cnpj, $cnpj);
@@ -224,29 +220,31 @@
                     ?>
                 </tbody>
             </table>
-            <?php
-            echo '<div id="pagination">';
-            if ($page > 1) {
-                echo '<a href="sua_pagina.php?page=' . ($page - 1) . '">&laquo;</a> ';
-            }
-
-            for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
-                if ($i == $page) {
-                    echo '<strong>' . $i . '</strong> ';
-                } else {
-                    echo '<a href="sua_pagina.php?page=' . $i . '">' . $i . '</a> ';
-                }
-            }
-
-            if ($page < $totalPages) {
-                echo '<a href="sua_pagina.php?page=' . ($page + 1) . '">&raquo;</a> ';
-            }
-            echo '</div>';
-            ?>
         </div>
+        <?php
+        echo '<div id="pagination">';
+        if ($page > 1) {
+            echo '<a href="sua_pagina.php?page=' . ($page - 1) . '">&laquo;</a> ';
+        }
+
+        for ($i = max(1, $page - 2); $i <= min($page + 2, $totalPages); $i++) {
+            if ($i == $page) {
+                echo '<strong>' . $i . '</strong> ';
+            } else {
+                echo '<a href="sua_pagina.php?page=' . $i . '">' . $i . '</a> ';
+            }
+        }
+
+        if ($page < $totalPages) {
+            echo '<a href="sua_pagina.php?page=' . ($page + 1) . '">&raquo;</a> ';
+        }
+        echo '</div>';
+        ?>
+
 
     </main>
 </body>
+
 </html>
 
 </html>
