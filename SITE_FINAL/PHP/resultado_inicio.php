@@ -227,28 +227,31 @@ $arquivo = $_SESSION['arquivo'];
                     echo "</tr>";
                 }
                 echo "</table>";
-                // Exiba a paginação
+    
+                // Exiba a paginação para os resultados da pesquisa normal
                 echo "<div class='paginacao'>";
-                if ($numPaginas > 1) {
-                    if ($paginaAtual > 1) {
-                        echo "<a href='?page=" . ($paginaAtual - 1) . "&page_similares=$paginaAtual' class='pagina-anterior'>&laquo;</a>";
-                    }
-                    $quantidadeLinks = 5;
-                    $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
-                    $fim = min($numPaginas, $paginaAtual + floor($quantidadeLinks / 2));
-                    for ($i = $inicio; $i <= $fim; $i++) {
-                        if ($paginaAtual == $i) {
-                            echo "<span class='pagina-atual'>$i</span>";
-                        } else {
-                            echo "<a href='?page=$i&nome=$nome&referencia=$referencia&marca=$marca&aplicacao=$aplicacao&ano=$ano&page_similares=$paginaAtual' class='pagina'>$i</a>";
+                    if ($numPaginas > 1) {
+                        if ($paginaAtual > 1) {
+                            $paginaAnterior = $paginaAtual - 1;
+                            echo "<a href='?page=$paginaAnterior&nome=$nome&referencia=$referencia&marca=$marca&aplicacao=$aplicacao&ano=$ano' class='pagina-anterior'>&laquo;</a>";
                         }
+                        $quantidadeLinks = 5;
+                        $inicio = max(1, $paginaAtual - floor($quantidadeLinks / 2));
+                        $fim = min($numPaginas, $paginaAtual + floor($quantidadeLinks / 2));
+                        for ($i = $inicio; $i <= $fim; $i++) {
+                            if ($paginaAtual == $i) {
+                                echo "<span class='pagina-atual'>$i</span>";
+                            } else {
+                                echo "<a href='?page=$i&nome=$nome&referencia=$referencia&marca=$marca&aplicacao=$aplicacao&ano=$ano' class='pagina'>$i</a>";
+                            }
+                        }
+                        if ($paginaAtual < $numPaginas) {
+                            $proximaPagina = $paginaAtual + 1;
+                            echo "<a href='?page=$proximaPagina&nome=$nome&referencia=$referencia&marca=$marca&aplicacao=$aplicacao&ano=$ano' class='proxima-pagina'>&raquo;</a>";
+                        }
+                    } else {
+                        echo "<span class='pagina-atual'>1</span>";
                     }
-                    if ($paginaAtual < $numPaginas) {
-                        echo "<a href='?page=" . ($paginaAtual + 1) . "&page_similares=$paginaAtual' class='proxima-pagina'>&raquo;</a>";
-                    }
-                } else {
-                    echo "<span class='pagina-atual'>1</span>";
-                }
                 echo "</div>";
             } else {
                 echo "<p>Este item não se encontra no estoque.</p>";
@@ -312,12 +315,15 @@ $arquivo = $_SESSION['arquivo'];
                     echo "</tr>";
                 }
                 echo "</table>";
-
+    
                 // Exiba a paginação para produtos similares
                 echo "<div class='paginacao'>";
+                // O código da paginação é semelhante ao código da paginação principal
+                // Certifique-se de atualizar os links da página de produtos similares
                 if ($numPaginasSimilares > 1) {
                     if ($paginaAtualSimilares > 1) {
-                        echo "<a href='?page=" . $paginaAtualSimilares . "&page_similares=" . ($paginaAtualSimilares - 1) . "' class='pagina-anterior'>&laquo;</a>";
+                        $paginaAnteriorSimilares = $paginaAtualSimilares - 1;
+                        echo "<a href='?page=$paginaAtual&nome=$nome&referencia=$referencia&marca=$marca&aplicacao=$aplicacao&ano=$ano&page_similares=$paginaAnteriorSimilares' class='pagina-anterior'>&laquo;</a>";
                     }
                     $quantidadeLinksSimilares = 5;
                     $inicioSimilares = max(1, $paginaAtualSimilares - floor($quantidadeLinksSimilares / 2));
@@ -330,7 +336,8 @@ $arquivo = $_SESSION['arquivo'];
                         }
                     }
                     if ($paginaAtualSimilares < $numPaginasSimilares) {
-                        echo "<a href='?page=" . $paginaAtualSimilares . "&page_similares=" . ($paginaAtualSimilares + 1) . "' class='proxima-pagina'>&raquo;</a>";
+                        $proximaPaginaSimilares = $paginaAtualSimilares + 1;
+                        echo "<a href='?page=$paginaAtual&nome=$nome&referencia=$marca&aplicacao=$aplicacao&ano=$ano&page_similares=$proximaPaginaSimilares' class='proxima-pagina'>&raquo;</a>";
                     }
                 } else {
                     echo "<span class='pagina-atual'>1</span>";
