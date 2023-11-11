@@ -12,22 +12,20 @@
 body {
     background-image: url(../CSS/img/Fundo\ FIGMA.jpg);
     background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+    
 }
 
 /* logo horizontal */
 .logo_horizontal{
-    position: fixed;
-    left: 40%;
+   display: flex;
+   justify-content: center;
 }
 
 /* Container */
 .conteiner {
     display: flex;
     justify-content: center;
-    width: 100%;
-    margin-top: 120px;
+    margin-top:40px;
 }
 
 /* card */
@@ -36,6 +34,7 @@ body {
     padding: 40px;
     border-radius: 8%;
     box-shadow: 3px 3px 1px 0px #00000050;
+    margin-bottom: 50px;
 }
 
 /*Login */
@@ -73,6 +72,41 @@ body {
     top: 0;
     left: 0;
     transition: all .3s ease-out;
+}
+.label-float select{
+    width: 99%;
+    margin-top:5px;
+    padding: 7px 7px;
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(128, 128, 128, 0.25);
+    min-width: 180px;
+    font-size: 16px;
+    transition: all .3s ease-out;
+    color: #013018;
+    outline: 2px solid #09562F;
+}
+#CPF label {
+    color: #09562F;
+    top: 0;
+    left: 0;
+    transition: all .3s ease-out;
+}
+#CPF input {
+    width: 95%;
+    margin-top:5px;
+    margin-bottom:10px ;
+    padding: 7px 7px;
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(128, 128, 128, 0.25);
+    min-width: 180px;
+    font-size: 16px;
+    transition: all .3s ease-out;
+    color: #013018;
+    outline: 2px solid #09562F;
 }
 
 /* Botão ENTRAR */
@@ -126,8 +160,13 @@ a:hover{
     transition: all .3s ease-out;
 }
 
-.logo_circular{
+.logo_circular {
     position: fixed;
-    left: 91%;
-    top: 85%;
+    bottom: 20px;
+    right: 20px;
+    transition: bottom 0.3s ease-out; /* Adiciona uma transição suave ao movimento */
+}
+
+.logo_circular.scrolled-up {
+    bottom: 50px; /* Ajuste a distância que a logo sobe quando a página é rolada */
 }
