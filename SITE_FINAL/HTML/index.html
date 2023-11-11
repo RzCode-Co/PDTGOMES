@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paulo de Tasso</title>
+
+    <!-- Link do CSS -->
+    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="../CSS/menu_horizontal.css">
+</head>
+
+<body>
+
+    <!-- div geral -->
+    <div class="geral">
+        <div class="conteiner"></div>
+        <div class="logo_horizontal">
+            <img src="../CSS/img/Logo Horizontal.png" alt="logo da empresa" class="logo"
+            width="300px">
+        </div>
+    </div>
+
+    <!-- conteiner -->
+    <div class="conteiner">
+        <div class="card">
+
+            <!-- Login -->
+            <div class="bem_vindo">
+                <h1>Bem vindo(a)!</h1>
+                <p>Insira seu nome e senha para fazer login</p>
+            </div>
+
+            <form action="../PHP/processar_login.php" method="post">
+                <div class="label-float">
+                    <label for="usuario">Nome</label>
+                    <input type="text" id="nome" name="nome" placeholder="">
+                </div>
+
+                <!-- Senha -->
+                <div class="label-float">
+                    <label for "senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="">
+                </div>
+
+                <!-- Cargo -->
+                <div class="label-float">
+                    <label for="cargo">Cargo:</label>
+                    <select name="cargo" id="cargo">
+                        <option value="">Selecione...</option>
+                        <option value="admin">ADMIN</option>
+                        <option value="vendedor">VENDEDOR</option>
+                    </select>
+                </div>
+
+                <!-- Campo CPF -->
+                <div id="CPF">
+                    <label for="CPF">CPF: <input type="text" name="CPF" maxlength="11"></label>
+                </div>
+
+                <!-- Botão "Entrar" -->
+                <div class="justify-center">
+                    <button type="submit">Entrar</button>
+                </div>
+            </form>
+
+            <!-- TAG DE LINHA -->
+            <div class="justify-center">
+                <hr>
+            </div>
+
+            <!-- Cadastrar -->
+            <p>Não tem uma conta?
+                <a href="../HTML/cadastro.html">Cadastre-se</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- logo circular -->
+    <div class "logo_circular">
+        <img src="../CSS/img/Logo Circular.png" alt="logo da empresa" class="logo"
+        width="100px">
+    </div>
+
+</body>
+</html>
