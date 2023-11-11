@@ -145,7 +145,7 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
             <button onclick="mostrarRegistrarDebito()">Registrar Débito</button>
             <button onclick="mostrarCancelarDebito()">Cancelar Débito</button>
             <button onclick="mostrarBaixarDebitos()">Baixar Débitos</button>
-            <button onclick="redirecionarParaBoletos()">Boletos dos Clientes</button>
+            <button onclick="redirecionarParaBoletos()">NFE Clientes</button>
         </div>
 
         <div class="conteudo_debitos">
@@ -241,7 +241,7 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
         document.getElementById("lista-arquivos").style.display = "none";
     }
     function redirecionarParaBoletos() {
-        window.location.href = "../PHP/boleto_clientes.php";
+        window.location.href = "../PHP/nfe_clientes.php";
     }
 </script>
 
