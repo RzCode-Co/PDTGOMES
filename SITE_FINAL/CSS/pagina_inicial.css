@@ -21,7 +21,7 @@ body {
     height: 100%;
     background-color: #fff;
     /*padding: 30px 0 30px 1%;*/
-    padding-left:5px ;
+    padding-left: 5px;
     padding-top: 30px;
     box-shadow: 3px 0 0 #ddd;
     position: fixed;
@@ -42,6 +42,7 @@ body {
     width: 100%;
     padding-left: 13px;
 }
+
 .btn_expandir img {
     margin-bottom: 20px;
     width: 20px;
@@ -129,13 +130,13 @@ ul li.item_menu a .txt_link {
 }
 
 /* Nome */
-.cargo_nome p{
+.cargo_nome p {
     color: #fff;
     font-weight: bold;
 }
 
 /* cargo */
-.cargo_nome h3{
+.cargo_nome h3 {
     color: #FFCC29;
     font-weight: bold;
 }
@@ -146,22 +147,59 @@ input[type='file'] {
 }
 
 
-#img_photo {
+.image_container img {
     height: 55px;
     width: 55px;
     padding: 1px;
     background-color: #eee;
     border: 1px solid #ccc;
-    cursor: pointer;
     border-radius: 50%;
-    transition: background 0.3s;
 }
 
-#img_photo:hover {
-    background-color: #bcbcbc;
+.btn_sair {
+    margin-top: 15px;
 }
 
+.btn_sair a {
+    text-decoration: none;
+    background-color: #FFCC29;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 10pt;
+    color: #09562F;
+    text-transform: uppercase;
+    transition: 1s;
+}
 
+.btn_sair a:hover {
+    color: #fafafa;
+    background-color: red;
+}
+
+.sino img:hover {
+    animation: shake 0.5s;
+
+
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25%,
+    75% {
+        transform: translateX(-5px);
+    }
+
+    50% {
+        transform: translateX(5px);
+    }
+}
 
 /* Busca */
 .busca_container {
@@ -171,10 +209,12 @@ input[type='file'] {
     margin-top: 40px;
     margin-left: 130px;
 }
-.form_home{
+
+.form_home {
     display: flex;
     flex-wrap: wrap;
 }
+
 /* card */
 .card {
     background-color: #09562F;
