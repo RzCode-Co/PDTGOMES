@@ -136,28 +136,33 @@ $formularioUtilizado = count($files) > 0; // Verifica se o formulário foi utili
             </li>
 
             <li id="direita">
+                <div class="btn_sair"><a href="logout.php">Sair &#215</a></div>
+            </li>
 
-                <!-- Perfil -->
+            <li id="direita">
+
                 <div class="image_container">
-                    <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">';?>
+                    <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">'; ?>
                 </div>
 
-                <div><a href="logout.php">Sair</a></div>
-
-                <script src="../JS/login_preview.js"></script>
             </li>
 
             <li id="direita">
                 <!-- Cargo e nome -->
                 <div class="cargo_nome">
-                    <h3><?php echo $cargoUsuario; ?></h3>
-                    <p><?php echo $nomeUsuario; ?></p>
+                    <h3>
+                        <?php echo $cargoUsuario; ?>
+                    </h3>
+                    <p>
+                        <?php echo $nomeUsuario; ?>
+                    </p>
                 </div>
             </li>
 
             <?php if ($cargoUsuario != 'vendedor') { ?>
-                    <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
-                <?php } ?>
+                <li id="direita"><a class="sino" href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                            alt="Notificações"></a></li>
+            <?php } ?>
 
         </ul>
 

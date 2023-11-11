@@ -114,39 +114,44 @@ $arquivo = $_SESSION['arquivo'];
                 </li>
 
                 <li id="direita">
+                    <div class="btn_sair"><a href="logout.php">Sair &#215</a></div>
+                </li>
 
-                    <!-- Perfil -->
+                <li id="direita">
+
                     <div class="image_container">
-                        <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">';?>
+                        <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">'; ?>
                     </div>
 
-                    <div><a href="logout.php">Sair</a></div>
-
-                    <script src="../JS/login_preview.js"></script>
                 </li>
 
                 <li id="direita">
                     <!-- Cargo e nome -->
                     <div class="cargo_nome">
-                        <h3><?php echo $cargoUsuario; ?></h3>
-                        <p><?php echo $nomeUsuario; ?></p>
+                        <h3>
+                            <?php echo $cargoUsuario; ?>
+                        </h3>
+                        <p>
+                            <?php echo $nomeUsuario; ?>
+                        </p>
                     </div>
                 </li>
 
                 <?php if ($cargoUsuario != 'vendedor') { ?>
-                    <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+                    <li id="direita"><a class="sino" href="../PHP/Notificações.php"><img
+                                src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
                 <?php } ?>
 
             </ul>
 
         </nav>
-
+        
         <section class="estoque">
             <div id="botoes-estoque">
-            <?php if ($cargoUsuario === 'admin'): ?>
-                <button class="admin-only" onclick="mostrarAdicionarItem()">Adicionar Item</button>
-                <button class="admin-only" onclick="mostrarRemoverItem()">Remover Item</button>
-            <?php endif; ?>
+                <?php if ($cargoUsuario === 'admin'): ?>
+                    <button class="admin-only" onclick="mostrarAdicionarItem()">Adicionar Item</button>
+                    <button class="admin-only" onclick="mostrarRemoverItem()">Remover Item</button>
+                <?php endif; ?>
                 <button onclick="mostrarConsultarItem()">Consultar Item</button>
                 <button onclick="window.location.href='consulta_geral_estoque.php'">Consultar Todos os Itens</button>
             </div>
@@ -154,7 +159,8 @@ $arquivo = $_SESSION['arquivo'];
 
                 <div id="adicionar-item" style="display: none;">
                     <h2>Adicionar Item ao Estoque</h2>
-                    <form enctype="multipart/form-data" class="form_estoque" action="../PHP/processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
+                    <form enctype="multipart/form-data" class="form_estoque"
+                        action="../PHP/processar_adicionar_item.php" method="post" onchange="mostrarAdicionarItem()">
                         <div class="section_one">
                             <label>Nome do Item: <input type="text" name="nome"></label><br>
                             <label>Referência: <input type="text" name="referencia"></label><br>
@@ -184,7 +190,8 @@ $arquivo = $_SESSION['arquivo'];
 
                 <div id="remover-item" style="display: none;">
                     <h2>Remover Item do Estoque</h2>
-                    <form class="form_estoque" action="../PHP/processar_remover_item.php" method="post" onsubmit="return validarFormulario();" onchange="mostrarRemoverItem();">
+                    <form class="form_estoque" action="../PHP/processar_remover_item.php" method="post"
+                        onsubmit="return validarFormulario();" onchange="mostrarRemoverItem();">
                         <div class="section_one">
                             <label>Nome do Item: <input type="text" name="nome"></label><br>
                             <label>Referência: <input type="text" name="referencia"></label><br>
@@ -205,7 +212,8 @@ $arquivo = $_SESSION['arquivo'];
 
                 <div id="consultar-item" style="display: none;">
                     <h2>Pesquisa de Estoque</h2>
-                    <form class="form_estoque" action="../PHP/consulta_item.php" method="post" onsubmit="return validarCampos()">
+                    <form class="form_estoque" action="../PHP/consulta_item.php" method="post"
+                        onsubmit="return validarCampos()">
 
                         <div class="section_one">
                             <label>Nome do Item: <input type="text" name="nome" id="nome"></label><br>
@@ -224,9 +232,7 @@ $arquivo = $_SESSION['arquivo'];
                 </div>
 
                 <script src="../JS/estoque.js"></script>
-            </div 
-        
-        </section>
+            </div </section>
     </main>
     <script>
         function validarFormulario(event) {

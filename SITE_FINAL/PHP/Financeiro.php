@@ -16,15 +16,15 @@ $cargoUsuario = $_SESSION['cargo'];
 $arquivo = $_SESSION['arquivo'];
 
 require_once "config.php"; // Arquivo de configuração do banco de dados
-            // Consulta SQL para buscar o valor total das vendas do vendedor com base no CPF
-            $sql = "SELECT SUM(valor_venda) AS total_vendas FROM vendas WHERE funcionario_vendedor = '$idUsuario'";
-            $result = $conn->query($sql);
+// Consulta SQL para buscar o valor total das vendas do vendedor com base no CPF
+$sql = "SELECT SUM(valor_venda) AS total_vendas FROM vendas WHERE funcionario_vendedor = '$idUsuario'";
+$result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
-                $venda = $result->fetch_assoc();
-                $totalVendas = $venda['total_vendas'];
-                $umPorcento = $totalVendas * 0.01;
-            }
+if ($result->num_rows > 0) {
+    $venda = $result->fetch_assoc();
+    $totalVendas = $venda['total_vendas'];
+    $umPorcento = $totalVendas * 0.01;
+}
 $dataAtual = date("d-m-Y");
 $dataAtual = date("d-m-Y", strtotime("+ 1 days"));
 // Data de 7 dias antes da data atual
@@ -85,8 +85,9 @@ $conn->close();
     <link rel="stylesheet" href="../CSS/pagina_inicial.css">
     <link rel="stylesheet" href="../CSS/financeiro.css">
 </head>
+
 <body>
-     <nav class="menu_lateral">
+    <nav class="menu_lateral">
 
         <!-- Barra MENU -->
         <div class="btn_expandir">
@@ -142,10 +143,10 @@ $conn->close();
 
             <li class="item_menu">
                 <a href="../PHP/pagina_cadastro.php">
-                        <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
-                        <span class="txt_link">Cadastro</span>
-                    </a>
-                </li>
+                    <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
+                    <span class="txt_link">Cadastro</span>
+                </a>
+            </li>
 
             <?php if ($cargoUsuario != 'vendedor') { ?>
                 <li class="item_menu">
@@ -161,51 +162,60 @@ $conn->close();
         <script src="../JS/menu.js"></script>
 
     </nav>
+
     <!-- Menu horizonatl -->
     <nav class="menu_horizontal">
         <ul>
-            <li id="logo_menu_horizontal"><a href="../HTML/pagina_incial.html"><img src="../CSS/img/Logo Horizontal.png"alt="logo da empresa"></a></li>
+            <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img src="../CSS/img/Logo Horizontal.png"
+                        alt="logo da empresa"></a>
+            </li>
+
+            <li id="direita">
+                <div class="btn_sair"><a href="logout.php">Sair &#215</a></div>
+            </li>
 
             <li id="direita">
 
-                <!-- Perfil -->
                 <div class="image_container">
-                    <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">';?>
+                    <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">'; ?>
                 </div>
 
-                <div><a href="logout.php">Sair</a></div>
-
-                <script src="../JS/login_preview.js"></script>
             </li>
 
             <li id="direita">
                 <!-- Cargo e nome -->
                 <div class="cargo_nome">
-                    <h3><?php echo $cargoUsuario; ?></h3>
-                    <p><?php echo $nomeUsuario; ?></p>
+                    <h3>
+                        <?php echo $cargoUsuario; ?>
+                    </h3>
+                    <p>
+                        <?php echo $nomeUsuario; ?>
+                    </p>
                 </div>
             </li>
 
             <?php if ($cargoUsuario != 'vendedor') { ?>
-                    <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
-                <?php } ?>
+                <li id="direita"><a class="sino" href="../PHP/Notificações.php"><img
+                            src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+            <?php } ?>
 
         </ul>
 
     </nav>
-
-    <div id="container_financeiro">
-    <?php if ($cargoUsuario != 'vendedor') { ?>
-        <div class="container-buttons">
-            <button onclick="redirecionarParaFinanceiroHistorico()" class="botao">Histórico de Vendas</button>
-            <button onclick="redirecionarParaFinanceiroContas()" class="botao">Contas a Receber</button>
-            <button onclick="redirecionarParaGraficos()" class="botao">Gráficos</button>
-        </div>
-    <?php } ?>
     
-        <div class="container-consultar" >
+    <div id="container_financeiro">
+        <?php if ($cargoUsuario != 'vendedor') { ?>
+            <div class="container-buttons">
+                <button onclick="redirecionarParaFinanceiroHistorico()" class="botao">Histórico de Vendas</button>
+                <button onclick="redirecionarParaFinanceiroContas()" class="botao">Contas a Receber</button>
+                <button onclick="redirecionarParaGraficos()" class="botao">Gráficos</button>
+            </div>
+        <?php } ?>
+
+        <div class="container-consultar">
             <?php if ($cargoUsuario == 'vendedor') { ?>
-                <div id="comissao_vendedor"> <!-- AQUI É O FINANCEIRO, TUDO O QUE ESTÁ NA TELA "FINANCEIRO", ESTILIZAR AQUI !-->
+                <div id="comissao_vendedor">
+                    <!-- AQUI É O FINANCEIRO, TUDO O QUE ESTÁ NA TELA "FINANCEIRO", ESTILIZAR AQUI !-->
                     <form method="post" action="Financeiro_vendedor.php" id="form-saldos-e-debitos">
                         <div class="botao-financeiro-consultar">
                             <label id="consultar-saldos-e-debitos">Consultar Saldos e Débitos:
@@ -263,40 +273,41 @@ $conn->close();
         </div>
     </div>
 
-<script>
-    function mostrarIntervaloDeTempo() {
-        var selectSaldos = document.getElementById("saldos");
-        var intervaloDeTempo = document.getElementById("intervalo-de-tempo");
-        var mesSelecionado = document.getElementById("mes-selecionado");
-        var anoSelecionado = document.getElementById("ano-selecionado");
+    <script>
+        function mostrarIntervaloDeTempo() {
+            var selectSaldos = document.getElementById("saldos");
+            var intervaloDeTempo = document.getElementById("intervalo-de-tempo");
+            var mesSelecionado = document.getElementById("mes-selecionado");
+            var anoSelecionado = document.getElementById("ano-selecionado");
 
-        if (selectSaldos.value === "Dias") {
-            intervaloDeTempo.style.display = "block";
-            mesSelecionado.style.display = "none";
-            anoSelecionado.style.display = "none";
-        } else if (selectSaldos.value === "Semana") {
-            intervaloDeTempo.style.display = "none";
-            mesSelecionado.style.display = "none";
-            anoSelecionado.style.display = "none";
-        } else if (selectSaldos.value === "Mes") {
-            intervaloDeTempo.style.display = "none";
-            mesSelecionado.style.display = "block";
-            anoSelecionado.style.display = "none";
-        } else if (selectSaldos.value === "Ano") {
-            intervaloDeTempo.style.display = "none";
-            mesSelecionado.style.display = "none";
-            anoSelecionado.style.display = "block";
+            if (selectSaldos.value === "Dias") {
+                intervaloDeTempo.style.display = "block";
+                mesSelecionado.style.display = "none";
+                anoSelecionado.style.display = "none";
+            } else if (selectSaldos.value === "Semana") {
+                intervaloDeTempo.style.display = "none";
+                mesSelecionado.style.display = "none";
+                anoSelecionado.style.display = "none";
+            } else if (selectSaldos.value === "Mes") {
+                intervaloDeTempo.style.display = "none";
+                mesSelecionado.style.display = "block";
+                anoSelecionado.style.display = "none";
+            } else if (selectSaldos.value === "Ano") {
+                intervaloDeTempo.style.display = "none";
+                mesSelecionado.style.display = "none";
+                anoSelecionado.style.display = "block";
+            }
         }
-    }
-    function redirecionarParaFinanceiroHistorico() {
-        window.location.href = "financeiro_historico.php";
-    }
-    function redirecionarParaFinanceiroContas() {
-        window.location.href ="financeiro_contas.php";
-    }
-    function redirecionarParaGraficos() {
-        window.location.href = "Graficos.php";
-    }
-</script>
+        function redirecionarParaFinanceiroHistorico() {
+            window.location.href = "financeiro_historico.php";
+        }
+        function redirecionarParaFinanceiroContas() {
+            window.location.href = "financeiro_contas.php";
+        }
+        function redirecionarParaGraficos() {
+            window.location.href = "Graficos.php";
+        }
+    </script>
 </body>
+
 </html>

@@ -34,38 +34,38 @@ $arquivo = $_SESSION['arquivo'];
             <div class="btn_expandir">
                 <img src="../CSS/img/Três barras.svg" alt="menu" id="btn_exp">
             </div>
-    
+
             <!--  itens MENU LATERAL-->
             <ul class="ul_menu_lateral">
-    
+
                 <li class="item_menu">
                     <a href="../PHP/Inicio.php">
                         <img class="icon" src="../CSS/img/Logo Circular verde.svg" alt="logo">
                         <span class="txt_link">Home</span>
                     </a>
                 </li>
-    
+
                 <li class="item_menu">
                     <a href="../PHP/Venda.php">
                         <img class="icon" src="../CSS/img/VENDAS.svg" alt="icone compras">
                         <span class="txt_link">Vendas</span>
                     </a>
                 </li>
-    
+
                 <li class="item_menu">
                     <a href="../PHP/estoque.php">
                         <img class="icon" src="../CSS/img/Compras.svg" alt="icone compras">
                         <span class="txt_link">Estoque</span>
                     </a>
                 </li>
-    
+
                 <li class="item_menu">
                     <a href="../PHP/Financeiro.php">
                         <img class="icon" src="../CSS/img/Gráficos.svg" alt="icone graficos">
                         <span class="txt_link">Financeiro</span>
                     </a>
                 </li>
-    
+
                 <?php if ($cargoUsuario != 'vendedor') { ?>
                     <li class="item_menu">
                         <a href="../PHP/Debitos.php">
@@ -74,21 +74,21 @@ $arquivo = $_SESSION['arquivo'];
                         </a>
                     </li>
                 <?php } ?>
-    
+
                 <li class="item_menu">
                     <a href="../PHP/Criação OS.php">
                         <img class="icon" src="../CSS/img/OS.svg" alt="icone OS">
                         <span class="txt_link">O.S</span>
                     </a>
                 </li>
-    
+
                 <li class="item_menu">
                     <a href="../PHP/pagina_cadastro.php">
                         <img class="icon" src="../CSS/img/Perfil.svg" alt="icone perfil">
                         <span class="txt_link">Cadastro</span>
                     </a>
                 </li>
-    
+
                 <?php if ($cargoUsuario != 'vendedor') { ?>
                     <li class="item_menu">
                         <a href="../PHP/Notificações.php">
@@ -97,47 +97,53 @@ $arquivo = $_SESSION['arquivo'];
                         </a>
                     </li>
                 <?php } ?>
-    
+
             </ul>
             <!-- importando o JS para o Menu Lateral-->
             <script src="../JS/menu.js"></script>
-    
+
         </nav>
 
         <!-- Menu horizonatl -->
         <nav class="menu_horizontal">
             <ul>
-                <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img
-                            src="../CSS/img/Logo Horizontal.png" alt="logo da empresa"></a>
+                <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img src="../CSS/img/Logo Horizontal.png"
+                            alt="logo da empresa"></a>
+                </li>
+
+                <li id="direita">
+                    <div class="btn_sair"><a href="logout.php">Sair &#215</a></div>
                 </li>
 
                 <li id="direita">
 
-                    <!-- Perfil -->
                     <div class="image_container">
-                        <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">';?>
+                        <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">'; ?>
                     </div>
 
-                    <div><a href="logout.php">Sair</a></div>
-
-                    <script src="../JS/login_preview.js"></script>
                 </li>
 
                 <li id="direita">
                     <!-- Cargo e nome -->
                     <div class="cargo_nome">
-                        <h3><?php echo $cargoUsuario; ?></h3>
-                        <p><?php echo $nomeUsuario; ?></p>
+                        <h3>
+                            <?php echo $cargoUsuario; ?>
+                        </h3>
+                        <p>
+                            <?php echo $nomeUsuario; ?>
+                        </p>
                     </div>
                 </li>
 
                 <?php if ($cargoUsuario != 'vendedor') { ?>
-                    <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
+                    <li id="direita"><a class="sino" href="../PHP/Notificações.php"><img
+                                src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
                 <?php } ?>
 
             </ul>
 
         </nav>
+        
         <section class="geral_vendas">
             <div id="botoes-estoque">
                 <button onclick="mostrarFazerVenda()">Registrar Venda</button>
@@ -147,7 +153,8 @@ $arquivo = $_SESSION['arquivo'];
             <div class="conteudo">
                 <div id="fazer-venda" style="display: none;">
                     <h1>Registrar Venda</h1>
-                    <form class="form_vendas" action="../PHP/processar_venda.php" method="post" onsubmit="return validarVenda()">
+                    <form class="form_vendas" action="../PHP/processar_venda.php" method="post"
+                        onsubmit="return validarVenda()">
                         <section class="one">
                             <div class="div_one">
                                 <label for="nome_comprador">Nome do Comprador:</label>
@@ -231,7 +238,7 @@ $arquivo = $_SESSION['arquivo'];
                                     <option value="Boleto">Boleto</option>
                                 </select>
                             </div>
-                            
+
                             <div class="div_five">
                                 <div id="parcelas" style="display: none;">
                                     <label for="numero_parcelas">Número de Parcelas:</label>
@@ -245,7 +252,7 @@ $arquivo = $_SESSION['arquivo'];
                                         <!-- Adicione mais opções conforme necessário -->
                                     </select>
                                 </div>
-                            </div>                            
+                            </div>
 
                         </section>
 
@@ -275,7 +282,8 @@ $arquivo = $_SESSION['arquivo'];
 
                 <div id="cancelar-venda" style="display: none;">
                     <h1>Cancelar Venda</h1>
-                    <form class="form_vendas" action="../PHP/processar_cancelar_venda.php" method="post" onsubmit="return validarCancelamentoVenda()">
+                    <form class="form_vendas" action="../PHP/processar_cancelar_venda.php" method="post"
+                        onsubmit="return validarCancelamentoVenda()">
                         <section class="one">
                             <div class="div_one">
                                 <label for="nome_comprador">Nome do Comprador:</label>
@@ -391,7 +399,7 @@ $arquivo = $_SESSION['arquivo'];
         } else {
             parcelasDiv.style.display = "none";
         }
-        
+
         if (formaPagamento.value === "Boleto") {
             parcelasDiv.style.display = "block";
         } else {
@@ -399,7 +407,7 @@ $arquivo = $_SESSION['arquivo'];
         }
     }
 
-    
+
     function mostrarFazerVenda() {
         document.getElementById("fazer-venda").style.display = "block";
         document.getElementById("cancelar-venda").style.display = "none";

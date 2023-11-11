@@ -130,32 +130,41 @@ $conn->close();
     <!-- Menu horizonatl -->
     <nav class="menu_horizontal">
         <ul>
-            <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img src="../CSS/img/Logo Horizontal.png" alt="logo da empresa"></a></li>
+            <li id="logo_menu_horizontal"><a href="../PHP/Inicio.php"><img src="../CSS/img/Logo Horizontal.png"
+                        alt="logo da empresa"></a>
+            </li>
 
             <li id="direita">
-                <!-- Perfil -->
+                <div class="btn_sair"><a href="logout.php">Sair &#215</a></div>
+            </li>
+
+            <li id="direita">
+
                 <div class="image_container">
-                    <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">';?>
+                    <?php echo '<img src="' . $arquivo . '" alt="Foto do Usuário">'; ?>
                 </div>
 
-                <div><a href="logout.php">Sair</a></div>
-
-                <script src="../JS/login_preview.js"></script>
             </li>
 
             <li id="direita">
                 <!-- Cargo e nome -->
                 <div class="cargo_nome">
-                    <h3><?php echo $cargoUsuario; ?></h3>
-                    <p><?php echo $nomeUsuario; ?></p>
+                    <h3>
+                        <?php echo $cargoUsuario; ?>
+                    </h3>
+                    <p>
+                        <?php echo $nomeUsuario; ?>
+                    </p>
                 </div>
             </li>
 
             <?php if ($cargoUsuario != 'vendedor') { ?>
-                    <li id="direita"><a href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg" alt="Notificações"></a></li>
-                <?php } ?>
+                <li id="direita"><a class="sino" href="../PHP/Notificações.php"><img src="../CSS/img/Sino_menu_horizontal.svg"
+                            alt="Notificações"></a></li>
+            <?php } ?>
 
         </ul>
+
     </nav>
 
     <div id="contas-a-receber">
