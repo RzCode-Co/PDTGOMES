@@ -1,9 +1,9 @@
 <?php
 
 $servidor = "localhost";
-$usuario = "root";
-$senha = "";
-$dbname = "pdt";
+$usuario = "autop317_pdtoficial";
+$senha = "sistemapaulodetasso";
+$dbname = "autop317_pdt";
 
 $conn = mysqli_connect($servidor, $usuario, $senha, $dbname);
 
