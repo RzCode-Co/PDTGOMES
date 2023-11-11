@@ -96,3 +96,34 @@ hr {
     border: 1px solid #ddd;
     margin-top: 20px;
 }
+
+/* Paginação */
+.pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Paginação */
+.pagination a {
+    padding: 5px 10px;
+    margin-right: 5px;
+    background-color: #03381d;
+    color: #fafafa;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+/* Paginação */
+.pagination span {
+    color: #09562F;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin: 5px;
+    background-color: #ddd;
+}
+
+/* Paginação */
+.pagination a:hover {
+    background-color: #117f48;
+}
