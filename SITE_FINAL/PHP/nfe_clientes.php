@@ -47,7 +47,7 @@ $result = $conn->query($sql);
 
     <?php
     if ($result->num_rows > 0) {
-    ?>
+        ?>
 
         <table>
             <thead>
@@ -107,23 +107,29 @@ $result = $conn->query($sql);
                 ?>
             </tbody>
         </table>
-
         <?php
         // Exibir links de páginação
         echo "<div class='pagination'>";
         if ($total_pages > 1) {
+            // Adicionar traço de volta
+            if ($current_page > 1) {
+                echo "<a href='?page=" . ($current_page - 1) . "'>&laquo</a>";
+            }
+
+            // Links de páginação
             for ($i = 1; $i <= $total_pages; $i++) {
-                if ($i == $current_page) {
-                    echo "<span class='current'>$i</span>";
-                } else {
-                    echo "<a href='?page=$i'>$i</a>";
-                }
+                echo ($i == $current_page) ? "<span class='current'>$i</span>" : "<a href='?page=$i'>$i</a>";
+            }
+
+            // Adicionar traço de ida
+            if ($current_page < $total_pages) {
+                echo "<a href='?page=" . ($current_page + 1) . "'>&raquo</a>";
             }
         }
         echo "</div>";
         ?>
 
-    <?php
+        <?php
     } else {
         echo "<p>Nenhum cliente encontrado.</p>";
     }
