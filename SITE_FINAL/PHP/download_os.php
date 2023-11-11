@@ -111,7 +111,7 @@ date_default_timezone_set('America/Sao_Paulo');
                         echo "<td>{$os_details['referencia']}</td>";
                         echo "<td>{$os_details['tipo']}</td>";
                         echo "<td>{$os_details['quantidade']}</td>";
-                        echo "<td>{$historico['valor_varejo']}</td>";
+                        echo "<td>{$historico['valor_avista']}</td>";
                         echo "<td>{$os_details['preco_total_produto']}</td>";
                         echo "</tr>";
                     }

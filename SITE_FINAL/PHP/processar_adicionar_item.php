@@ -30,17 +30,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
     $ano = $_POST["ano"];
     $quantidade = $_POST["quantidade"];
     $valor_custo = $_POST["valor_custo"];
-    $valor_varejo = $_POST["valor_varejo"];
-    $valor_atacado = $_POST["valor_atacado"];
+    $valor_avista = $_POST["valor_avista"];
+    $valor_prazo = $_POST["valor_prazo"];
     $local = removeAcentos($_POST["local"]);
 
     // Verifica se o item já existe no estoque
-    $verifica_sql = "SELECT * FROM estoque WHERE nome = '$nome' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano' AND valor_varejo = '$valor_varejo' AND valor_atacado = '$valor_atacado' AND valor_custo = '$valor_custo'";
+    $verifica_sql = "SELECT * FROM estoque WHERE nome = '$nome' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano' AND valor_avista = '$valor_avista' AND valor_prazo = '$valor_prazo' AND valor_custo = '$valor_custo'";
     $verifica_result = $conn->query($verifica_sql);
 
     if ($verifica_result->num_rows > 0) {
         // Atualiza a quantidade existente
-        $update_sql = "UPDATE estoque SET quantidade = quantidade + $quantidade WHERE nome = '$nome' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano' AND valor_varejo = '$valor_varejo' AND valor_atacado = '$valor_atacado' AND valor_custo = '$valor_custo'";
+        $update_sql = "UPDATE estoque SET quantidade = quantidade + $quantidade WHERE nome = '$nome' AND referencia = '$referencia' AND marca = '$marca' AND aplicacao = '$aplicacao' AND ano = '$ano' AND valor_avista = '$valor_avista' AND valor_prazo = '$valor_prazo' AND valor_custo = '$valor_custo'";
         if ($conn->query($update_sql) === TRUE) {
             echo '<script>alert("Quantidade adicionada ao estoque com sucesso!");</script>';
             echo '<script>window.location.href = "estoque.php";</script>';
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
             // Move o arquivo para o diretório de destino
             if (move_uploaded_file($_FILES["arquivo"]["tmp_name"], $caminhoCompleto)) {
                 // Insere um novo registro no estoque
-                $inserir_sql = "INSERT INTO estoque (nome, referencia, marca, aplicacao, ano, quantidade, valor_custo, valor_varejo, valor_atacado, localizacao, imagem) VALUES ('$nome', '$referencia', '$marca', '$aplicacao', '$ano', '$quantidade', '$valor_custo', '$valor_varejo', '$valor_atacado', '$local', '$caminhoCompleto')";
+                $inserir_sql = "INSERT INTO estoque (nome, referencia, marca, aplicacao, ano, quantidade, valor_custo, valor_avista, valor_prazo, localizacao, imagem) VALUES ('$nome', '$referencia', '$marca', '$aplicacao', '$ano', '$quantidade', '$valor_custo', '$valor_avista', '$valor_prazo', '$local', '$caminhoCompleto')";
                 if ($conn->query($inserir_sql) === TRUE) {
                     echo '<script>alert("Item adicionado ao estoque com sucesso!");</script>';
                     echo '<script>window.location.href = "estoque.php";</script>';
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["nome"]) && isset($_POS
         } else {
             // O arquivo da foto não foi enviado, então você pode prosseguir sem salvar a foto.
             // Insira um novo registro no estoque sem a imagem
-            $inserir_sql = "INSERT INTO estoque (nome, referencia, marca, aplicacao, ano, quantidade, valor_custo, valor_varejo, valor_atacado, localizacao) VALUES ('$nome', '$referencia', '$marca', '$aplicacao', '$ano', '$quantidade', '$valor_custo', '$valor_varejo', '$valor_atacado', '$local')";
+            $inserir_sql = "INSERT INTO estoque (nome, referencia, marca, aplicacao, ano, quantidade, valor_custo, valor_avista, valor_prazo, localizacao) VALUES ('$nome', '$referencia', '$marca', '$aplicacao', '$ano', '$quantidade', '$valor_custo', '$valor_avista', '$valor_prazo', '$local')";
             if ($conn->query($inserir_sql) === TRUE) {
                 echo '<script>alert("Item adicionado ao estoque com sucesso!");</script>';
                 echo '<script>window.location.href = "estoque.php";</script>';

@@ -64,14 +64,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $preco_produto = $_POST["preco"][$i];
 
         // Consulta SQL para obter dados do estoque para o produto atual
-        $sql = "SELECT quantidade, valor_varejo, valor_atacado FROM estoque WHERE id = '$codigo_produto' AND nome = '$produto_nome' AND referencia = '$referencia'";
+        $sql = "SELECT quantidade, valor_avista, valor_prazo FROM estoque WHERE id = '$codigo_produto' AND nome = '$produto_nome' AND referencia = '$referencia'";
         $result = $conn->query($sql);
 
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             $quantidade_disponivel = $row["quantidade"];
-            $valor_varejo = $row["valor_varejo"];
-            $valor_atacado = $row["valor_atacado"];
+            $valor_avista = $row["valor_avista"];
+            $valor_prazo = $row["valor_prazo"];
 
             // Verificar se há quantidade disponível no estoque
             if ($quantidade_disponivel >= $quantidade) {

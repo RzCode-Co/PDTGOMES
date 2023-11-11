@@ -212,7 +212,7 @@ $arquivo = $_SESSION['arquivo'];
                         <h2>Resultados da Pesquisa:</h2>
                          </div>';
                 echo "<table>";
-                echo "<tr> <th>Foto</th><th>Nome</th><th>Referência</th><th>Marca</th><th>Aplicação</th><th>Ano</th><th>Quantidade</th><th>Valor de Varejo</th><th>Valor de Atacado</th>";
+                echo "<tr> <th>Foto</th><th>Nome</th><th>Referência</th><th>Marca</th><th>Aplicação</th><th>Ano</th><th>Quantidade</th><th>Valor A Vista</th><th>Valor A Prazo</th>";
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
                     echo '<td><img id="img_width" src="' . $row["imagem"] . '"></td>';
@@ -222,8 +222,8 @@ $arquivo = $_SESSION['arquivo'];
                     echo "<td>" . $row["aplicacao"] . "</td>";
                     echo "<td>" . $row["ano"] . "</td>";
                     echo "<td>" . $row["quantidade"] . "</td>";
-                    echo "<td>" . $row["valor_varejo"] . "</td>";
-                    echo "<td>" . $row["valor_atacado"] . "</td>";
+                    echo "<td>" . $row["valor_avista"] . "</td>";
+                    echo "<td>" . $row["valor_prazo"] . "</td>";
                     echo "</tr>";
                 }
                 echo "</table>";
@@ -276,9 +276,9 @@ $arquivo = $_SESSION['arquivo'];
             }
 
             // Consulta SQL para buscar produtos similares
-            $sql_similares = "SELECT * FROM banco_de_dados_pdt WHERE 
-        COL2 LIKE CONCAT('%', SUBSTRING_INDEX('" . mysqli_real_escape_string($conn, $nome) . "', ' ', 2), '%') AND 
-        COL2 != '" . mysqli_real_escape_string($conn, $nome) . "'";
+            $sql_similares = "SELECT * FROM estoque WHERE 
+        nome LIKE CONCAT('%', SUBSTRING_INDEX('" . mysqli_real_escape_string($conn, $nome) . "', ' ', 2), '%') AND 
+        nome != '" . mysqli_real_escape_string($conn, $nome) . "'";
 
             $result_similares = $conn->query($sql_similares);
             $totalResultadosSimilares = $result_similares->num_rows;
@@ -302,16 +302,17 @@ $arquivo = $_SESSION['arquivo'];
                     <h2>Produtos Similares:</h2>
                     </div>';
                 echo "<table>";
-                echo "<tr> <th>Código</th><th>Nome</th><th>Tipo</th><th>Quantidade</th><th>Valor de Custo</th><th>Valor a vista</th><th>Valor a prazo</th>";
+                echo "<tr> <th>Nome</th><th>Referência</th><th>Marca</th><th>Aplicação</th><th>Ano</th><th>Quantidade</th><th>Valor A Vista</th><th>Valor A Prazo</th>";
                 while ($row_similar = $result_similares->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row_similar["COL1"] . "</td>";
-                    echo "<td>" . $row_similar["COL2"] . "</td>";
-                    echo "<td>" . $row_similar["COL3"] . "</td>";
-                    echo "<td>" . $row_similar["COL4"] . "</td>";
-                    echo "<td>" . $row_similar["COL5"] . "</td>";
-                    echo "<td>" . $row_similar["COL6"] . "</td>";
-                    echo "<td>" . $row_similar["COL7"] . "</td>";
+                    echo "<td>" . $row["nome"] . "</td>";
+                    echo "<td>" . $row["referencia"] . "</td>";
+                    echo "<td>" . $row["marca"] . "</td>";
+                    echo "<td>" . $row["aplicacao"] . "</td>";
+                    echo "<td>" . $row["ano"] . "</td>";
+                    echo "<td>" . $row["quantidade"] . "</td>";
+                    echo "<td>" . $row["valor_avista"] . "</td>";
+                    echo "<td>" . $row["valor_prazo"] . "</td>";
                     echo "</tr>";
                 }
                 echo "</table>";

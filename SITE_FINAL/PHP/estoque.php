@@ -175,8 +175,8 @@ $arquivo = $_SESSION['arquivo'];
 
                         <div class="section_three">
                             <label>Valor de Custo: <input type="number" name="valor_custo"></label><br>
-                            <label>Valor de Varejo: <input type="number" name="valor_varejo"></label><br>
-                            <label>Valor de Atacado: <input type="number" name="valor_atacado"></label><br>
+                            <label>Valor de A vista: <input type="number" name="valor_avista"></label><br>
+                            <label>Valor de A prazo: <input type="number" name="valor_prazo"></label><br>
                             <label>Local: <input type="text" name="local"></label><br>
                         </div>
 

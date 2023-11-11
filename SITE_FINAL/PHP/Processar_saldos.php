@@ -89,7 +89,7 @@ if ($result->num_rows > 0) {
 $dataAtual = date("d-m-Y");
 $dataAtual = date("d-m-Y", strtotime("+ 1 days"));
 // Data de 7 dias antes da data atual
-$dataSeteDiasAtras = date("Y-m-d", strtotime("-7 days"));
+$dataSeteDiasAtras = date("d-m-Y", strtotime("-7 days"));
 if ($dataSeteDiasAtras === NULL){
     $dataSeteDiasAtras = NULL;
 }

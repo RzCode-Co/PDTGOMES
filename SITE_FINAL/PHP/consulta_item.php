@@ -219,8 +219,8 @@ if ($result->num_rows > 0) {
                     echo "<tr>";
                     echo '<td><img id="img_width" width="100%" src="' . $pesquisa["imagem"] . '"></td>';
                     echo "<td>" . $pesquisa["nome"] . "</td>";
-                    echo "<td>" . $pesquisa["valor_varejo"] . "</td>";
-                    echo "<td>" . $pesquisa["valor_atacado"] . "</td>";
+                    echo "<td>" . $pesquisa["valor_avista"] . "</td>";
+                    echo "<td>" . $pesquisa["valor_prazo"] . "</td>";
                     echo "<td>" . $pesquisa["ano"] . "</td>";
                     echo "<td>" . $pesquisa["marca"] . "</td>";
                     echo "<td>" . $pesquisa["referencia"] . "</td>";
