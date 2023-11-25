@@ -335,6 +335,13 @@ if (!isset($response->error)){
   $chave = (string)$response->chave; // Número da chave de acesso
   $xml = (string) $response->xml; // URL do XML
   $log = $response->log; // Log do Sefaz
+  $data_nota = date("d-m-Y");
+  $sql = "INSERT INTO cancelar_nota_fiscal (nome_cliente,data_nota,uuid) VALUES ('$nome_cliente','$data_nota','$uuid')";
+  if ($conn->query($sql) === TRUE) {
+    echo "Nota fiscal atualizada";
+  } else {
+      echo "Erro ao criar notificação de atualização: " . $conn->error;
+  }
 
   print_r($response);
 

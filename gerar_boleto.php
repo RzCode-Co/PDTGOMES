@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   }else{
     $pagamento = 0;
   }
-  $sql4 = "SELECT CEP, telefone, endereco, numero_endereco, bairro, Cidade, uf, email FROM usuarios WHERE CPF = $CPF";
+  $sql4 = "SELECT CEP, telefone, endereco, numero_endereco, bairro, Cidade, uf, email FROM usuarios WHERE CNPJ = $CNPJ";
   $result2 = $conn->query($sql4);
   if ($result2->num_rows > 0) {
     $usuario = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
@@ -104,7 +104,30 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $uf = $usu["uf"];
     $email = $usu["email"];
   }
-  echo $CNPJ;
+
+  $url = "https://publica.cnpj.ws/cnpj/$CNPJ";
+
+  $curl = curl_init($url);
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  
+  //for debug only!
+  curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+  
+  $resp = curl_exec($curl);
+  curl_close($curl);
+
+  $data = json_decode($resp, true);
+
+  // Verificar se a decodificação foi bem-sucedida
+  if ($data !== null) {
+      // Acessar o valor da Inscrição Estadual
+      $ie = $data['estabelecimento']['inscricoes_estaduais'][0]['inscricao_estadual'];
+  } else {
+      echo "Erro ao decodificar JSON";
+  }
+
   $data = array(
     'ID' => $id, // Número do pedido (opcional)
     'operacao' => 1, // Tipo de Operação da Nota Fiscal
@@ -121,6 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $data['cliente'] = array(
     'cnpj' => $CNPJ, // Número do CPF
     'razao_social' => $nome_cliente, // Nome completo
+    'ie' => $ie, //
     'endereco' => $endereco, // Endereço de entrega dos produtos
     'numero' => $numero_endereco, //Bairro do cliente
     'bairro' => $bairro, //Bairro do cliente
@@ -336,7 +360,6 @@ if (!isset($response->error)){
   $danfe_simples = (string) $response->danfe_simples; // URL do Danfe Simples (PDF)
   $danfe_etiqueta = (string) $response->danfe_etiqueta; // URL do Danfe Simplificada - Etiqueta (PDF)
   $log = $response->log; // Log do Sefaz
-
   print_r($response);
 
   exit();
