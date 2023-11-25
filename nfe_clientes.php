@@ -91,7 +91,7 @@ $result = $conn->query($sql);
                     }
 
                     echo "<td>";
-                    echo "<a href='gerar_boleto_venda.php?CNPJ=$clienteCNPJ&CPF=$clienteCPF'>Gerar NFE</a>";
+                    echo "<a href='gerar_boleto.php?CNPJ=$clienteCNPJ&CPF=$clienteCPF'>Gerar NFE</a>";
                 }
                 ?>
             </tbody>
