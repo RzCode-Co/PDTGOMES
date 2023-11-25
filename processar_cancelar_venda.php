@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $referencia = $_POST["referencia"];
     $aplicacao = $_POST["aplicacao"];
     $cpf_cnpj = $_POST["cpf_cnpj2"];
+    $data_venda = $_POST["data_nota"];
 
     // Verifique se a escolha do usuário (CPF ou CNPJ) é válida
     if ($_POST["cpf_cnpj2"] == "CPF2") {

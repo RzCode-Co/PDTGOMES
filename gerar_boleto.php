@@ -154,22 +154,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     'telefone' => $telefone, // Telefone do cliente
     'email' => $email, // E-mail do cliente para envio da NF-e
   );
-
-  /**
-   * Produtos
-   */
-  $data['produtos'] = array(
-    array(
-      'nome' => $nome_produto, // Nome do produto
-      'ncm' => '87088000', // Código NCM
-      'quantidade' => $quantidade, // Quantidade de itens
-      'unidade' => 'UN', // Unidade de medida da quantidade de itens
-      'origem' => 0, // Origem do produto
-      'subtotal' => '12', // Preço unitário do produto - sem descontos
-      'total' => $valor_venda, // Preço total (quantidade x preço unitário) - sem descontos
-      'classe_imposto' => 'REF150240576', // Classe de Imposto cadastrado no painel WebmaniaBR ou via API no endpoint /1/nfe/classe-imposto/
-    )
-  );
+  $data['produtos'] = array();
+  $valor_total_produtos = 0;
+  foreach ($vendas as $venda) {
+      $produto = array(
+          'nome' => $venda["nome_peca"], // Nome do produto
+          'ncm' => '87088000', // Código NCM
+          'quantidade' => $venda["quantidade"], // Quantidade de itens
+          'unidade' => 'UN', // Unidade de medida da quantidade de itens
+          'origem' => 0, // Origem do produto
+          'subtotal' => $venda["valor_venda"], // Preço unitário do produto - sem descontos
+          'total' => $valor_total = $venda["valor_venda"] * $venda["quantidade"], // Preço total (quantidade x preço unitário) - sem descontos
+          'classe_imposto' => 'REF150240576', // Classe de Imposto cadastrado no painel WebmaniaBR ou via API no endpoint /1/nfe/classe-imposto/
+      );
+      $valor_total_produtos = $valor_total_produtos + $valor_total;
+      $data['produtos'][] = $produto;
+  }
   /**
    * Informações do Pedido
    */
@@ -179,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     'modalidade_frete' => 9, // Modalidade do frete
     'frete' => '', // Total do frete
     'desconto' => '', // Total do desconto
-    'total' => $valor_venda, // Valor total do pedido pago pelo cliente
+    'total' => $valor_total_produtos, // Valor total do pedido pago pelo cliente
     'pagamento' => $pagamento, // Indicador da forma de pagamento: 0 - Pagamento à vista ou 1 - Pagamento a prazo
     'forma_pagamento' => $forma_pagamento, // Meio de pagamento
     'desc_pagamento' => $desc_pagamento, // Valor total do pedido pago pelo cliente
@@ -220,20 +220,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $valor_venda = $venda["valor_venda"];
     $forma_pagamento = $venda["forma_pagamento"];
   }
-  //$sql3 = "SELECT valor_custo, tipo FROM estoque WHERE id = $id";
-  //$result3 = $conn->query($sql3);
-  //if ($result3->num_rows > 0) {
-    //$estoque_produto = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-
-    //while ($row = $result3->fetch_assoc()) {
-        // Armazena cada linha no array de detalhes da ordem de serviço
-      //  $estoque_produto[] = $row;
-    //}
-  //}
-  //foreach ($estoque_produto as $estoque) {
-   //$valor_custo = $estoque["valor_custo"];
-   //$tipo = $estoque["tipo"];
-  //}
+  
   if($forma_pagamento == "Parcelado"){
     $pagamento = 1;
     $forma_pagamento = 99;
@@ -304,39 +291,37 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     'telefone' => $telefone, // Telefone do cliente
     'email' => $email, // E-mail do cliente para envio da NF-e
   );
-
-  /**
-   * Produtos
-   */
-  $data['produtos'] = array(
-    array(
-      'nome' => $nome_produto, // Nome do produto
-      'ncm' => '87088000', // Código NCM
-      'quantidade' => $quantidade, // Quantidade de itens
-      'unidade' => 'UN', // Unidade de medida da quantidade de itens
-      'origem' => 0, // Origem do produto
-      'subtotal' => $valor_venda, // Preço unitário do produto - sem descontos
-      'total' => $valor_venda, // Preço total (quantidade x preço unitário) - sem descontos
-      'classe_imposto' => 'REF150240576', // Classe de Imposto cadastrado no painel WebmaniaBR ou via API no endpoint /1/nfe/classe-imposto/
-    )
-  );
-
-  /**
-   * Informações do Pedido
-   */
-  $data['pedido'] = array(
-    'presenca' => 1, // Indicador de presença do comprador no estabelecimento comercial no momento da operação
-    'intermediador' => 0, // Indicador de intermediador/marketplace
-    'modalidade_frete' => 9, // Modalidade do frete
-    'frete' => '', // Total do frete
-    'desconto' => '', // Total do desconto
-    'total' => $valor_venda, // Valor total do pedido pago pelo cliente
-    'pagamento' => $pagamento, // Indicador da forma de pagamento: 0 - Pagamento à vista ou 1 - Pagamento a prazo
-    'forma_pagamento' => $forma_pagamento, // Meio de pagamento
-    'desc_pagamento' => $desc_pagamento, // Valor total do pedido pago pelo cliente
-
-  );
-
+    $data['produtos'] = array();
+    $valor_total_produtos = 0;
+    foreach ($vendas as $venda) {
+        $produto = array(
+            'nome' => $venda["nome_peca"], // Nome do produto
+            'ncm' => '87088000', // Código NCM
+            'quantidade' => $venda["quantidade"], // Quantidade de itens
+            'unidade' => 'UN', // Unidade de medida da quantidade de itens
+            'origem' => 0, // Origem do produto
+            'subtotal' => $venda["valor_venda"], // Preço unitário do produto - sem descontos
+            'total' => $valor_total = $venda["valor_venda"] * $venda["quantidade"], // Preço total (quantidade x preço unitário) - sem descontos
+            'classe_imposto' => 'REF150240576', // Classe de Imposto cadastrado no painel WebmaniaBR ou via API no endpoint /1/nfe/classe-imposto/
+        );
+        $valor_total_produtos = $valor_total_produtos + $valor_total;
+        $data['produtos'][] = $produto;
+    }
+    /**
+     * Informações do Pedido
+     */
+    $data['pedido'] = array(
+      'presenca' => 1, // Indicador de presença do comprador no estabelecimento comercial no momento da operação
+      'intermediador' => 0, // Indicador de intermediador/marketplace
+      'modalidade_frete' => 9, // Modalidade do frete
+      'frete' => '', // Total do frete
+      'desconto' => '', // Total do desconto
+      'total' => $valor_total_produtos, // Valor total do pedido pago pelo cliente
+      'pagamento' => $pagamento, // Indicador da forma de pagamento: 0 - Pagamento à vista ou 1 - Pagamento a prazo
+      'forma_pagamento' => $forma_pagamento, // Meio de pagamento
+      'desc_pagamento' => $desc_pagamento, // Valor total do pedido pago pelo cliente
+  
+    );
   }
 // Emissão
 $webmaniabr = new NFe('muDrdWTocAO1i1wYprEAUMH5Qj4SOWGP', 'UeqKZoZXADQVuH7oIgrKsjFDUQNwcf2uI1PqfSiNDsscUDkh', '4308-7lG0HND6iJ8Z7P8TY4vSr944RglEJgDl6N9a4kYruuprh73B', ' J4Lc8spnRF1IB3MlNMDOJRGB13BodYBGf5ndeosKb2ppFzGm');
@@ -360,7 +345,8 @@ if (!isset($response->error)){
   $danfe_simples = (string) $response->danfe_simples; // URL do Danfe Simples (PDF)
   $danfe_etiqueta = (string) $response->danfe_etiqueta; // URL do Danfe Simplificada - Etiqueta (PDF)
   $log = $response->log; // Log do Sefaz
-  print_r($response);
+  echo'<br>';
+  echo '<a href="' . $danfe . '" target="_blank"><button>Imprimir Danfe</button></a>';
 
   exit();
 

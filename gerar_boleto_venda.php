@@ -45,20 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $valor_venda = $venda["valor_venda"];
     $forma_pagamento = $venda["forma_pagamento"];
   }
-  //$sql3 = "SELECT valor_custo, tipo FROM estoque WHERE id = $id";
-  //$result3 = $conn->query($sql3);
-  //if ($result3->num_rows > 0) {
-    //$estoque_produto = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-
-    //while ($row = $result3->fetch_assoc()) {
-        // Armazena cada linha no array de detalhes da ordem de serviço
-      //  $estoque_produto[] = $row;
-    //}
-  //}
-  //foreach ($estoque_produto as $estoque) {
-   //$valor_custo = $estoque["valor_custo"];
-   //$tipo = $estoque["tipo"];
-  //}
   if($forma_pagamento == "Parcelado"){
     $pagamento = 1;
     $forma_pagamento = 99;
@@ -104,7 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $uf = $usu["uf"];
     $email = $usu["email"];
   }
-  echo $CNPJ;
   $data = array(
     'ID' => $id, // Número do pedido (opcional)
     'operacao' => 1, // Tipo de Operação da Nota Fiscal
@@ -132,6 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   );
 
 
+  $valor_total = ($valor_venda * $quantidade);
   /**
    * Produtos
    */
@@ -142,8 +128,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       'quantidade' => $quantidade, // Quantidade de itens
       'unidade' => 'UN', // Unidade de medida da quantidade de itens
       'origem' => 0, // Origem do produto
-      'subtotal' => '12', // Preço unitário do produto - sem descontos
-      'total' => $valor_venda, // Preço total (quantidade x preço unitário) - sem descontos
+      'subtotal' => $valor_venda, // Preço unitário do produto - sem descontos
+      'total' => $valor_total, // Preço total (quantidade x preço unitário) - sem descontos
       'classe_imposto' => 'REF150240576', // Classe de Imposto cadastrado no painel WebmaniaBR ou via API no endpoint /1/nfe/classe-imposto/
     )
   );
@@ -198,20 +184,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $valor_venda = $venda["valor_venda"];
     $forma_pagamento = $venda["forma_pagamento"];
   }
-  //$sql3 = "SELECT valor_custo, tipo FROM estoque WHERE id = $id";
-  //$result3 = $conn->query($sql3);
-  //if ($result3->num_rows > 0) {
-    //$estoque_produto = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
-
-    //while ($row = $result3->fetch_assoc()) {
-        // Armazena cada linha no array de detalhes da ordem de serviço
-      //  $estoque_produto[] = $row;
-    //}
-  //}
-  //foreach ($estoque_produto as $estoque) {
-   //$valor_custo = $estoque["valor_custo"];
-   //$tipo = $estoque["tipo"];
-  //}
   if($forma_pagamento == "Parcelado"){
     $pagamento = 1;
     $forma_pagamento = 99;
@@ -283,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     'email' => $email, // E-mail do cliente para envio da NF-e
   );
 
-
+  $valor_total = ($valor_venda * $quantidade);
   /**
    * Produtos
    */
@@ -295,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       'unidade' => 'UN', // Unidade de medida da quantidade de itens
       'origem' => 0, // Origem do produto
       'subtotal' => $valor_venda, // Preço unitário do produto - sem descontos
-      'total' => $valor_venda, // Preço total (quantidade x preço unitário) - sem descontos
+      'total' => $valor_total, // Preço total (quantidade x preço unitário) - sem descontos
       'classe_imposto' => 'REF150240576', // Classe de Imposto cadastrado no painel WebmaniaBR ou via API no endpoint /1/nfe/classe-imposto/
     )
   );
@@ -334,16 +306,15 @@ if (!isset($response->error)){
   $modelo = (string) $response->modelo; // Modelo da Nota Fiscal (nfe, nfce, cce)
   $chave = (string)$response->chave; // Número da chave de acesso
   $xml = (string) $response->xml; // URL do XML
+  $danfe = (string) $response->danfe; // URL do XML
   $log = $response->log; // Log do Sefaz
-  $data_nota = date("d-m-Y");
-  $sql = "INSERT INTO cancelar_nota_fiscal (nome_cliente,data_nota,uuid) VALUES ('$nome_cliente','$data_nota','$uuid')";
+  $data_abertura = date("Y-m-d H:i:s");
+  $sql = "INSERT INTO cancelar_nota_fiscal (nome_cliente,data_nota,uuid) VALUES ('$nome_cliente','$data_abertura','$uuid')";
   if ($conn->query($sql) === TRUE) {
-    echo "Nota fiscal atualizada";
-  } else {
-      echo "Erro ao criar notificação de atualização: " . $conn->error;
-  }
 
-  print_r($response);
+    echo'<br>';
+    echo '<a href="' . $danfe . '" target="_blank"><button>Imprimir Danfe</button></a>';
+  }
 
   exit();
 

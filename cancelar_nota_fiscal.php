@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 require_once __DIR__.'/NFe.php';
+require_once "config.php";
 use WebmaniaBR\NFe;
 
 
@@ -8,31 +9,37 @@ use WebmaniaBR\NFe;
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $data_nota = $_GET['data'];
   $nome_cliente = $_GET['nome'];
-/**
-* Cancelar Nota Fiscal
-*
-* Atenção: Somente poderá ser cancelada uma NF-e cujo uso tenha sido previamente
-* autorizado pelo Fisco e desde que não tenha ainda ocorrido o fato gerador, ou seja,
-* ainda não tenha ocorrido a saída da mercadoria do estabelecimento. Atualmente o prazo
-* máximo para cancelamento de uma NF-e é de 24 horas (1 dia), contado a partir da autorização
-* de uso. Caso já tenha passado o prazo de 24 horas ou já tenha ocorrido a circulação da
-* mercadoria, emita uma NF-e de devolução para anular a NF-e anterior.
-*/
-$sql = "SELECT uuid FROM cancelar_nota_fiscal WHERE data_nota = $data_nota AND nome_cliente = $nome_cliente";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-  $notas = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
 
-  while ($row = $result1->fetch_assoc()) {
-      // Armazena cada linha no array de detalhes da ordem de serviço
-      $notas[] = $row;
+  // Prepara a consulta usando prepared statements
+  $stmt = $conn->prepare("SELECT uuid FROM cancelar_nota_fiscal WHERE data_nota = ? AND nome_cliente = ?");
+  
+  // Vincula os parâmetros
+  $stmt->bind_param("ss", $data_nota, $nome_cliente);
+  
+  // Executa a consulta
+  $stmt->execute();
+  
+  // Obtém o resultado
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+      $notas = array(); // Inicializa um array para armazenar os detalhes da ordem de serviço
+
+      while ($row = $result->fetch_assoc()) {
+          // Armazena cada linha no array de detalhes da ordem de serviço
+          $notas[] = $row;
+      }
+
+      foreach ($notas as $nota) {
+          $chaveuuid = $nota["uuid"];
+      }
   }
-  foreach ($notas as $nota) {
-      $chaveuuid = $nota["uuid"];
-    }
-}
-$chave_uuid = $chaveuuid; // Chave ou UUID
-$motivo = 'Cancelamento por cancelamento de compra';
+
+  // Fecha a declaração
+  $stmt->close();
+
+  $chave_uuid = $chaveuuid; // Chave ou UUID
+  $motivo = 'Cancelamento por cancelamento de compra';
 }
 /**
 * Solicitação do cancelamento
